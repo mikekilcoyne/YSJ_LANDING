@@ -8,3 +8,11 @@ bg_iphone.jpg
 8.png
 Glitchy/
 .DS_Store
+
+# Archives (Cleanup)
+#archives/
+#*
+*#
+
+# Local Netlify folder
+.netlify
