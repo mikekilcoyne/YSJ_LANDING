@@ -1,0 +1,10 @@
+# Skip heavy test/scratch images
+bg_boo_test.jpg
+bg_boo_embroidery_test.jpg
+bg_iphone_boo_embroidery_test.jpg
+P1002265.jpg
+bg.jpg
+bg_iphone.jpg
+8.png
+Glitchy/
+.DS_Store
