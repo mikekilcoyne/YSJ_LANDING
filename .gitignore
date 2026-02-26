@@ -16,3 +16,6 @@ Glitchy/
 
 # Local Netlify folder
 .netlify
+
+# Build artifacts
+dist/
