@@ -7,6 +7,10 @@ The single-page landing gate for [yellowsatinjacket.com](https://yellowsatinjack
 - **Local Preview:** Open `index.html` in any browser.
 - **Deploy:** `npx netlify deploy --prod`
 
+## Versions
+- **V1 (Launch / Live Baseline):** `index.html` (actively maintained and deploy-target).
+- **V2 (In Progress):** `V2/` (experimental iteration track; not launch baseline yet).
+
 ## 📁 Project Structure
 - `index.html` - Core site (HTML, CSS, JS)
 - `assets/` - Production assets (Favicons, Silly Mode BG)
