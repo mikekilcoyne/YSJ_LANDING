@@ -1237,7 +1237,7 @@
     function primeAmbient() {
       if (ambientPrimed || !soundEnabled) return;
       ambientPrimed = true;
-      ambientAudio.volume = 0.32;
+      ambientAudio.volume = 0.26;
       ambientAudio.play().catch(() => {
         ambientPrimed = false;
       });
@@ -1246,7 +1246,7 @@
     function playTypingSfx() {
       if (!soundEnabled) return;
       typingAudio.currentTime = 0;
-      typingAudio.volume = 0.75;
+      typingAudio.volume = 0.60;
       typingAudio.play().catch(() => {});
     }
 
@@ -1258,7 +1258,7 @@
     function playCompleteSfx() {
       if (!soundEnabled) return;
       completeAudio.currentTime = 0;
-      completeAudio.volume = 0.9;
+      completeAudio.volume = 0.72;
       completeAudio.play().catch(() => {});
     }
 
@@ -1266,7 +1266,7 @@
       if (!soundEnabled) return;
       if (clickSfxTimer) window.clearTimeout(clickSfxTimer);
       clickAudio.currentTime = 0;
-      clickAudio.volume = 0.85;
+      clickAudio.volume = 0.68;
       clickAudio.play().catch(() => {});
       clickSfxTimer = window.setTimeout(() => {
         clickAudio.pause();
@@ -1281,7 +1281,7 @@
         swellAudio.pause();
       }
       swellAudio.currentTime = 0;
-      swellAudio.volume = 0.75;
+      swellAudio.volume = 0.60;
       swellAudio.play().catch(() => {});
     }
 
@@ -1293,7 +1293,7 @@
     function playFluorescentSfx() {
       if (!soundEnabled) return;
       fluorescentAudio.currentTime = 0;
-      fluorescentAudio.volume = 0.58;
+      fluorescentAudio.volume = 0.46;
       fluorescentAudio.play().catch(() => {});
     }
 
@@ -1380,7 +1380,7 @@
       glitchVideo.play().catch(() => {});
       if (soundEnabled) {
         glitchBurstAudio.currentTime = 0;
-        glitchBurstAudio.volume = 0.55;
+        glitchBurstAudio.volume = 0.44;
         glitchBurstAudio.play().catch(() => {});
       }
       window.setTimeout(() => {
