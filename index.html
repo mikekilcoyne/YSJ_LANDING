@@ -596,6 +596,90 @@
       display: none;
     }
 
+    /* ── Intro animation overlay ── */
+    .intro-overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 45;
+      background: #000;
+      overflow: hidden;
+    }
+
+    .intro-overlay.is-open {
+      display: block;
+    }
+
+    .intro-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .intro-skip {
+      position: absolute;
+      bottom: 28px;
+      right: 24px;
+      z-index: 3;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: rgba(0, 0, 0, 0.62);
+      color: #fff;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-family: 'NCLNeoRegular', sans-serif;
+      letter-spacing: 0.1em;
+      font-size: 0.95rem;
+      transition: border-color 180ms ease, box-shadow 180ms ease, color 180ms ease;
+    }
+
+    .intro-skip:hover,
+    .intro-skip:focus-visible {
+      border-color: var(--neon);
+      color: #FFDD66;
+      box-shadow: 0 0 12px rgba(255, 221, 102, 0.45);
+      outline: none;
+    }
+
+    .intro-letterbox {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .intro-letterbox-bar {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 50vh;
+      background: #000;
+      will-change: transform;
+    }
+
+    .intro-letterbox-bar.top {
+      top: 0;
+      transform-origin: top;
+      animation: introLetterboxOpen 3200ms cubic-bezier(0.18, 0.92, 0.18, 1) forwards;
+    }
+
+    .intro-letterbox-bar.bottom {
+      bottom: 0;
+      transform-origin: bottom;
+      animation: introLetterboxOpenBottom 3200ms cubic-bezier(0.18, 0.92, 0.18, 1) forwards;
+    }
+
+    @keyframes introLetterboxOpen {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-100%); }
+    }
+
+    @keyframes introLetterboxOpenBottom {
+      from { transform: translateY(0); }
+      to   { transform: translateY(100%); }
+    }
+
     .silly-overlay {
       position: fixed;
       inset: 0;
@@ -955,6 +1039,18 @@
     <source src="./assets/glitchy/Glitchy_01.mov" type="video/quicktime">
   </audio>
 
+  <!-- Intro animation: preloaded in background, plays before teaser -->
+  <video id="introVideoPreload" src="./assets/YSJ_ANIMATION_MIXED.mp4" preload="auto" muted playsinline style="display:none" aria-hidden="true"></video>
+
+  <section class="intro-overlay" id="introOverlay" aria-hidden="true">
+    <video class="intro-video" id="introVideo" src="./assets/YSJ_ANIMATION_MIXED.mp4" playsinline></video>
+    <div class="intro-letterbox" id="introLetterbox" aria-hidden="true">
+      <div class="intro-letterbox-bar top"></div>
+      <div class="intro-letterbox-bar bottom"></div>
+    </div>
+    <button class="intro-skip" type="button" id="introSkip">SKIP INTRO</button>
+  </section>
+
   <section class="silly-overlay" id="sillyOverlay" aria-hidden="true">
     <img class="silly-bg" src="./assets/silly_bg.gif" alt="" />
     <div class="silly-dim"></div>
@@ -983,6 +1079,9 @@
     const fluorescentAudio = document.getElementById('fluorescentAudio');
     const glitchVideo = document.getElementById('glitchVideo');
     const glitchBurstAudio = document.getElementById('glitchBurstAudio');
+    const introOverlay = document.getElementById('introOverlay');
+    const introVideo = document.getElementById('introVideo');
+    const introSkip = document.getElementById('introSkip');
     const sillyOverlay = document.getElementById('sillyOverlay');
     const sillyExit = document.getElementById('sillyExit');
     const embedUrl = 'https://player.vimeo.com/video/1161209754?h=a9410cc12b&autoplay=1';
@@ -1091,7 +1190,7 @@
               pwModal.classList.remove('is-open');
               pwModal.setAttribute('aria-hidden', 'true');
               pwLine.classList.remove('is-loading');
-              showLightbox();
+              showIntro();
             }, 2400);
           });
         }, 1500);
@@ -1292,6 +1391,28 @@
         glitchBurstAudio.currentTime = 0;
       }, 180);
     }
+
+    function showIntro() {
+      introOverlay.classList.add('is-open');
+      introOverlay.setAttribute('aria-hidden', 'false');
+      introVideo.muted = !soundEnabled;
+      introVideo.currentTime = 0;
+      // Reset letterbox bars so animation replays each time
+      const bars = introOverlay.querySelectorAll('.intro-letterbox-bar');
+      bars.forEach(b => { b.style.animation = 'none'; b.offsetHeight; b.style.animation = ''; });
+      introVideo.play().catch(() => {});
+    }
+
+    function closeIntro() {
+      introOverlay.classList.remove('is-open');
+      introOverlay.setAttribute('aria-hidden', 'true');
+      introVideo.pause();
+      introVideo.currentTime = 0;
+      showLightbox();
+    }
+
+    introVideo.addEventListener('ended', closeIntro);
+    introSkip.addEventListener('click', closeIntro);
 
     function closeLightbox() {
       lightbox.classList.remove('is-open');
