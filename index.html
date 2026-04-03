@@ -1,1528 +1,1680 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yellow Satin Jacket Films &gt; Your New Fav Film Production Partner</title>
-  <meta name="description" content="Yellow Satin Jacket Films > Your New Fav Film Production Partner">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Yellow Satin Jacket Films > Your New Fav Film Production Partner">
-  <meta property="og:description" content="Yellow Satin Jacket Films > Your New Fav Film Production Partner">
-  <meta property="og:image" content="https://yellowsatinjacket.com/social-preview.png">
-  <meta property="og:url" content="https://yellowsatinjacket.com/">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Yellow Satin Jacket Films > Your New Fav Film Production Partner">
-  <meta name="twitter:description" content="Yellow Satin Jacket Films > Your New Fav Film Production Partner">
-  <meta name="twitter:image" content="https://yellowsatinjacket.com/social-preview.png">
-  <link rel="icon" type="image/png" href="./boo-favicon.png">
-  <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-
-  <style>
-    @font-face {
-      font-family: 'NCLOutline';
-      src: url('./NCLNeovibes-Outline.otf') format('opentype');
-    }
-
-    @font-face {
-      font-family: 'NCLNeoRegular';
-      src: url('./NCLNeovibes-Regular.otf') format('opentype');
-    }
-
-    :root {
-      --neon: #FFDD66;
-      --warm-light: #ffc766;
-      --cool-light: #74b9ff;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-      background-color: #000;
-    }
-
-    .hero {
-      position: relative;
-      width: 100%;
-      height: 100vh;
-      overflow: hidden;
-      background: #1C1C1C;
-      isolation: isolate;
-      transform-origin: center center;
-      transition: transform 8000ms cubic-bezier(0.1, 0.82, 0.18, 1);
-    }
-
-    .hero.cta-push {
-      transform: scale(1.02);
-    }
-
-    .bg-img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      filter: brightness(0.96) contrast(1.04) saturate(0.96);
-    }
-
-    .mobile {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      .desktop {
-        display: none;
-      }
-
-      .mobile {
-        display: block;
-      }
-
-      .neon-wrapper {
-        padding: 0.18em 0.34em 0.26em 0.34em;
-      }
-
-      .neon-link {
-        letter-spacing: 0.09em;
-      }
-
-      .lightbox {
-        padding: 12px;
-      }
-
-      .lightbox-dialog {
-        width: min(96vw, 700px);
-      }
-
-      .lightbox-close {
-        top: -36px;
-        padding: 7px 10px;
-        font-size: 0.82rem;
-      }
-
-      .pw-modal {
-        padding: 14px;
-      }
-
-      .pw-dialog {
-        width: min(95vw, 560px);
-        padding: 18px 16px;
-      }
-
-      .pw-title {
-        margin-bottom: 10px;
-        letter-spacing: 0.08em;
-        font-size: clamp(1rem, 4.8vw, 1.35rem);
-      }
-
-      .pw-line {
-        letter-spacing: 0.05em;
-        font-size: clamp(0.95rem, 4.2vw, 1.2rem);
-        line-height: 1.35;
-        word-break: break-word;
-      }
-
-      .pw-line.is-loading {
-        letter-spacing: 0.14em;
-      }
-
-      .sound-toggle {
-        left: 50%;
-        right: auto;
-        top: 14px;
-        transform: translateX(-50%);
-        padding: 8px 14px;
-        font-size: 0.92rem;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .pw-modal {
-        padding: 10px;
-      }
-
-      .pw-dialog {
-        width: 96vw;
-        padding: 16px 12px;
-      }
-
-      .pw-title {
-        font-size: clamp(0.95rem, 5.1vw, 1.2rem);
-      }
-
-      .pw-line {
-        font-size: clamp(0.9rem, 4.8vw, 1.08rem);
-        letter-spacing: 0.04em;
-      }
-
-      .sound-toggle {
-        width: min(88vw, 220px);
-        text-align: center;
-      }
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 45%,
-          rgba(0, 0, 0, 0.0) 0%,
-          rgba(0, 0, 0, 0.42) 75%);
-      pointer-events: none;
-    }
-
-    .letterbox-reveal {
-      position: fixed;
-      inset: 0;
-      z-index: 60;
-      pointer-events: none;
-    }
-
-    .letterbox-bar {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 50vh;
-      background: #000;
-      transform: translateY(0);
-      will-change: transform;
-      animation: letterboxOpen 2200ms cubic-bezier(0.25, 0.95, 0.2, 1) 180ms forwards;
-    }
-
-    .letterbox-bar.top {
-      top: 0;
-      transform-origin: top;
-    }
-
-    .letterbox-bar.bottom {
-      bottom: 0;
-      transform-origin: bottom;
-      animation-name: letterboxOpenBottom;
-    }
-
-    .vhs-static {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0;
-      z-index: 8;
-      background-image:
-        repeating-radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.2) 0 1px, transparent 1px 3px),
-        repeating-radial-gradient(circle at 70% 60%, rgba(255, 255, 255, 0.16) 0 1px, transparent 1px 3px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.04));
-      background-size: 220px 220px, 180px 180px, 100% 100%;
-      mix-blend-mode: screen;
-      animation:
-        staticShift 0.18s steps(2) infinite,
-        glitchPulse 8.2s linear infinite;
-    }
-
-    .glitch-gif {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 12;
-      opacity: 0;
-      background-image: url('./glitch-overlay.gif');
-      background-size: cover;
-      background-position: center;
-      mix-blend-mode: screen;
-      animation:
-        glitchDrift 6s linear infinite,
-        glitchPulseHeavy 8.2s linear infinite;
-    }
-
-    .glitch-video-overlay {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      pointer-events: none;
-      z-index: 14;
-      mix-blend-mode: screen;
-      opacity: 0;
-      transition: opacity 80ms linear;
-    }
-
-    .glitch-video-overlay.is-active {
-      opacity: 0.22;
-    }
-
-    .neon-wrapper {
-      position: absolute;
-      top: 50%;
-      left: 53%;
-      transform: translate(-50%, -50%);
-      font-size: 84px;
-      letter-spacing: 0.12em;
-      text-align: center;
-      filter: none;
-      z-index: 6;
-      opacity: 1;
-      mix-blend-mode: screen;
-      padding: 0.19em 0.48em 0.30em 0.48em;
-      border-radius: 0.14em;
-      border: 1px solid rgba(255, 221, 102, 0.38);
-      background: rgba(0, 0, 0, 0.62);
-      box-shadow:
-        inset 0 0 0.24em rgba(255, 221, 102, 0.08),
-        0 0 0.9em rgba(255, 221, 102, 0.11),
-        0 0 2.1em rgba(255, 221, 102, 0.06),
-        0 0 3.8em rgba(255, 221, 102, 0.03);
-      animation: wrapperFlicker 7s infinite;
-    }
-
-    .neon-wrapper:hover,
-    .neon-wrapper:focus-within {
-      mix-blend-mode: screen;
-      animation: none;
-      background: rgba(0, 0, 0, 0.72);
-      border-color: rgba(255, 221, 102, 0.95);
-      box-shadow:
-        inset 0 0 0.55em rgba(255, 221, 102, 0.22),
-        0 0 1.9em rgba(255, 221, 102, 0.26),
-        0 0 4.8em rgba(255, 221, 102, 0.12),
-        0 0 9.0em rgba(255, 221, 102, 0.05);
-    }
-
-    .neon-wrapper::after {
-      content: "";
-      position: absolute;
-      inset: 0.08em;
-      border: 1px solid rgba(232, 232, 232, 0.2);
-      border-radius: 0.1em;
-      pointer-events: none;
-    }
-
-    .neon-link {
-      position: relative;
-      display: inline-block;
-      text-decoration: none;
-      cursor: pointer;
-      line-height: 1;
-      transform: scaleY(1.34);
-      transform-origin: center;
-      animation: flicker 6s infinite;
-      white-space: nowrap;
-      padding-bottom: 0.38em;
-    }
-
-    .neon-link::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0.24em;
-      top: calc(100% - 0.02em);
-      height: 0.055em;
-      border-radius: 999px;
-      background: #ff4db5;
-      pointer-events: none;
-      animation: lineFlicker 4.2s 0.3s infinite;
-    }
-
-    .neon-link::before {
-      content: "";
-      position: absolute;
-      top: calc(100% - 0.11em);
-      right: 0;
-      width: 0;
-      height: 0;
-      border-top: 0.11em solid transparent;
-      border-bottom: 0.11em solid transparent;
-      border-left: 0.22em solid #ff4db5;
-      pointer-events: none;
-      animation: arrowFlicker 3.5s 1.4s infinite;
-    }
-
-    .neon-fill {
-      font-family: 'NCLNeoRegular';
-      color: transparent;
-      background: none;
-      -webkit-background-clip: initial;
-      background-clip: initial;
-      text-shadow: none;
-      mix-blend-mode: normal;
-      transition: color 180ms ease, text-shadow 180ms ease, filter 180ms ease;
-    }
-
-    .neon-link .char {
-      display: inline-block;
-      transition: opacity 90ms linear, filter 90ms linear, text-shadow 90ms linear;
-    }
-
-    .neon-link .char-space {
-      width: 0.34em;
-    }
-
-    .neon-link .char.is-flicker-off {
-      opacity: 0.12;
-      filter: brightness(0.72);
-      text-shadow: none !important;
-    }
-
-    .neon-outline {
-      position: absolute;
-      top: 0;
-      left: 0;
-      font-family: 'NCLOutline';
-      color: #E8E8E8;
-      pointer-events: none;
-      animation: outlineFlicker 5s 0.8s infinite;
-    }
-
-    .light-spill {
-      position: absolute;
-      top: 52%;
-      left: 53%;
-      transform: translate(-50%, -50%);
-      width: 70%;
-      height: 18%;
-      background: radial-gradient(ellipse at center,
-          rgba(253, 214, 102, 0.2) 0%,
-          rgba(253, 214, 102, 0.1) 35%,
-          rgba(253, 214, 102, 0.03) 64%,
-          transparent 100%);
-      mix-blend-mode: overlay;
-      pointer-events: none;
-      z-index: 5;
-    }
-
-    /* ── Hover / glow-on: kill flickers, blast to full brightness ── */
-    .neon-link:hover,
-    .neon-link:focus-visible,
-    .neon-link:active,
-    .neon-link.glow-on {
-      mix-blend-mode: screen;
-      outline: none;
-    }
-
-    .neon-link:hover .neon-fill,
-    .neon-link:focus-visible .neon-fill,
-    .neon-link:active .neon-fill,
-    .neon-link.glow-on .neon-fill {
-      color: #FFDD66;
-      text-shadow:
-        0 0 3px rgba(255, 244, 196, 0.74),
-        0 0 12px rgba(255, 221, 102, 0.48),
-        0 0 30px rgba(255, 221, 102, 0.24),
-        0 0 62px rgba(255, 221, 102, 0.1);
-      filter: brightness(1.08) saturate(1.03);
-    }
-
-    .neon-link:hover .neon-outline,
-    .neon-link:focus-visible .neon-outline,
-    .neon-link:active .neon-outline,
-    .neon-link.glow-on .neon-outline {
-      animation: none;
-      color: #FFDD66;
-      opacity: 1;
-      text-shadow:
-        0 0 2px rgba(255, 255, 255, 0.82),
-        0 0 8px rgba(255, 244, 196, 0.48),
-        0 0 22px rgba(255, 221, 102, 0.24),
-        0 0 56px rgba(255, 221, 102, 0.09);
-    }
-
-    .neon-link:hover::after,
-    .neon-link:focus-visible::after,
-    .neon-link:active::after,
-    .neon-link.glow-on::after {
-      animation: none;
-      box-shadow:
-        0 0 4px rgba(255, 77, 181, 1.0),
-        0 0 14px rgba(255, 77, 181, 0.9),
-        0 0 28px rgba(255, 77, 181, 0.55);
-    }
-
-    .neon-link:hover::before,
-    .neon-link:focus-visible::before,
-    .neon-link:active::before,
-    .neon-link.glow-on::before {
-      animation: none;
-      filter:
-        drop-shadow(0 0 3px rgba(255, 77, 181, 1.0)) drop-shadow(0 0 10px rgba(255, 77, 181, 0.85));
-    }
-
-    .lightbox {
-      position: fixed;
-      inset: 0;
-      display: none;
-      place-items: center;
-      background: rgba(0, 0, 0, 0.84);
-      z-index: 20;
-      padding: 24px;
-    }
-
-    .lightbox.is-open {
-      display: grid;
-    }
-
-    .lightbox-dialog {
-      width: min(92vw, 1100px);
-      aspect-ratio: 16 / 9;
-      background: #000;
-      border: 1px solid rgba(255, 46, 159, 0.45);
-      box-shadow:
-        0 0 12px rgba(255, 46, 159, 0.55),
-        0 0 38px rgba(255, 46, 159, 0.32);
-      position: relative;
-    }
-
-    .lightbox-frame {
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-
-    .lightbox-close {
-      position: absolute;
-      top: -42px;
-      right: 0;
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      font-family: 'NCLNeoRegular', sans-serif;
-      letter-spacing: 0.08em;
-      padding: 7px 11px;
-      cursor: pointer;
-    }
-
-    .lightbox-close:hover,
-    .lightbox-close:focus-visible {
-      border-color: var(--neon);
-      box-shadow: 0 0 10px rgba(255, 46, 159, 0.45);
-      outline: none;
-    }
-
-    .pw-modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      place-items: center;
-      background: rgba(0, 0, 0, 0.86);
-      z-index: 30;
-      padding: 24px;
-    }
-
-    .pw-modal.is-open {
-      display: grid;
-    }
-
-    .pw-dialog {
-      width: min(92vw, 760px);
-      background: #050505;
-      border: 1px solid rgba(255, 46, 159, 0.45);
-      box-shadow:
-        0 0 12px rgba(255, 46, 159, 0.55),
-        0 0 38px rgba(255, 46, 159, 0.32);
-      padding: 28px 30px;
-    }
-
-    .pw-title {
-      margin: 0 0 12px;
-      font-family: 'NCLNeoRegular', sans-serif;
-      color: #E8E8E8;
-      letter-spacing: 0.1em;
-      font-size: clamp(1.2rem, 2.2vw, 1.8rem);
-    }
-
-    .pw-line {
-      margin: 0;
-      font-family: 'NCLNeoRegular', sans-serif;
-      color: #FFDD66;
-      letter-spacing: 0.08em;
-      font-size: clamp(1.1rem, 2vw, 1.6rem);
-      min-height: 1.4em;
-      text-shadow:
-        0 0 4px rgba(255, 244, 196, 0.95),
-        0 0 14px rgba(255, 221, 102, 0.7),
-        0 0 30px rgba(255, 221, 102, 0.45);
-    }
-
-    .pw-line.is-loading {
-      letter-spacing: 0.22em;
-      color: rgba(232, 232, 232, 0.92);
-      text-shadow:
-        0 0 3px rgba(255, 255, 255, 0.7),
-        0 0 9px rgba(255, 255, 255, 0.3);
-    }
-
-    .sound-toggle {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      z-index: 55;
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      background: rgba(0, 0, 0, 0.62);
-      color: #fff;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-family: 'NCLNeoRegular', sans-serif;
-      letter-spacing: 0.08em;
-      transition: border-color 180ms ease, box-shadow 180ms ease, color 180ms ease, opacity 180ms ease;
-    }
-
-    .sound-toggle:hover,
-    .sound-toggle:focus-visible {
-      border-color: var(--neon);
-      box-shadow: 0 0 12px rgba(255, 221, 102, 0.45);
-      outline: none;
-    }
-
-    .sound-toggle.is-on {
-      border-color: rgba(255, 221, 102, 0.95);
-      color: #FFDD66;
-      box-shadow:
-        0 0 10px rgba(255, 221, 102, 0.42),
-        0 0 22px rgba(255, 221, 102, 0.2);
-    }
-
-    .sound-toggle.is-off {
-      border-color: rgba(255, 255, 255, 0.35);
-      color: rgba(232, 232, 232, 0.55);
-      box-shadow: none;
-      opacity: 0.72;
-    }
-
-    .sound-toggle.is-hidden {
-      display: none;
-    }
-
-    /* ── Intro animation overlay ── */
-    .intro-overlay {
-      position: fixed;
-      inset: 0;
-      display: none;
-      z-index: 45;
-      background: #000;
-      overflow: hidden;
-    }
-
-    .intro-overlay.is-open {
-      display: block;
-    }
-
-    .intro-video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .intro-skip {
-      position: absolute;
-      bottom: 28px;
-      right: 24px;
-      z-index: 3;
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      background: rgba(0, 0, 0, 0.62);
-      color: #fff;
-      padding: 8px 14px;
-      cursor: pointer;
-      font-family: 'NCLNeoRegular', sans-serif;
-      letter-spacing: 0.1em;
-      font-size: 0.95rem;
-      transition: border-color 180ms ease, box-shadow 180ms ease, color 180ms ease;
-    }
-
-    .intro-skip:hover,
-    .intro-skip:focus-visible {
-      border-color: var(--neon);
-      color: #FFDD66;
-      box-shadow: 0 0 12px rgba(255, 221, 102, 0.45);
-      outline: none;
-    }
-
-    .intro-letterbox {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      pointer-events: none;
-    }
-
-    .intro-letterbox-bar {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: 50vh;
-      background: #000;
-      will-change: transform;
-    }
-
-    .intro-letterbox-bar.top {
-      top: 0;
-      transform-origin: top;
-      animation: introLetterboxOpen 3200ms cubic-bezier(0.18, 0.92, 0.18, 1) forwards;
-    }
-
-    .intro-letterbox-bar.bottom {
-      bottom: 0;
-      transform-origin: bottom;
-      animation: introLetterboxOpenBottom 3200ms cubic-bezier(0.18, 0.92, 0.18, 1) forwards;
-    }
-
-    @keyframes introLetterboxOpen {
-      from { transform: translateY(0); }
-      to   { transform: translateY(-100%); }
-    }
-
-    @keyframes introLetterboxOpenBottom {
-      from { transform: translateY(0); }
-      to   { transform: translateY(100%); }
-    }
-
-    .silly-overlay {
-      position: fixed;
-      inset: 0;
-      display: none;
-      z-index: 40;
-      background: #050505;
-      overflow: hidden;
-    }
-
-    .silly-overlay.is-open {
-      display: block;
-    }
-
-    .silly-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.84;
-    }
-
-    .silly-dim {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at center, transparent 25%, rgba(0, 0, 0, 0.6) 100%);
-    }
-
-    .silly-title {
-      position: absolute;
-      left: 50%;
-      bottom: 10%;
-      transform: translateX(-50%);
-      margin: 0;
-      font-family: 'NCLNeoRegular', sans-serif;
-      font-size: clamp(2rem, 8vw, 6rem);
-      letter-spacing: 0.1em;
-      color: #ff4db5;
-      text-shadow: 0 0 10px rgba(255, 77, 181, 0.9), 0 0 28px rgba(255, 77, 181, 0.46);
-      z-index: 2;
-    }
-
-    .silly-exit {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      z-index: 3;
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      background: rgba(0, 0, 0, 0.55);
-      color: #fff;
-      padding: 8px 12px;
-      cursor: pointer;
-      font-family: 'NCLNeoRegular', sans-serif;
-      letter-spacing: 0.08em;
-    }
-
-    .silly-exit:hover,
-    .silly-exit:focus-visible {
-      border-color: #ff4db5;
-      box-shadow: 0 0 12px rgba(255, 77, 181, 0.45);
-      outline: none;
-    }
-
-    @keyframes flicker {
-
-      0%,
-      14%,
-      16%,
-      32%,
-      34%,
-      62%,
-      64%,
-      100% {
-        opacity: 1;
-      }
-
-      15%,
-      33%,
-      63% {
-        opacity: 0.88;
-      }
-    }
-
-
-    /* Box border — glow pulses on/off, border always faintly visible */
-    @keyframes wrapperFlicker {
-
-      0%,
-      17%,
-      21%,
-      54%,
-      58%,
-      81%,
-      85%,
-      100% {
-        border-color: rgba(255, 221, 102, 0.55);
-        box-shadow:
-          inset 0 0 0.4em rgba(255, 221, 102, 0.22),
-          0 0 0.9em rgba(255, 221, 102, 0.38),
-          0 0 2.2em rgba(255, 221, 102, 0.14);
-      }
-
-      19% {
-        border-color: rgba(255, 221, 102, 0.14);
-        box-shadow: none;
-      }
-
-      56% {
-        border-color: rgba(255, 221, 102, 0.10);
-        box-shadow: none;
-      }
-
-      83% {
-        border-color: rgba(255, 221, 102, 0.08);
-        box-shadow: none;
-      }
-    }
-
-
-    /* White stroke — glow blinks, text always visible so it reads at rest */
-    @keyframes outlineFlicker {
-
-      0%,
-      27%,
-      31%,
-      62%,
-      66%,
-      100% {
-        opacity: 1;
-        text-shadow:
-          0 0 3px rgba(255, 255, 255, 1.0),
-          0 0 10px rgba(255, 255, 255, 0.90),
-          0 0 24px rgba(232, 232, 232, 0.70),
-          0 0 48px rgba(255, 221, 102, 0.40),
-          0 0 80px rgba(255, 221, 102, 0.18);
-      }
-
-      29% {
-        opacity: 0.72;
-        text-shadow: none;
-      }
-
-      64% {
-        opacity: 0.68;
-        text-shadow: none;
-      }
-    }
-
-
-    /* Pink underline — glow blinks hard, line stays faint when off */
-    @keyframes lineFlicker {
-
-      0%,
-      37%,
-      41%,
-      73%,
-      77%,
-      100% {
-        box-shadow:
-          0 0 4px rgba(255, 77, 181, 1.0),
-          0 0 14px rgba(255, 77, 181, 0.90),
-          0 0 30px rgba(255, 77, 181, 0.55);
-        opacity: 1;
-      }
-
-      39% {
-        box-shadow: none;
-        opacity: 0.28;
-      }
-
-      75% {
-        box-shadow: none;
-        opacity: 0.22;
-      }
-    }
-
-
-    /* Pink arrow — fastest blink, offset from line */
-    @keyframes arrowFlicker {
-
-      0%,
-      34%,
-      38%,
-      69%,
-      73%,
-      100% {
-        filter:
-          drop-shadow(0 0 3px rgba(255, 77, 181, 1.0)) drop-shadow(0 0 12px rgba(255, 77, 181, 0.90));
-        opacity: 1;
-      }
-
-      36% {
-        filter: none;
-        opacity: 0.30;
-      }
-
-      71% {
-        filter: none;
-        opacity: 0.25;
-      }
-    }
-
-    @keyframes staticShift {
-      0% {
-        background-position: 0 0, 0 0, 0 0;
-      }
-
-      50% {
-        background-position: 12px -8px, -10px 7px, 0 0;
-      }
-
-      100% {
-        background-position: -8px 10px, 9px -12px, 0 0;
-      }
-    }
-
-    @keyframes glitchDrift {
-      0% {
-        background-position: center;
-      }
-
-      50% {
-        background-position: 52% 48%;
-      }
-
-      100% {
-        background-position: center;
-      }
-    }
-
-    @keyframes glitchPulse {
-      0%,
-      89%,
-      100% {
-        opacity: 0;
-      }
-      90% {
-        opacity: 0.08;
-      }
-      91% {
-        opacity: 0.16;
-      }
-      92% {
-        opacity: 0.04;
-      }
-      93% {
-        opacity: 0.12;
-      }
-      94% {
-        opacity: 0;
-      }
-    }
-
-    @keyframes glitchPulseHeavy {
-      0%,
-      89%,
-      100% {
-        opacity: 0;
-      }
-      90% {
-        opacity: 0.06;
-      }
-      91% {
-        opacity: 0.12;
-      }
-      92% {
-        opacity: 0.03;
-      }
-      93% {
-        opacity: 0.09;
-      }
-      94% {
-        opacity: 0;
-      }
-    }
-
-    @keyframes letterboxOpen {
-      from {
-        transform: translateY(0);
-      }
-      to {
-        transform: translateY(-100%);
-      }
-    }
-
-    @keyframes letterboxOpenBottom {
-      from {
-        transform: translateY(0);
-      }
-      to {
-        transform: translateY(100%);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yellow Satin Jacket</title>
+    <link rel="icon" type="image/png" href="./boo-favicon.png">
+    <link rel="apple-touch-icon" href="./apple-touch-icon-squish.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-yellow: #FFDD66;
+            --hover-yellow: #FFE88A;
+            --shadow-color: rgba(0, 0, 0, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            background-color: #050505;
+            overflow: hidden;
+            font-family: 'VT323', monospace;
+        }
+
+        /* Fullscreen Background Layer System */
+        .background-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background-color: #050505;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 1.25s ease, transform 2s cubic-bezier(0.23, 1, 0.32, 1), filter 1.25s ease;
+        }
+
+        .bg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        video {
+            display: block;
+        }
+
+        body.intro-active .background-container {
+            opacity: 0.18;
+            transform: scale(1.08);
+            filter: saturate(0.72) brightness(0.7);
+        }
+
+        body.intro-open .background-container {
+            opacity: 1;
+            transform: scale(1);
+            filter: saturate(1);
+        }
+
+        /* The blurred "ambiance" layer */
+        .bg-blur {
+            filter: blur(40px) brightness(0.6);
+            opacity: 0.8;
+            transform: scale(1.1); /* Prevent blur bleed at edges */
+        }
+
+        /* The clear "cinematic" layer */
+        .bg-clear {
+            position: relative;
+            object-fit: cover; /* Changed from contain to full-screen as requested */
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+        }
+        
+        @media (max-width: 768px) {
+            .bg-desktop-stack { display: none; }
+            .bg-mobile { 
+                display: block; 
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                /* 
+                   Scale the image by 1.7x to completely fill frame.
+                */
+                transform: scale(1.7);
+                transform-origin: center center;
+                object-position: 20% 90%; 
+            }
+        }
+        @media (min-width: 769px) {
+            .bg-mobile { display: none; }
+            .bg-desktop-stack { 
+                display: flex; 
+                width: 100%;
+                height: 100%;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Subtle Dim Overlay to help text pop */
+        .dim-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.3); 
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Grain Overlay for Retro CRT Effect */
+        .grain-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('./assets/silly/ysj-grain.gif');
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 3;
+            mix-blend-mode: multiply;
+        }
+
+        /* Subtle scanline effect */
+        .scanlines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0),
+                rgba(255, 255, 255, 0) 50%,
+                rgba(0, 0, 0, 0.1) 50%,
+                rgba(0, 0, 0, 0.1)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 4;
+        }
+
+        .opening-mask {
+            position: fixed;
+            inset: 0;
+            z-index: 40;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .opening-mask-bar {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 50.5vh;
+            background: #000;
+            transition: height 2.35s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        .opening-mask-top {
+            top: 0;
+            border-bottom: 1px solid rgba(255, 234, 92, 0.14);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+        }
+
+        .opening-mask-bottom {
+            bottom: 0;
+            border-top: 1px solid rgba(255, 234, 92, 0.14);
+            box-shadow: 0 -16px 40px rgba(0, 0, 0, 0.55);
+        }
+
+        .opening-mask-centerline {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 234, 92, 0.72), rgba(255, 243, 173, 0.88), rgba(255, 234, 92, 0.72), transparent);
+            transform: translateY(-50%);
+            opacity: 0.96;
+            box-shadow:
+                0 0 10px rgba(255, 234, 92, 0.32),
+                0 0 30px rgba(255, 234, 92, 0.14);
+            transition: opacity 0.8s ease;
+        }
+
+        .opening-mask-centerline::after {
+            content: "";
+            position: absolute;
+            inset: -8px 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 234, 92, 0.08), transparent);
+            filter: blur(10px);
+        }
+
+        body.intro-open .opening-mask-bar {
+            height: 0;
+        }
+
+        body.intro-open .opening-mask-centerline {
+            opacity: 0;
+        }
+
+        body.intro-finished .opening-mask {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.45s ease, visibility 0s linear 0.45s;
+        }
+
+        .intro-status {
+            position: fixed;
+            left: 50%;
+            bottom: clamp(2.2rem, 8vh, 4.25rem);
+            transform: translateX(-50%);
+            z-index: 45;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: rgba(255, 234, 92, 0.86);
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            font-size: clamp(1.1rem, 1.4vw, 1.35rem);
+            text-shadow:
+                0 0 8px rgba(255, 234, 92, 0.3),
+                0 0 18px rgba(255, 234, 92, 0.12);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0s linear 0.4s;
+            pointer-events: none;
+        }
+
+        body.intro-active:not(.intro-open) .intro-status {
+            opacity: 1;
+            visibility: visible;
+            transition-delay: 0.18s;
+        }
+
+        .intro-status-label {
+            white-space: nowrap;
+        }
+
+        .intro-status-dots {
+            display: inline-flex;
+            min-width: 1.8em;
+            justify-content: flex-start;
+        }
+
+        .intro-status-dots span {
+            opacity: 0.18;
+            animation: introDotPulse 1.2s steps(1, end) infinite;
+        }
+
+        .intro-status-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .intro-status-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes introDotPulse {
+            0%, 20% { opacity: 0.18; }
+            40% { opacity: 0.45; }
+            60%, 100% { opacity: 1; }
+        }
+
+
+        
+        /* Flash Event Animation (Triggered by Play) */
+        .flash-animation {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            pointer-events: none;
+            opacity: 0;
+            display: none;
+            overflow: hidden;
+        }
+
+        .flash-animation-media {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .flash-animation.flash {
+            display: block;
+            animation: flashIn 0.8s ease-out forwards;
+        }
+        .flash-animation.trailer-flash.flash {
+            animation: trailerFlashIn 0.95s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        .flash-animation.contact-flash.flash {
+            animation: contactFlashIn 0.9s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        @keyframes flashIn {
+            0% { opacity: 0; transform: scale(1.1); filter: brightness(2) contrast(2) hue-rotate(-20deg); }
+            10% { opacity: 1; filter: brightness(1.2) contrast(1.5); }
+            30% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0; transform: scale(1); filter: brightness(0); }
+        }
+        @keyframes trailerFlashIn {
+            0% { opacity: 0; transform: scale(1.08); filter: blur(2px) brightness(1.7) saturate(1.2); }
+            14% { opacity: 1; filter: blur(0px) brightness(1.12) saturate(1.05); }
+            40% { opacity: 0.98; transform: scale(1.03); }
+            100% { opacity: 0; transform: scale(1); filter: blur(7px) brightness(0.18); }
+        }
+        @keyframes contactFlashIn {
+            0% { opacity: 0; transform: scale(1.06); filter: blur(3px) brightness(1.8) hue-rotate(-10deg); }
+            12% { opacity: 1; filter: blur(0px) brightness(1.08); }
+            36% { opacity: 1; transform: scale(1.02); }
+            100% { opacity: 0; transform: scale(1); filter: blur(9px) brightness(0.12); }
+        }
+
+        /* Main Container for Content */
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100%;
+            padding-top: 10vh;
+        }
+
+        /* Title Logo & Glitch Group */
+        .title-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            width: min(92vw, 760px);
+            z-index: 10;
+            transition: opacity 0.95s ease, transform 1.15s cubic-bezier(0.23, 1, 0.32, 1), filter 0.8s ease;
+        }
+
+        .title-logo-shell {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 0.25rem;
+        }
+
+        .title-logo {
+            width: min(100%, 500px);
+            aspect-ratio: 16 / 9;
+            height: auto;
+            display: block;
+            margin-inline: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 0 15px rgba(245, 224, 39, 0.4));
+            transform: scale(1);
+            background: transparent;
+        }
+
+        .title-logo-source {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
+            pointer-events: none;
+            clip-path: inset(50%);
+        }
+
+        .title-logo-fallback {
+            display: none;
+        }
+
+        body.use-title-fallback .title-logo-source,
+        body.use-title-fallback #titleLogoCanvas {
+            display: none;
+        }
+
+        body.use-title-fallback .title-logo-fallback {
+            display: block;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.95rem;
+            margin-top: clamp(5.3rem, 12.5vh, 7.2rem);
+            transition: opacity 0.75s ease, transform 0.95s cubic-bezier(0.23, 1, 0.32, 1), filter 0.75s ease;
+        }
+
+        body.intro-active .title-group,
+        body.intro-active .nav-menu {
+            opacity: 0;
+            transform: translateY(34px) scale(0.96);
+            filter: blur(12px);
+            visibility: hidden;
+        }
+
+        body.intro-logo-visible .title-group {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+            visibility: visible;
+        }
+
+        body.intro-active .nav-menu {
+            pointer-events: none;
+        }
+
+        body.intro-menu-visible .nav-menu {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+            visibility: visible;
+            pointer-events: auto;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--primary-yellow);
+            font-family: inherit;
+            font-size: clamp(2rem, 2.8vw, 2.3rem);
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-shadow: 
+                4px 4px 0 #000,
+                0px 0px 10px rgba(245, 224, 39, 0.9),
+                0px 0px 20px rgba(245, 224, 39, 0.6);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .nav-link:hover, .nav-link:focus {
+            color: var(--hover-yellow);
+            transform: scale(1.05);
+            text-shadow: 
+                4px 4px 0 #000,
+                0px 0px 15px rgba(255, 243, 116, 1),
+                0px 0px 30px rgba(255, 243, 116, 0.8),
+                0px 0px 50px rgba(255, 243, 116, 0.6);
+            outline: none;
+        }
+
+        .nav-link:active {
+            transform: scale(0.95);
+        }
+
+        /* Base Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        .modal.open {
+            display: flex;
+        }
+
+        /* Base Modal Backdrop styles */
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .modal-backdrop-media {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        #trailerModal .modal-backdrop {
+            filter: blur(15px);
+            transform: scale(1.1); /* Prevent blurred edges from leaking */
+            transition: opacity 1.5s ease, filter 0.8s ease, transform 0.9s ease;
+        }
+        #contactModal .modal-backdrop {
+            filter: blur(10px);
+            transform: scale(1.1); /* Prevent blur bleed */
+            transition: opacity 1.5s ease, filter 0.8s ease, transform 0.9s ease;
+        }
+        .modal.open .modal-backdrop {
+            opacity: 1;
+        }
+        #trailerModal.open .modal-backdrop {
+            filter: blur(12px) brightness(0.9);
+            transform: scale(1.06);
+        }
+        #contactModal.send-burst .modal-backdrop {
+            filter: blur(14px) brightness(1.05) saturate(1.08);
+            animation: contactBackdropBurst 1.15s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        #trailerModal .modal-backdrop::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7); /* Deeply dim the trailer loop */
+        }
+        #contactModal .modal-backdrop::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4); /* Lightly dim the contact loop */
+        }
+        @keyframes contactBackdropBurst {
+            0% {
+                transform: scale(1.12);
+                filter: blur(16px) brightness(0.86) saturate(0.94);
+            }
+            28% {
+                transform: scale(1.06);
+                filter: blur(10px) brightness(1.1) saturate(1.16);
+            }
+            100% {
+                transform: scale(1.08);
+                filter: blur(13px) brightness(1) saturate(1.04);
+            }
+        }
+
+        /* Modal Box Frame */
+        .modal-box {
+            position: relative;
+            z-index: 1;
+            width: min(900px, 100%);
+            border: 2px solid var(--primary-yellow);
+            box-shadow: 0 0 30px rgba(245, 224, 39, 0.3);
+            background: rgba(0,0,0,0.85);
+            /* Entry animation */
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.6s ease;
+        }
+        /* Reveal instantly when flash is triggered */
+        .modal.open .modal-box {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Close Button */
+        .modal-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            font-family: inherit;
+            font-size: 1.5rem;
+            font-weight: normal;
+            letter-spacing: 0.1em;
+            color: var(--primary-yellow);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #000;
+        }
+        .modal-close:hover {
+            color: var(--hover-yellow);
+            text-shadow: 0 0 10px var(--primary-yellow);
+        }
+        .modal-action {
+            position: absolute;
+            top: -40px;
+            font-family: inherit;
+            font-size: 1.5rem;
+            font-weight: normal;
+            letter-spacing: 0.1em;
+            color: var(--primary-yellow);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #000;
+        }
+        .modal-action:hover {
+            color: var(--hover-yellow);
+            text-shadow: 0 0 10px var(--primary-yellow);
+        }
+        .modal-action-left {
+            left: 0;
+        }
+
+        /* Slow Letterbox Video Setup */
+        .video-wrap {
+            position: relative;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            overflow: hidden;
+            clip-path: inset(50% 0 50% 0);
+            transition: clip-path 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        #trailerModal.open .video-wrap {
+            clip-path: inset(0 0 0 0);
+        }
+        .video-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Contact Form Styles */
+        #contactModal .modal-box {
+            border: none;
+            box-shadow: none;
+            background: transparent;
+            width: min(980px, calc(100vw - 1.75rem));
+            max-height: min(88vh, 900px);
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 0.2rem;
+            -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 3rem), transparent 100%);
+            mask-image: linear-gradient(to bottom, black calc(100% - 3rem), transparent 100%);
+        }
+        #contactModal .modal-box.at-bottom {
+            -webkit-mask-image: none;
+            mask-image: none;
+        }
+        #contactModal .modal-close {
+            color: #ff2a9d;
+            text-shadow: 2px 2px 0 #10103b;
+        }
+        #contactModal .modal-close:hover {
+            color: #FFDD66;
+            text-shadow: 0 0 10px #FFDD66;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            padding: clamp(1rem, 1.5vw, 1.25rem) clamp(1rem, 1.5vw, 1.25rem) 1.75rem;
+            font-family: inherit;
+            background:
+                linear-gradient(180deg, rgba(25, 22, 73, 0.96), rgba(12, 11, 38, 0.96)),
+                url('./assets/silly/ysj-grain.gif');
+            background-size: cover, 200px 200px;
+            background-blend-mode: normal, soft-light;
+            border: 2px solid #ff2a9d; /* Hot Pink */
+            box-shadow: 0 0 25px rgba(255, 42, 157, 0.5);
+            color: #FFDD66; /* Yellow text */
+            border-radius: 18px 8px 18px 8px;
+            position: relative;
+            isolation: isolate;
+            overflow: visible;
+        }
+        .contact-form::before,
+        .contact-form::after {
+            content: "";
+            position: absolute;
+            inset: -8px;
+            border-radius: 22px 10px 22px 10px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.55;
+            mix-blend-mode: screen;
+        }
+        .contact-form::before {
+            border: 1px solid rgba(255, 234, 0, 0.65);
+            transform: translate(-4px, 2px);
+            box-shadow:
+                0 0 28px rgba(255, 234, 0, 0.18),
+                inset 0 0 20px rgba(255, 234, 0, 0.06);
+        }
+        .contact-form::after {
+            border: 1px solid rgba(72, 255, 163, 0.52);
+            transform: translate(4px, -2px);
+            box-shadow:
+                0 0 32px rgba(72, 255, 163, 0.14),
+                inset 0 0 18px rgba(72, 255, 163, 0.05);
+        }
+        .contact-form h2 {
+            font-family: inherit;
+            font-size: clamp(1.8rem, 2.5vw, 2.1rem);
+            font-weight: normal;
+            text-align: left;
+            letter-spacing: 0.1em;
+            color: #FFDD66;
+            text-shadow: 2px 2px 0 #000;
+            margin-bottom: 0.2rem;
+            line-height: 0.95;
+            text-transform: uppercase;
+        }
+        .contact-form h2.big-header {
+            font-size: clamp(2.15rem, 3.8vw, 2.45rem);
+            margin-top: 0.55rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            margin-bottom: 0.2rem;
+            min-width: 0;
+        }
+        .form-group label {
+            font-size: 0.95rem;
+            font-weight: normal;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #ff2a9d; /* Hot pink subheaders */
+            line-height: 1;
+        }
+
+        /* Budget Toggle System */
+        .budget-toggle-group {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.55rem;
+            width: 100%;
+        }
+        .budget-btn {
+            background:
+                linear-gradient(180deg, rgba(8, 6, 24, 0.9), rgba(2, 2, 10, 0.94)),
+                url('./assets/silly/ysj-grain.gif');
+            background-size: cover, 180px 180px;
+            background-blend-mode: normal, screen;
+            border: 1px solid #ff2a9d;
+            color: #FFDD66;
+            font-family: inherit;
+            font-size: clamp(1rem, 1.7vw, 1.15rem);
+            padding: 0.72rem 0.3rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            min-width: 0;
+            line-height: 1;
+            border-radius: 12px 4px 12px 4px;
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+                inset 0 0 28px rgba(30, 255, 226, 0.05);
+        }
+        .budget-btn.active {
+            background: #FFDD66;
+            color: #000;
+            box-shadow: 0 0 15px #FFDD66;
+        }
+        .budget-btn:hover:not(.active) {
+            box-shadow: 0 0 10px rgba(255, 42, 157, 0.5);
+        }
+        .form-row {
+            display: flex;
+            gap: 0.8rem;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            background:
+                linear-gradient(180deg, rgba(6, 6, 20, 0.9), rgba(1, 1, 8, 0.94)),
+                url('./assets/silly/ysj-grain.gif');
+            background-size: cover, 180px 180px;
+            background-blend-mode: normal, screen;
+            border: 1px solid #ff2a9d; /* Hot pink */
+            color: #f5f7ff;
+            font-family: inherit;
+            font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+            font-weight: normal;
+            padding: 0.8rem 0.9rem;
+            outline: none;
+            transition: box-shadow 0.3s ease;
+            width: 100%;
+            min-width: 0;
+            border-radius: 14px 5px 14px 5px;
+            box-shadow:
+                inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+                inset 0 0 24px rgba(0, 255, 240, 0.035);
+            caret-color: #f5f7ff;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.08);
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            box-shadow:
+                0 0 15px rgba(255, 42, 157, 0.45),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+                inset 0 0 26px rgba(0, 255, 240, 0.06);
+        }
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: rgba(255, 234, 0, 0.58);
+        }
+        .form-input:-webkit-autofill,
+        .form-input:-webkit-autofill:hover,
+        .form-input:-webkit-autofill:focus,
+        .form-textarea:-webkit-autofill,
+        .form-textarea:-webkit-autofill:hover,
+        .form-textarea:-webkit-autofill:focus {
+            -webkit-text-fill-color: #f5f7ff;
+            box-shadow:
+                inset 0 0 0 1000px rgba(8, 8, 24, 0.96),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+                inset 0 0 24px rgba(0, 255, 240, 0.035);
+            transition: background-color 9999s ease-out 0s;
+            caret-color: #f5f7ff;
+        }
+        .form-textarea {
+            resize: vertical;
+            min-height: clamp(86px, 14vh, 106px);
+            max-height: 22vh;
+        }
+
+        /* Budget Radio Section */
+        .budget-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .budget-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: #FFDD66;
+            transition: color 0.2s ease;
+        }
+        .budget-option:hover {
+            color: #fff;
+        }
+        .budget-option input[type="radio"] {
+            appearance: none;
+            width: 1.2rem;
+            height: 1.2rem;
+            border: 2px solid #ff2a9d;
+            border-radius: 50%;
+            cursor: pointer;
+            position: relative;
+        }
+        .budget-option input[type="radio"]:checked {
+            background: #FFDD66;
+            box-shadow: 0 0 8px #FFDD66;
+        }
+
+        /* Prevent Cut-off */
+        #contactModal .modal-box {
+            scrollbar-width: thin;
+            scrollbar-color: #FFDD66 transparent;
+        }
+        #contactModal .modal-box::-webkit-scrollbar {
+            width: 5px;
+        }
+        #contactModal .modal-box::-webkit-scrollbar-thumb {
+            background: #FFDD66;
+            border-radius: 3px;
+            box-shadow: 0 0 6px rgba(255, 221, 102, 0.7);
+        }
+        .form-btn {
+            background:
+                linear-gradient(180deg, rgba(18, 16, 58, 0.95), rgba(6, 6, 18, 0.96)),
+                url('./assets/silly/ysj-grain.gif');
+            background-size: cover, 220px 220px;
+            background-blend-mode: normal, screen;
+            border: 2px solid #FFDD66;
+            color: #FFDD66;
+            font-family: inherit;
+            font-weight: normal;
+            font-size: clamp(1.85rem, 3vw, 2.45rem);
+            text-shadow: 
+                4px 4px 0 #000,
+                0 0 10px rgba(255, 234, 0, 0.9);
+            letter-spacing: 0.1em;
+            padding: 0.78rem 0.9rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            margin-top: 0.55rem;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            line-height: 1;
+            border-radius: 16px 6px 16px 6px;
+            box-shadow:
+                0 0 18px rgba(255, 234, 0, 0.14),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+        }
+        .form-btn:hover {
+            background:
+                linear-gradient(180deg, rgba(255, 240, 70, 0.96), rgba(255, 214, 24, 0.94)),
+                url('./assets/silly/ysj-grain.gif');
+            background-size: cover, 220px 220px;
+            background-blend-mode: normal, soft-light;
+            color: #121238;
+            text-shadow:
+                1px 1px 0 rgba(255, 255, 255, 0.18),
+                0 0 8px rgba(255, 255, 255, 0.16);
+            box-shadow:
+                0 0 20px rgba(255, 234, 0, 0.55),
+                inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+        }
+        
+        /* Glitch Animation on Click */
+        .form-btn.glitch-click {
+            animation: btnGlitch 0.4s cubic-bezier(.25, .46, .45, .94) both;
+        }
+
+        @keyframes btnGlitch {
+            0% { transform: translate(0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-4px, 4px); filter: hue-rotate(90deg) invert(1); }
+            40% { transform: translate(-4px, -4px); filter: hue-rotate(-90deg); }
+            60% { transform: translate(4px, 4px); filter: saturate(3); }
+            80% { transform: translate(4px, -4px); filter: sepia(1); }
+            100% { transform: translate(0); filter: hue-rotate(0deg); }
+        }
+
+        /* Quick Contact Buttons */
+        .quick-contact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.55rem;
+            margin-top: 0.4rem;
+        }
+        .quick-contact-or {
+            font-size: 1.1rem;
+            letter-spacing: 0.12em;
+            color: rgba(255, 42, 157, 0.6);
+            text-shadow: 0 0 8px rgba(255, 42, 157, 0.3);
+        }
+        .quick-contact-btns {
+            display: flex;
+            gap: 0.75rem;
+            width: 100%;
+        }
+        .quick-btn {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-family: inherit;
+            font-size: 1.5rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 0.5rem 0.6rem 0.45rem;
+            border-radius: 12px 4px 12px 4px;
+            transition: all 0.2s ease;
+            line-height: 1.1;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+        .quick-btn-sub {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            opacity: 0.7;
+            margin-top: 0.15em;
+        }
+        .quick-btn-email {
+            color: #FFDD66;
+            border: 1px solid rgba(255, 234, 0, 0.5);
+            background: rgba(255, 234, 0, 0.04);
+            text-shadow: 0 0 8px rgba(255, 234, 0, 0.4);
+        }
+        .quick-btn-email:hover {
+            background: rgba(255, 234, 0, 0.1);
+            border-color: #FFDD66;
+            text-shadow: 0 0 12px rgba(255, 234, 0, 0.8);
+            box-shadow: 0 0 14px rgba(255, 234, 0, 0.2);
+        }
+        .quick-btn-call {
+            color: #ff2a9d;
+            border: 1px solid rgba(255, 42, 157, 0.5);
+            background: rgba(255, 42, 157, 0.04);
+            text-shadow: 0 0 8px rgba(255, 42, 157, 0.4);
+        }
+        .quick-btn-call:hover {
+            background: rgba(255, 42, 157, 0.1);
+            border-color: #ff2a9d;
+            text-shadow: 0 0 12px rgba(255, 42, 157, 0.8);
+            box-shadow: 0 0 14px rgba(255, 42, 157, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .content { padding-top: 5vh; }
+            .title-group { width: min(94vw, 620px); }
+            .title-logo { width: min(100%, 420px); }
+            .nav-menu { margin-top: 22vh; gap: 1.5rem; }
+            .nav-link { 
+                font-size: 1.8rem; /* Bumping back up for better balance */
+                text-shadow: 2px 2px 0 #000, 0 0 10px rgba(245, 224, 39, 1);
+                letter-spacing: 0.1em;
+            }
+            #contactModal {
+                padding: 0.75rem;
+            }
+            #contactModal .modal-box {
+                width: min(100%, calc(100vw - 1.5rem));
+                max-height: 92vh;
+                padding-right: 0;
+            }
+            #contactModal .modal-close {
+                top: -2rem;
+                font-size: 1.25rem;
+            }
+            #trailerModal .modal-close,
+            #trailerModal .modal-action {
+                top: -2rem;
+                font-size: 1.1rem;
+            }
+            .contact-form {
+                gap: 0.55rem;
+                padding: 0.9rem;
+            }
+            .contact-form h2 {
+                font-size: 1.5rem;
+                margin-bottom: 0.1rem;
+            }
+            .contact-form h2.big-header {
+                font-size: 1.95rem;
+                margin-top: 0.35rem;
+            }
+            .form-group {
+                gap: 0.15rem;
+                margin-bottom: 0.1rem;
+            }
+            .form-group label {
+                font-size: 0.8rem;
+            }
+            .form-row {
+                gap: 0.55rem;
+            }
+            .form-input,
+            .form-textarea,
+            .form-select {
+                font-size: 1rem;
+                padding: 0.7rem 0.75rem;
+            }
+            .form-textarea {
+                min-height: 84px;
+                max-height: 20vh;
+            }
+            .budget-toggle-group {
+                gap: 0.4rem;
+            }
+            .budget-btn {
+                font-size: 0.9rem;
+                padding: 0.62rem 0.2rem;
+            }
+            .form-btn {
+                font-size: 1.55rem;
+                padding: 0.72rem 0.75rem;
+                margin-top: 0.35rem;
+            }
+
+            .bg-mobile { 
+                display: block; 
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transform: scale(1.8); /* Bumped scale to make the character more prominent */
+                transform-origin: center center;
+                object-position: 12% 85%; /* Shifting to focus specifically on the character's back/jacket area */
+            }
+        }
+    </style>
+    <script src="https://player.vimeo.com/api/player.js"></script>
 </head>
+<body class="intro-active">
 
-<body>
-  <div class="letterbox-reveal" aria-hidden="true">
-    <div class="letterbox-bar top"></div>
-    <div class="letterbox-bar bottom"></div>
-  </div>
-  <div class="hero">
-    <img src="./bg_desktop_fast.webp" class="bg-img desktop" alt="" />
-    <img src="./bg_mobile_fast.webp" class="bg-img mobile" alt="" />
-    <div class="light-spill" aria-hidden="true"></div>
-
-    <div class="neon-wrapper">
-      <a class="neon-link" href="https://vimeo.com/1161209754/a9410cc12b?share=copy&fl=sv&fe=ci" aria-label="Play trailer"
-        data-lightbox-trigger>
-        <span class="neon-fill">PLAY TRAILER</span>
-        <span class="neon-outline">PLAY TRAILER</span>
-      </a>
+    <div class="opening-mask" id="openingMask" aria-hidden="true">
+        <div class="opening-mask-bar opening-mask-top"></div>
+        <div class="opening-mask-bar opening-mask-bottom"></div>
+        <div class="opening-mask-centerline"></div>
     </div>
-  </div>
 
-  <div class="vhs-static" aria-hidden="true"></div>
-  <div class="glitch-gif" aria-hidden="true"></div>
-  <video class="glitch-video-overlay" id="glitchVideo" playsinline preload="auto" muted>
-    <source src="./assets/glitchy/Glitchy_01.mov" type="video/quicktime">
-  </video>
-  <div class="lightbox" id="trailerLightbox" aria-hidden="true">
-    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="YSJ trailer video">
-      <button class="lightbox-close" type="button" aria-label="Close trailer">CLOSE</button>
-      <iframe class="lightbox-frame" id="trailerFrame" title="YSJ Trailer" src=""
-        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+    <div class="intro-status" aria-live="polite">
+        <span class="intro-status-label">Loading assets</span>
+        <span class="intro-status-dots" aria-hidden="true">
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+        </span>
     </div>
-  </div>
 
-  <div class="pw-modal" id="pwModal" aria-hidden="true">
-    <div class="pw-dialog" role="dialog" aria-modal="true" aria-label="Trailer password">
-      <h3 class="pw-title">ACCESS CHECK</h3>
-      <p class="pw-line" id="pwLine"></p>
+    <!-- Background Layer (Double Stacked for Wide / Single for Mobile) -->
+    <div class="background-container">
+        <!-- Desktop Stack -->
+        <div class="bg-desktop-stack">
+            <!-- Blurred Full Animation Background -->
+            <video class="bg-layer bg-blur" id="bgBlurVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+                <source src="./assets/optimized/ysj-animation-mixed-intro-loop.mp4" type="video/mp4">
+            </video>
+            <!-- Clear Color-Graded Foreground -->
+            <video class="bg-layer bg-clear" id="bgClearVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+                <source src="./assets/optimized/ysj-animation-social-intro-color.mp4" type="video/mp4">
+            </video>
+        </div>
+        
+        <!-- Mobile Background -->
+        <video class="bg-mobile" id="bgMobileVideo" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+            <source src="./assets/optimized/ysj-animation-social-intro-color.mp4" type="video/mp4">
+        </video>
     </div>
-  </div>
-
-  <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false">SOUND OFF</button>
-
-  <audio id="ambientAudio" preload="auto" loop>
-    <source src="./assets/SFX/ES_Ambience, Scifi, Space Atmosphere, Dark, Creepy, Resonant - Epidemic Sound.wav" type="audio/wav">
-  </audio>
-  <audio id="typingAudio" preload="auto">
-    <source src="./assets/SFX/ES_Computers, Keyboard & Mouse, Keyboard, Apple Magic, Typing, Moderate - Epidemic Sound.wav" type="audio/wav">
-  </audio>
-  <audio id="completeAudio" preload="auto">
-    <source src="./assets/SFX/ES Voice Data Transfer Complete.wav" type="audio/wav">
-  </audio>
-  <audio id="clickAudio" preload="auto">
-    <source src="./assets/SFX/ES_Computers, Keyboard & Mouse, Apple Magic Mouse Double Click - Epidemic Sound.wav" type="audio/wav">
-  </audio>
-  <audio id="swellAudio" preload="auto">
-    <source src="./assets/SFX/ES_Magic, Angelic, Swell, Peaceful, Shimmer, Chime 10 - Epidemic Sound.wav" type="audio/wav">
-  </audio>
-  <audio id="fluorescentAudio" preload="auto">
-    <source src="./assets/SFX/ES_Electricity, Misc, Fluorescent Light, Neon Tube, Turned On, Off, Melodic Noise - Epidemic Sound.wav" type="audio/wav">
-  </audio>
-  <audio id="glitchBurstAudio" preload="auto">
-    <source src="./assets/glitchy/Glitchy_01.mov" type="video/quicktime">
-  </audio>
-
-  <!-- Intro animation: preloaded in background, plays before teaser -->
-  <video id="introVideoPreload" src="./assets/YSJ_ANIMATION_MIXED.mp4" preload="auto" muted playsinline style="display:none" aria-hidden="true"></video>
-
-  <section class="intro-overlay" id="introOverlay" aria-hidden="true">
-    <video class="intro-video" id="introVideo" src="./assets/YSJ_ANIMATION_MIXED.mp4" playsinline></video>
-    <div class="intro-letterbox" id="introLetterbox" aria-hidden="true">
-      <div class="intro-letterbox-bar top"></div>
-      <div class="intro-letterbox-bar bottom"></div>
+    
+    <!-- Flash Effect overlay -->
+    <div class="flash-animation" id="flashAnimation" aria-hidden="true">
+        <video class="flash-animation-media" id="flashVideo" muted playsinline preload="none"></video>
     </div>
-    <button class="intro-skip" type="button" id="introSkip">SKIP INTRO</button>
-  </section>
 
-  <section class="silly-overlay" id="sillyOverlay" aria-hidden="true">
-    <img class="silly-bg" src="./assets/silly_bg.gif" alt="" />
-    <div class="silly-dim"></div>
-    <button class="silly-exit" type="button" id="sillyExit">EXIT SILLY MODE</button>
-    <h2 class="silly-title">SILLY MODE</h2>
-  </section>
+    <!-- Retro Overlays -->
+    <div class="dim-overlay"></div>
+    <div class="grain-overlay"></div>
+    <div class="scanlines"></div>
 
-  <script>
-    const hero = document.querySelector('.hero');
-    const desktopBg = document.querySelector('.bg-img.desktop');
-    const mobileBg = document.querySelector('.bg-img.mobile');
-    const neonWrapper = document.querySelector('.neon-wrapper');
-    const lightSpill = document.querySelector('.light-spill');
-    const trigger = document.querySelector('[data-lightbox-trigger]');
-    const lightbox = document.getElementById('trailerLightbox');
-    const closeButton = document.querySelector('.lightbox-close');
-    const frame = document.getElementById('trailerFrame');
-    const pwModal = document.getElementById('pwModal');
-    const pwLine = document.getElementById('pwLine');
-    const soundToggle = document.getElementById('soundToggle');
-    const ambientAudio = document.getElementById('ambientAudio');
-    const typingAudio = document.getElementById('typingAudio');
-    const completeAudio = document.getElementById('completeAudio');
-    const clickAudio = document.getElementById('clickAudio');
-    const swellAudio = document.getElementById('swellAudio');
-    const fluorescentAudio = document.getElementById('fluorescentAudio');
-    const glitchVideo = document.getElementById('glitchVideo');
-    const glitchBurstAudio = document.getElementById('glitchBurstAudio');
-    const introOverlay = document.getElementById('introOverlay');
-    const introVideo = document.getElementById('introVideo');
-    const introSkip = document.getElementById('introSkip');
-    const sillyOverlay = document.getElementById('sillyOverlay');
-    const sillyExit = document.getElementById('sillyExit');
-    const embedUrl = 'https://player.vimeo.com/video/1161209754?h=a9410cc12b&autoplay=1';
-    const pin = {
-      desktop: { x: 0.51, y: 0.485 },
-      mobile: { x: 0.51, y: 0.485 },
-      spillYOffset: 0.02,
-      fontScaleDesktop: 0.105,
-      fontScaleMobile: 0.074,
-      fontMinDesktop: 54,
-      fontMaxDesktop: 155,
-      fontMinMobile: 20,
-      fontMaxMobile: 72,
-      shelfWidthDesktop: 0.76,
-      shelfWidthMobile: 0.84,
-      shelfHeightDesktop: 0.14,
-      shelfHeightMobile: 0.16
-    };
-    let soundEnabled = true;
-    let ambientPrimed = false;
-    let typingTimer = null;
-    let glitchTimer = null;
-    let clickSfxTimer = null;
-    let flickerTimer = null;
-    let flickerActive = false;
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Title & Glitch Group -->
+        <div class="title-group">
+            <div class="title-logo-shell" aria-label="Yellow Satin Jacket logo animation">
+            <video class="title-logo-source" id="titleLogo" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+                <source src="./assets/optimized/ysj-title-slow-alpha-tight.webm" type="video/webm">
+            </video>
+            <canvas class="title-logo" id="titleLogoCanvas" width="800" height="450" aria-hidden="true"></canvas>
+            <img class="title-logo title-logo-fallback" id="titleLogoFallback" src="./assets/optimized/ysj-title-fallback-clean.png" alt="Yellow Satin Jacket">
+            </div>
+        </div>
 
-    function getActiveBg() {
-      const desktopVisible = window.getComputedStyle(desktopBg).display !== 'none';
-      return desktopVisible ? desktopBg : mobileBg;
-    }
+        <!-- Navigation Menu -->
+        <nav class="nav-menu">
+            <a class="nav-link" id="playBtn" tabindex="0">PLAY TRAILER</a>
+            <a class="nav-link" id="contactBtn" tabindex="0">CONTACT</a>
+        </nav>
+    </main>
 
-    function syncPinnedNeon() {
-      const activeBg = getActiveBg();
-      const heroWidth = hero.clientWidth;
-      const heroHeight = hero.clientHeight;
-      const naturalWidth = activeBg.naturalWidth;
-      const naturalHeight = activeBg.naturalHeight;
-      if (!heroWidth || !heroHeight || !naturalWidth || !naturalHeight) return;
+    <!-- Trailer Modal -->
+    <div class="modal" id="trailerModal" role="dialog" aria-modal="true" aria-label="YSJ Trailer">
+        <div class="modal-backdrop">
+            <video class="modal-backdrop-media" id="trailerBackdropVideo" muted loop playsinline preload="none" aria-hidden="true"></video>
+        </div>
+        <div class="modal-box">
+            <button class="modal-action modal-action-left" id="fullscreenBtn" type="button">FULL SCREEN</button>
+            <button class="modal-close" onclick="closeTrailerModal()">CLOSE X</button>
+            <div class="video-wrap" id="trailerVideoWrap">
+                <iframe
+                    id="trailerFrame"
+                    src=""
+                    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                    title="Yellow Satin Jacket Trailer"
+                ></iframe>
+            </div>
+        </div>
+    </div>
 
-      const scale = Math.max(heroWidth / naturalWidth, heroHeight / naturalHeight);
-      const drawnWidth = naturalWidth * scale;
-      const drawnHeight = naturalHeight * scale;
-      const offsetX = (heroWidth - drawnWidth) / 2;
-      const offsetY = (heroHeight - drawnHeight) / 2;
+    <!-- Contact Modal -->
+    <div class="modal" id="contactModal" role="dialog" aria-modal="true" aria-label="Contact Yellow Satin Jacket">
+        <div class="modal-backdrop">
+            <video class="modal-backdrop-media" id="contactBackdropVideo" muted loop playsinline preload="none" aria-hidden="true"></video>
+        </div>
+        <div class="modal-box">
+            <button class="modal-close" onclick="closeContactModal()">CLOSE X</button>
+            <form action="mailto:mk@yellowsatinjacket.com" method="POST" enctype="text/plain" class="contact-form" id="contactForm">
+                <h2>WHO ARE YOU?</h2>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" class="form-input" placeholder="NAME" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" class="form-input" placeholder="EMAIL" required>
+                    </div>
+                </div>
 
-      const anchor = activeBg === mobileBg ? pin.mobile : pin.desktop;
-      const left = offsetX + (anchor.x * drawnWidth);
-      const top = offsetY + (anchor.y * drawnHeight);
-      const mobileMode = activeBg === mobileBg;
-      const fontScale = mobileMode ? pin.fontScaleMobile : pin.fontScaleDesktop;
-      const fontMin = mobileMode ? pin.fontMinMobile : pin.fontMinDesktop;
-      const fontMax = mobileMode ? pin.fontMaxMobile : pin.fontMaxDesktop;
-      let fontSize = Math.max(fontMin, Math.min(fontMax, drawnWidth * fontScale));
+                <h2 class="big-header">WHAT'S YOUR DREAM PROJECT?</h2>
+                <div class="form-group">
+                    <label>What do you need support with?</label>
+                    <textarea id="message" name="message" class="form-textarea" required></textarea>
+                </div>
 
-      neonWrapper.style.left = `${left}px`;
-      neonWrapper.style.top = `${top}px`;
-      neonWrapper.style.fontSize = `${fontSize}px`;
-      lightSpill.style.left = `${left}px`;
-      lightSpill.style.top = `${top + (pin.spillYOffset * drawnHeight)}px`;
+                <div class="form-group">
+                    <label>BUDGET?</label>
+                    <div class="budget-toggle-group">
+                        <input type="hidden" id="budget_val" name="budget" value="">
+                        <button type="button" class="budget-btn" data-value=">$25k" onclick="setBudget(this)">>$25k</button>
+                        <button type="button" class="budget-btn" data-value="$25k-$50k" onclick="setBudget(this)">$25k-$50k</button>
+                        <button type="button" class="budget-btn" data-value="$50k+" onclick="setBudget(this)">$50k+</button>
+                    </div>
+                </div>
 
-      // Iterative shrink: keep reducing font size until sign fits shelf bounds.
-      // Handles extreme browser zoom levels (150%, 250%) without clipping.
-      const maxShelfWidth = drawnWidth * (mobileMode ? pin.shelfWidthMobile : pin.shelfWidthDesktop);
-      const maxViewportWidth = heroWidth * (mobileMode ? 0.94 : 0.98);
-      const maxShelfHeight = drawnHeight * (mobileMode ? pin.shelfHeightMobile : pin.shelfHeightDesktop);
-      const HARD_MIN = 10; // allow down to 10px at extreme zoom
-      for (let i = 0; i < 30; i++) {
-        neonWrapper.style.fontSize = `${fontSize}px`;
-        const r = neonWrapper.getBoundingClientRect();
-        const widthLimit = Math.min(maxShelfWidth, maxViewportWidth);
-        if (r.width <= widthLimit && r.height <= maxShelfHeight) break;
-        const shrink = Math.min(widthLimit / r.width, maxShelfHeight / r.height);
-        const next = Math.max(HARD_MIN, fontSize * shrink * 0.97); // 3% safety margin
-        if (next === fontSize) break; // can't shrink further
-        fontSize = next;
-      }
-      neonWrapper.style.fontSize = `${fontSize}px`;
+                <button type="submit" class="form-btn" id="sendFlareBtn">SEND CORRESPONDANCE</button>
 
-    }
+                <div class="quick-contact">
+                    <span class="quick-contact-or">— OR —</span>
+                    <div class="quick-contact-btns">
+                        <a href="mailto:mk@yellowsatinjacket.com" class="quick-btn quick-btn-email">EMAIL ME</a>
+                        <a href="tel:+18337435463" class="quick-btn quick-btn-call">CALL SHEL<span class="quick-btn-sub">LEAVE A VOICEMAIL</span></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    function openLightbox(event) {
-      event.preventDefault();
-      openPasswordGate();
-    }
+    <script>
+        const TRAILER_URL = 'https://player.vimeo.com/video/1161209754?h=a9410cc12b&badge=0&autopause=0&autoplay=0&player_id=0&app_id=58479&title=0&byline=0&portrait=0&color=FFDD66&dnt=1';
+        const HERO_CLEAR_URL = './assets/optimized/ysj-animation-social-intro-color.mp4';
+        const HERO_BLUR_URL = './assets/optimized/ysj-animation-mixed-intro-loop.mp4';
+        const TITLE_FALLBACK_FRAMES = [
+            './assets/optimized/ysj-title-fallback-clean.png',
+            './assets/optimized/ysj-title-fallback-clean.png',
+            './assets/optimized/ysj-title-fallback-01.png',
+            './assets/optimized/ysj-title-fallback-02.png',
+            './assets/optimized/ysj-title-fallback-clean.png',
+            './assets/optimized/ysj-title-fallback-03.png',
+            './assets/optimized/ysj-title-fallback-04.png',
+            './assets/optimized/ysj-title-fallback-05.png',
+            './assets/optimized/ysj-title-fallback-06.png'
+        ];
+        const TRAILER_BACKDROP_URL = './assets/optimized/ysj-glasses-loop.mp4';
+        const CONTACT_BACKDROP_URL = './assets/optimized/ysj-animation-mixed-close-up.mp4';
+        const END_BURST_URL = './assets/optimized/ysj-animation-mixed-end.mp4';
 
-    function showLightbox() {
-      lightbox.classList.add('is-open');
-      lightbox.setAttribute('aria-hidden', 'false');
-      frame.src = embedUrl;
-      soundToggle.classList.add('is-hidden');
-      ambientAudio.pause();
-    }
+        const trailerModal  = document.getElementById('trailerModal');
+        const trailerFrame  = document.getElementById('trailerFrame');
+        const trailerVideoWrap = document.getElementById('trailerVideoWrap');
+        const trailerBackdropVideo = document.getElementById('trailerBackdropVideo');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        let vimeoPlayer = null;
 
-    function openPasswordGate() {
-      pwModal.classList.add('is-open');
-      pwModal.setAttribute('aria-hidden', 'false');
-      pwLine.classList.remove('is-loading');
-      pwLine.textContent = '';
-      playTypingSfx();
-      typePasswordLine('SEKRET PW: callshel', 320, () => {
-        stopTypingSfx();
-        window.setTimeout(() => {
-          playLoadingDots(8, 240, () => {
-            playCompleteSfx();
-            window.setTimeout(() => {
-              pwModal.classList.remove('is-open');
-              pwModal.setAttribute('aria-hidden', 'true');
-              pwLine.classList.remove('is-loading');
-              showIntro();
-            }, 2400);
-          });
-        }, 1500);
-      });
-    }
-
-    function typePasswordLine(text, speed, done) {
-      let i = 0;
-      const tick = () => {
-        pwLine.textContent = text.slice(0, i);
-        i += 1;
-        if (i <= text.length) {
-          typingTimer = window.setTimeout(tick, speed);
-        } else if (done) {
-          done();
+        function initVimeoPlayer() {
+            if (!window.Vimeo || !trailerFrame) return;
+            if (vimeoPlayer) { vimeoPlayer.destroy().catch(() => {}); }
+            vimeoPlayer = new Vimeo.Player(trailerFrame);
+            // Ensure paused on load — Vimeo dashboard autoplay setting can override the URL param
+            vimeoPlayer.ready().then(() => vimeoPlayer.pause()).catch(() => {});
         }
-      };
-      tick();
-    }
+        const playBtn       = document.getElementById('playBtn');
+        
+        const contactModal  = document.getElementById('contactModal');
+        const contactBackdropVideo = document.getElementById('contactBackdropVideo');
+        const contactBtn    = document.getElementById('contactBtn');
+        
+        const flashAnim     = document.getElementById('flashAnimation');
+        const flashVideo    = document.getElementById('flashVideo');
+        const bgBlurVideo   = document.getElementById('bgBlurVideo');
+        const bgClearVideo  = document.getElementById('bgClearVideo');
+        const bgMobileVideo = document.getElementById('bgMobileVideo');
+        const titleLogo     = document.getElementById('titleLogo');
+        const titleLogoCanvas = document.getElementById('titleLogoCanvas');
+        const titleLogoFallback = document.getElementById('titleLogoFallback');
+        const titleLogoContext = titleLogoCanvas?.getContext('2d', { alpha: true, willReadFrequently: true });
+        let titleRenderStarted = false;
+        let titleFallbackTimer = null;
+        const useStaticTitleFallback = (() => {
+            const ua = navigator.userAgent || '';
+            const isIOSDevice = /iP(hone|od|ad)/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+            const isWebKitFamily = /WebKit/i.test(ua);
+            return isIOSDevice && isWebKitFamily;
+        })();
 
-    function playLoadingDots(totalDots, speed, done) {
-      let i = 0;
-      pwLine.textContent = '';
-      pwLine.classList.add('is-loading');
-      const tick = () => {
-        pwLine.textContent += '.';
-        i += 1;
-        if (i < totalDots) {
-          typingTimer = window.setTimeout(tick, speed);
-        } else if (done) {
-          done();
+        if (useStaticTitleFallback) {
+            document.body.classList.add('use-title-fallback');
+            if (titleLogoFallback) {
+                titleLogoFallback.src = TITLE_FALLBACK_FRAMES[0];
+            }
         }
-      };
-      tick();
-    }
 
-    function syncSoundButton() {
-      soundToggle.textContent = soundEnabled ? 'SOUND ON' : 'SOUND OFF';
-      soundToggle.setAttribute('aria-pressed', soundEnabled ? 'true' : 'false');
-      soundToggle.classList.toggle('is-on', soundEnabled);
-      soundToggle.classList.toggle('is-off', !soundEnabled);
-    }
+        function ensureVideoSource(videoEl, src, shouldLoop = true) {
+            if (!videoEl || !src) return;
+            if (videoEl.dataset.src !== src) {
+                videoEl.src = src;
+                videoEl.dataset.src = src;
+                videoEl.load();
+            }
+            videoEl.loop = shouldLoop;
+        }
 
-    function primeAmbient() {
-      if (ambientPrimed || !soundEnabled) return;
-      ambientPrimed = true;
-      ambientAudio.volume = 0.26;
-      ambientAudio.play().catch(() => {
-        ambientPrimed = false;
-      });
-    }
+        function playVideo(videoEl, { reset = false } = {}) {
+            if (!videoEl) return;
+            if (reset) videoEl.currentTime = 0;
+            if (videoEl === titleLogo) {
+                videoEl.playbackRate = 1;
+            }
+            videoEl.play().catch(() => {});
+        }
 
-    function playTypingSfx() {
-      if (!soundEnabled) return;
-      typingAudio.currentTime = 0;
-      typingAudio.volume = 0.60;
-      typingAudio.play().catch(() => {});
-    }
+        function pauseAndClearVideo(videoEl, { clear = false } = {}) {
+            if (!videoEl) return;
+            videoEl.pause();
+            if (clear) {
+                videoEl.removeAttribute('src');
+                delete videoEl.dataset.src;
+                videoEl.load();
+            }
+        }
 
-    function stopTypingSfx() {
-      typingAudio.pause();
-      typingAudio.currentTime = 0;
-    }
+        function waitForVideoReady(videoEl) {
+            if (!videoEl) return Promise.resolve();
+            if (videoEl.readyState >= 2) {
+                if (typeof videoEl.requestVideoFrameCallback === 'function') {
+                    return new Promise((resolve) => {
+                        videoEl.requestVideoFrameCallback(() => resolve());
+                    });
+                }
+                return Promise.resolve();
+            }
 
-    function playCompleteSfx() {
-      if (!soundEnabled) return;
-      completeAudio.currentTime = 0;
-      completeAudio.volume = 0.72;
-      completeAudio.play().catch(() => {});
-    }
+            return new Promise((resolve) => {
+                let settled = false;
+                const done = () => {
+                    if (settled) return;
+                    settled = true;
+                    videoEl.removeEventListener('loadeddata', done);
+                    videoEl.removeEventListener('canplay', done);
+                    videoEl.removeEventListener('playing', done);
+                    videoEl.removeEventListener('error', done);
+                    resolve();
+                };
 
-    function playClickSfx() {
-      if (!soundEnabled) return;
-      if (clickSfxTimer) window.clearTimeout(clickSfxTimer);
-      clickAudio.currentTime = 0;
-      clickAudio.volume = 0.68;
-      clickAudio.play().catch(() => {});
-      clickSfxTimer = window.setTimeout(() => {
-        clickAudio.pause();
-        clickAudio.currentTime = 0;
-      }, 2000);
-    }
+                videoEl.addEventListener('loadeddata', done, { once: true });
+                videoEl.addEventListener('canplay', done, { once: true });
+                videoEl.addEventListener('playing', done, { once: true });
+                videoEl.addEventListener('error', done, { once: true });
+            });
+        }
 
-    function startSwellSfx() {
-      if (!soundEnabled) return;
-      // Restart swell on each hover/focus so the cue is always noticeable.
-      if (!swellAudio.paused) {
-        swellAudio.pause();
-      }
-      swellAudio.currentTime = 0;
-      swellAudio.volume = 0.60;
-      swellAudio.play().catch(() => {});
-    }
+        function syncTitleCanvasSize() {
+            if (!titleLogoCanvas || !titleLogo) return;
+            const nextWidth = titleLogo.videoWidth || 800;
+            const nextHeight = titleLogo.videoHeight || 450;
+            if (titleLogoCanvas.width !== nextWidth || titleLogoCanvas.height !== nextHeight) {
+                titleLogoCanvas.width = nextWidth;
+                titleLogoCanvas.height = nextHeight;
+            }
+        }
 
-    function stopSwellSfx() {
-      swellAudio.pause();
-      swellAudio.currentTime = 0;
-    }
+        function drawTitleFrame() {
+            if (!titleLogo || !titleLogoCanvas || !titleLogoContext || titleLogo.readyState < 2) return;
 
-    function playFluorescentSfx() {
-      if (!soundEnabled) return;
-      fluorescentAudio.currentTime = 0;
-      fluorescentAudio.volume = 0.46;
-      fluorescentAudio.play().catch(() => {});
-    }
+            syncTitleCanvasSize();
+            const frameWidth = titleLogoCanvas.width;
+            const frameHeight = titleLogoCanvas.height;
 
-    function stopFluorescentSfx() {
-      fluorescentAudio.pause();
-      fluorescentAudio.currentTime = 0;
-    }
+            titleLogoContext.clearRect(0, 0, frameWidth, frameHeight);
+            titleLogoContext.drawImage(titleLogo, 0, 0, frameWidth, frameHeight);
 
-    function seedNeonCharacters() {
-      const fill = trigger.querySelector('.neon-fill');
-      const outline = trigger.querySelector('.neon-outline');
-      if (!fill || !outline) return;
-      const text = fill.textContent || 'PLAY TRAILER';
-      const render = (node) => {
-        node.textContent = '';
-        [...text].forEach((ch, idx) => {
-          const span = document.createElement('span');
-          span.className = ch === ' ' ? 'char char-space' : 'char';
-          span.dataset.idx = String(idx);
-          span.textContent = ch === ' ' ? '\u00A0' : ch;
-          node.appendChild(span);
+            const frame = titleLogoContext.getImageData(0, 0, frameWidth, frameHeight);
+            const { data } = frame;
+
+            for (let i = 0; i < data.length; i += 4) {
+                const red = data[i];
+                const green = data[i + 1];
+                const blue = data[i + 2];
+                const min = Math.min(red, green, blue);
+                const max = Math.max(red, green, blue);
+                const spread = max - min;
+
+                if (min > 222 && spread < 16) {
+                    data[i + 3] = 0;
+                    continue;
+                }
+
+                if (min > 196 && spread < 22) {
+                    data[i + 3] = Math.min(data[i + 3], 92);
+                }
+            }
+
+            titleLogoContext.putImageData(frame, 0, 0);
+        }
+
+        function startTitleCanvasRender() {
+            if (titleRenderStarted || !titleLogo) return;
+            titleRenderStarted = true;
+
+            if (typeof titleLogo.requestVideoFrameCallback === 'function') {
+                const render = () => {
+                    drawTitleFrame();
+                    titleLogo.requestVideoFrameCallback(render);
+                };
+                titleLogo.requestVideoFrameCallback(render);
+                return;
+            }
+
+            const render = () => {
+                drawTitleFrame();
+                if (!titleLogo.paused && !titleLogo.ended) {
+                    requestAnimationFrame(render);
+                } else {
+                    titleRenderStarted = false;
+                }
+            };
+
+            requestAnimationFrame(render);
+        }
+
+        function startTitleFallbackAnimation() {
+            if (!useStaticTitleFallback || !titleLogoFallback) return;
+            if (titleFallbackTimer) clearInterval(titleFallbackTimer);
+
+            let frameIndex = 0;
+            const preloadFrames = TITLE_FALLBACK_FRAMES.map((src) => {
+                const img = new Image();
+                img.src = src;
+                return img;
+            });
+
+            const applyFrame = () => {
+                titleLogoFallback.src = TITLE_FALLBACK_FRAMES[frameIndex];
+                frameIndex = (frameIndex + 1) % TITLE_FALLBACK_FRAMES.length;
+            };
+
+            applyFrame();
+            titleFallbackTimer = setInterval(applyFrame, 520);
+
+            if (preloadFrames.length) {
+                titleLogoFallback.decoding = 'async';
+            }
+        }
+
+        function triggerScreenFlash(assetUrl, variant) {
+            flashAnim.classList.remove('flash', 'trailer-flash', 'contact-flash');
+            void flashAnim.offsetWidth;
+            ensureVideoSource(flashVideo, assetUrl, false);
+            playVideo(flashVideo, { reset: true });
+            if (variant) flashAnim.classList.add(variant);
+            flashAnim.classList.add('flash');
+        }
+
+        async function startOpeningSequence() {
+            ensureVideoSource(bgBlurVideo, HERO_BLUR_URL, true);
+            ensureVideoSource(bgClearVideo, HERO_CLEAR_URL, true);
+            ensureVideoSource(bgMobileVideo, HERO_CLEAR_URL, true);
+            playVideo(bgBlurVideo);
+            playVideo(bgClearVideo);
+            playVideo(bgMobileVideo);
+            if (!useStaticTitleFallback) {
+                playVideo(titleLogo);
+                drawTitleFrame();
+                startTitleCanvasRender();
+            } else {
+                startTitleFallbackAnimation();
+            }
+
+            const heroVideos = window.matchMedia('(max-width: 768px)').matches
+                ? (useStaticTitleFallback ? [bgMobileVideo] : [bgMobileVideo, titleLogo])
+                : (useStaticTitleFallback ? [bgBlurVideo, bgClearVideo] : [bgBlurVideo, bgClearVideo, titleLogo]);
+
+            await Promise.race([
+                Promise.all(heroVideos.map(waitForVideoReady)),
+                new Promise((resolve) => setTimeout(resolve, 4200))
+            ]);
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    document.body.classList.add('intro-open');
+                });
+            });
+
+            setTimeout(() => {
+                document.body.classList.add('intro-logo-visible');
+            }, 1550);
+
+            setTimeout(() => {
+                document.body.classList.add('intro-menu-visible');
+            }, 2450);
+
+            setTimeout(() => {
+                document.body.classList.add('intro-finished');
+            }, 3350);
+        }
+
+        startOpeningSequence();
+
+        // Play Trailer logic
+        function openTrailerModal(e) {
+            if (e) e.preventDefault();
+            
+            // 1. Trigger the trailer flash animation
+            triggerScreenFlash(END_BURST_URL, 'contact-flash');
+            ensureVideoSource(trailerBackdropVideo, TRAILER_BACKDROP_URL, true);
+            playVideo(trailerBackdropVideo, { reset: true });
+            
+            // 2. Open modal almost immediately to pop-up behind flash
+            setTimeout(() => {
+                trailerFrame.src = TRAILER_URL;
+                trailerModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                setVolumeUI(true); // assume muted until proven otherwise
+                initVimeoPlayer();
+            }, 50);
+            
+            // 3. Clean up the flash class
+            setTimeout(() => {
+                flashAnim.classList.remove('flash', 'contact-flash');
+                pauseAndClearVideo(flashVideo);
+            }, 1200);
+        }
+
+        function closeTrailerModal() {
+            trailerModal.classList.remove('open');
+            trailerFrame.src = '';
+            document.body.style.overflow = '';
+            pauseAndClearVideo(trailerBackdropVideo, { clear: true });
+            if (vimeoPlayer) { vimeoPlayer.destroy().catch(() => {}); vimeoPlayer = null; }
+        }
+
+        async function openTrailerFullscreen(e) {
+            if (e) e.preventDefault();
+
+            const target = trailerFrame || trailerVideoWrap;
+            if (!target) return;
+
+            try {
+                if (target.requestFullscreen) {
+                    await target.requestFullscreen();
+                    return;
+                }
+                if (trailerVideoWrap && trailerVideoWrap.requestFullscreen) {
+                    await trailerVideoWrap.requestFullscreen();
+                    return;
+                }
+                if (target.webkitRequestFullscreen) {
+                    target.webkitRequestFullscreen();
+                    return;
+                }
+                if (trailerVideoWrap && trailerVideoWrap.webkitRequestFullscreen) {
+                    trailerVideoWrap.webkitRequestFullscreen();
+                }
+            } catch (err) {
+                console.warn('Fullscreen request failed', err);
+            }
+        }
+
+        // Contact Modal logic
+        const contactForm = document.getElementById('contactForm');
+        const sendFlareBtn = document.getElementById('sendFlareBtn');
+
+        const contactModalBox = contactModal.querySelector('.modal-box');
+        if (contactModalBox) {
+            contactModalBox.addEventListener('scroll', () => {
+                const atBottom = contactModalBox.scrollHeight - contactModalBox.scrollTop <= contactModalBox.clientHeight + 8;
+                contactModalBox.classList.toggle('at-bottom', atBottom);
+            });
+        }
+
+        function openContactModal(e) {
+            if (e) e.preventDefault();
+
+            // 1. Trigger the flash animation with 'End' asset
+            triggerScreenFlash(END_BURST_URL, 'contact-flash');
+            ensureVideoSource(contactBackdropVideo, CONTACT_BACKDROP_URL, true);
+            playVideo(contactBackdropVideo, { reset: true });
+
+            // 2. Open modal
+            setTimeout(() => {
+                contactModal.classList.remove('send-burst');
+                contactModal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                // Check if content fits without scrolling
+                if (contactModalBox) {
+                    const atBottom = contactModalBox.scrollHeight <= contactModalBox.clientHeight + 8;
+                    contactModalBox.classList.toggle('at-bottom', atBottom);
+                }
+            }, 50);
+            
+            // 3. Clean up the flash class
+            setTimeout(() => {
+                flashAnim.classList.remove('flash', 'contact-flash');
+                pauseAndClearVideo(flashVideo);
+            }, 1200);
+        }
+
+        function closeContactModal() {
+            contactModal.classList.remove('open');
+            contactModal.classList.remove('send-burst');
+            document.body.style.overflow = '';
+            pauseAndClearVideo(contactBackdropVideo, { clear: true });
+        }
+
+        // Budget Toggle Logic
+        function setBudget(btn) {
+            document.querySelectorAll('.budget-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('budget_val').value = btn.getAttribute('data-value');
+        }
+
+        if(contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Stop immediate simple submission to let the glitch play
+                sendFlareBtn.classList.add('glitch-click');
+                sendFlareBtn.textContent = 'MESSAGE SENT!';
+                contactModal.classList.remove('send-burst');
+                void contactModal.offsetWidth;
+                contactModal.classList.add('send-burst');
+                ensureVideoSource(contactBackdropVideo, END_BURST_URL, true);
+                playVideo(contactBackdropVideo, { reset: true });
+                
+                setTimeout(() => {
+                    sendFlareBtn.classList.remove('glitch-click');
+                    
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const message = document.getElementById('message').value;
+                    const budget = document.getElementById('budget_val').value || 'Not specified';
+                    
+                    const subject = encodeURIComponent("Website Contact from " + name);
+                    const body = encodeURIComponent(
+                        "Dream Project / How I can help:\n" + message + 
+                        "\n\nBudget: " + budget +
+                        "\nFrom: " + name + 
+                        "\nEmail: " + email
+                    );
+                    
+                    window.location.href = `mailto:mk@yellowsatinjacket.com?subject=${subject}&body=${body}`;
+                    
+                    setTimeout(() => {
+                        sendFlareBtn.textContent = 'SEND CORRESPONDANCE';
+                        contactModal.classList.remove('send-burst');
+                        ensureVideoSource(contactBackdropVideo, CONTACT_BACKDROP_URL, true);
+                        closeContactModal();
+                        contactForm.reset();
+                    }, 1000);
+                    
+                }, 400); // glitch duration
+            });
+        }
+
+        // Event Listeners
+        playBtn.addEventListener('click', openTrailerModal);
+        playBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter') openTrailerModal(e); });
+        if (fullscreenBtn) {
+            fullscreenBtn.addEventListener('click', openTrailerFullscreen);
+            fullscreenBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter') openTrailerFullscreen(e); });
+        }
+
+        contactBtn.addEventListener('click', openContactModal);
+        contactBtn.addEventListener('keydown', (e) => { if (e.key === 'Enter') openContactModal(e); });
+
+        // Escape to close active modals
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (trailerModal.classList.contains('open')) closeTrailerModal();
+                if (contactModal.classList.contains('open')) closeContactModal();
+            }
         });
-      };
-      render(fill);
-      render(outline);
-    }
-
-    function clearNeonFlicker() {
-      trigger.querySelectorAll('.char.is-flicker-off').forEach((el) => el.classList.remove('is-flicker-off'));
-    }
-
-    function runNeonDropoutLoop() {
-      if (!flickerActive) return;
-      const chars = Array.from(trigger.querySelectorAll('.char')).filter((el) => !el.classList.contains('char-space'));
-      if (!chars.length) return;
-      clearNeonFlicker();
-
-      // Fixed dropout letters so text reads: "PAY TAIL"
-      // "PLAY TRAILER" indexes: P0 L1 A2 Y3 _4 T5 R6 A7 I8 L9 E10 R11
-      const picks = new Set([1, 6, 10, 11]);
-
-      trigger.querySelectorAll('.char').forEach((el) => {
-        const idx = Number(el.dataset.idx || '-1');
-        if (picks.has(idx)) el.classList.add('is-flicker-off');
-      });
-
-      const offDurationMs = 1800 + Math.floor(Math.random() * 1700); // 1.8s - 3.5s off
-      window.setTimeout(() => {
-        clearNeonFlicker();
-        if (!flickerActive) return;
-        const onBeatMs = 900 + Math.floor(Math.random() * 1600); // 0.9s - 2.5s on
-        flickerTimer = window.setTimeout(runNeonDropoutLoop, onBeatMs);
-      }, offDurationMs);
-    }
-
-    function startNeonFlicker() {
-      flickerActive = true;
-      runNeonDropoutLoop();
-    }
-
-    function stopNeonFlicker() {
-      flickerActive = false;
-      if (flickerTimer) window.clearTimeout(flickerTimer);
-      flickerTimer = null;
-      clearNeonFlicker();
-    }
-
-    function setCtaPush(on) {
-      hero.classList.toggle('cta-push', on);
-    }
-
-    function scheduleGlitchBurst() {
-      if (glitchTimer) window.clearTimeout(glitchTimer);
-      const nextMs = 10000 + Math.floor(Math.random() * 10000); // 10-20s
-      glitchTimer = window.setTimeout(() => {
-        triggerGlitchBurst();
-        scheduleGlitchBurst();
-      }, nextMs);
-    }
-
-    function triggerGlitchBurst() {
-      glitchVideo.classList.add('is-active');
-      glitchVideo.currentTime = 0;
-      glitchVideo.play().catch(() => {});
-      if (soundEnabled) {
-        glitchBurstAudio.currentTime = 0;
-        glitchBurstAudio.volume = 0.44;
-        glitchBurstAudio.play().catch(() => {});
-      }
-      window.setTimeout(() => {
-        glitchVideo.pause();
-        glitchVideo.currentTime = 0;
-        glitchVideo.classList.remove('is-active');
-        glitchBurstAudio.pause();
-        glitchBurstAudio.currentTime = 0;
-      }, 180);
-    }
-
-    function showIntro() {
-      introOverlay.classList.add('is-open');
-      introOverlay.setAttribute('aria-hidden', 'false');
-      introVideo.muted = !soundEnabled;
-      introVideo.currentTime = 0;
-      // Reset letterbox bars so animation replays each time
-      const bars = introOverlay.querySelectorAll('.intro-letterbox-bar');
-      bars.forEach(b => { b.style.animation = 'none'; b.offsetHeight; b.style.animation = ''; });
-      introVideo.play().catch(() => {});
-    }
-
-    function closeIntro() {
-      introOverlay.classList.remove('is-open');
-      introOverlay.setAttribute('aria-hidden', 'true');
-      introVideo.pause();
-      introVideo.currentTime = 0;
-      showLightbox();
-    }
-
-    introVideo.addEventListener('ended', closeIntro);
-    introSkip.addEventListener('click', closeIntro);
-
-    function closeLightbox() {
-      lightbox.classList.remove('is-open');
-      lightbox.setAttribute('aria-hidden', 'true');
-      frame.src = '';
-      soundToggle.classList.remove('is-hidden');
-      if (soundEnabled) primeAmbient();
-    }
-
-    function openSillyMode() {
-      if (lightbox.classList.contains('is-open')) closeLightbox();
-      sillyOverlay.classList.add('is-open');
-      sillyOverlay.setAttribute('aria-hidden', 'false');
-    }
-
-    function closeSillyMode() {
-      sillyOverlay.classList.remove('is-open');
-      sillyOverlay.setAttribute('aria-hidden', 'true');
-    }
-
-    trigger.addEventListener('click', openLightbox);
-    trigger.addEventListener('pointerenter', () => {
-      trigger.classList.add('glow-on');
-      startSwellSfx();
-      playFluorescentSfx();
-      startNeonFlicker();
-      setCtaPush(true);
-    });
-    trigger.addEventListener('pointerleave', () => {
-      trigger.classList.remove('glow-on');
-      stopSwellSfx();
-      stopFluorescentSfx();
-      stopNeonFlicker();
-      setCtaPush(false);
-    });
-    trigger.addEventListener('focus', () => {
-      trigger.classList.add('glow-on');
-      startSwellSfx();
-      playFluorescentSfx();
-      startNeonFlicker();
-      setCtaPush(true);
-    });
-    trigger.addEventListener('blur', () => {
-      trigger.classList.remove('glow-on');
-      stopSwellSfx();
-      stopFluorescentSfx();
-      stopNeonFlicker();
-      setCtaPush(false);
-    });
-    trigger.addEventListener('touchstart', () => {
-      trigger.classList.add('glow-on');
-      playFluorescentSfx();
-      startNeonFlicker();
-      setCtaPush(true);
-      window.setTimeout(() => {
-        trigger.classList.remove('glow-on');
-        stopFluorescentSfx();
-        stopNeonFlicker();
-      }, 900);
-      window.setTimeout(() => setCtaPush(false), 920);
-    }, { passive: true });
-    trigger.addEventListener('click', () => {
-      playClickSfx();
-      stopSwellSfx();
-      stopFluorescentSfx();
-      stopNeonFlicker();
-      setCtaPush(false);
-    });
-    closeButton.addEventListener('click', closeLightbox);
-    sillyExit.addEventListener('click', closeSillyMode);
-    soundToggle.addEventListener('click', () => {
-      soundEnabled = !soundEnabled;
-      if (!soundEnabled) {
-        ambientAudio.pause();
-        stopTypingSfx();
-        stopFluorescentSfx();
-      } else {
-        primeAmbient();
-      }
-      syncSoundButton();
-    });
-    // Attempt autoplay immediately; browsers may require interaction, so keep interaction fallback.
-    primeAmbient();
-    document.addEventListener('pointerdown', primeAmbient, { once: true, passive: true });
-    document.addEventListener('keydown', primeAmbient, { once: true });
-    window.addEventListener('resize', syncPinnedNeon);
-    window.addEventListener('orientationchange', syncPinnedNeon);
-    desktopBg.addEventListener('load', syncPinnedNeon);
-    mobileBg.addEventListener('load', syncPinnedNeon);
-    new ResizeObserver(syncPinnedNeon).observe(hero);
-
-    lightbox.addEventListener('click', (event) => {
-      if (event.target === lightbox) closeLightbox();
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
-        closeLightbox();
-      }
-
-      if (event.key === 'Escape' && sillyOverlay.classList.contains('is-open')) {
-        closeSillyMode();
-      }
-    });
-
-    seedNeonCharacters();
-    syncPinnedNeon();
-    syncSoundButton();
-    scheduleGlitchBurst();
-  </script>
+        
+        // Click on backdrop to close
+        document.querySelectorAll('.modal-backdrop').forEach(bd => {
+            bd.addEventListener('click', () => {
+                if (trailerModal.classList.contains('open')) closeTrailerModal();
+                if (contactModal.classList.contains('open')) closeContactModal();
+            });
+        });
+    </script>
 </body>
-
 </html>

@@ -9,13 +9,25 @@ bg_iphone.jpg
 Glitchy/
 .DS_Store
 
-# Archives (Cleanup)
-#archives/
-#*
+# Archives / local dumps
+\#archives/
+\#*
 *#
+.netlify/
+.claude/
+.vscode/
+output/
+docs/logs/
+progress.md
+.netlifyignore
+CHATGPT_COMPONENT_DEBUG_CHECKLIST.md
+LAUNCH_CHECKLIST.md
 
-# Local Netlify folder
-.netlify
+# macOS noise
+.DS_Store
+assets/.DS_Store
+assets/images/.DS_Store
+assets/videos/.DS_Store
 
 # Build artifacts
 dist/
