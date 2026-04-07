@@ -100,10 +100,9 @@
             border-radius: 0px;
             padding: 1.2rem;
             background:
-                linear-gradient(180deg, rgba(255, 221, 102, 0.15) 0%, rgba(227, 141, 79, 0.15) 35%, rgba(42, 100, 200, 0.25) 60%, rgba(30, 200, 220, 0.25) 100%),
-                url('./assets/silly/ysj-grain.gif');
-            background-size: 100% 100%, 90px 90px;
-            background-blend-mode: normal, overlay;
+                linear-gradient(180deg, rgba(255, 221, 102, 0.15) 0%, rgba(227, 141, 79, 0.15) 35%, rgba(42, 100, 200, 0.25) 60%, rgba(30, 200, 220, 0.25) 100%);
+            background-size: 100% 100%;
+            
             border: 3px solid #f0ebe1;
             box-shadow: 
                 6px 6px 0px rgba(0, 0, 0, 0.9),
@@ -143,6 +142,15 @@
             width: 100%;
         }
 
+        @keyframes snesTitleFade {
+            0% { opacity: 0; transform: translateY(15px); }
+            30% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes startBtnBlink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0.2; }
+        }
         .page-title {
             font-family: "VT323", monospace;
             font-size: clamp(4.5rem, 8vw, 7.5rem);
@@ -153,6 +161,7 @@
             margin: 0;
             text-shadow: 4px 4px 0 #000, 0 0 25px rgba(245, 224, 39, 0.5);
             line-height: 1.1;
+            animation: snesTitleFade 3.5s ease-out forwards;
         }
 
         
@@ -177,6 +186,7 @@
             transition: all 150ms ease;
             text-shadow: 2px 2px 0 #000;
             box-shadow: 0 0 20px rgba(245, 224, 39, 0.2);
+            animation: snesTitleFade 4.5s ease-out forwards, startBtnBlink 1.8s steps(1) infinite 4.5s;
         }
 
         .intro-trigger:hover {
