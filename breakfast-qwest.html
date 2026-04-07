@@ -158,6 +158,19 @@
             line-height: 1.1;
             animation: snesTitleFade 3.5s ease-out forwards;
         }
+        .page-subtitle {
+            font-family: "VT323", monospace;
+            font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+            color: #fff;
+            text-align: center;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin: -0.5rem 0 1.5rem 0;
+            text-shadow: 2px 2px 0 #000;
+            opacity: 0;
+            animation: snesTitleFade 1.5s ease-out 3.2s forwards;
+            font-weight: bold;
+        }
 
         
 
@@ -684,6 +697,7 @@
             <div class="hero-grid">
                 <div class="hero-top">
                     <h1 class="page-title">Breakfast Qwest</h1>
+                    <div class="page-subtitle">The Qwest to Hit 50 Breakfast Clubs Around the Globe.</div>
                     <button class="intro-trigger" id="open-intro" type="button">START QWEST</button>
                     <div class="stats-row" id="stats-row" style="margin-top: 1rem;"></div>
                 </div>
