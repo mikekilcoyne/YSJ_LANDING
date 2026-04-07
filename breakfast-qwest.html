@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breakfast Qwest | Yellow Satin Jacket</title>
+    <link rel="icon" type="image/png" href="./boo-favicon.png">
+    <link rel="apple-touch-icon" href="./apple-touch-icon-squish.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Special+Elite&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-yellow: #FFDD66;
+            --hover-yellow: #FFE88A;
+            --hot-pink: #ff2a9d;
+            --background: transparent;
+            --paper: rgba(12, 11, 24, 0.75);
+            --paper-strong: rgba(18, 16, 40, 0.9);
+            --line: rgba(255, 42, 157, 0.3);
+            --surface-border: #ff2a9d;
+            --ink: #FFDD66;
+            --muted: rgba(255, 221, 102, 0.7);
+            --warm: #ff2a9d;
+            --gold: #FFDD66;
+            --radius-lg: 12px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--ink);
+            font-family: "Special Elite", serif;
+            background: transparent;
+        }
+
+        .video-background {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            overflow: hidden;
+            background: #1a1612;
+        }
+
+        .video-background video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: saturate(0.92) contrast(1) brightness(0.9);
+            transform: scale(1.03);
+        }
+
+        .video-background::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(rgba(10, 8, 18, 0.8), rgba(10, 8, 18, 0.92)),
+                url('./assets/silly/ysj-grain.gif'),
+                linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%);
+            background-size: auto, 200px 200px, 100% 4px;
+            pointer-events: none;
+            mix-blend-mode: normal;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .page-shell {
+            position: relative;
+            z-index: 1;
+            width: min(1180px, calc(100% - 1.5rem));
+            margin: 0 auto;
+            padding: 1rem 0 4rem;
+        }
+
+        .topbar {
+            display: none;
+        }
+
+        .brandline {
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .hero-card,
+        .section-card,
+        .city-card {
+            border-radius: var(--radius-lg);
+            padding: 1.2rem;
+            background:
+                linear-gradient(180deg, rgba(25, 22, 73, 0.9), rgba(12, 11, 38, 0.95));
+            border: 1px solid var(--hot-pink);
+            box-shadow: 0 0 20px rgba(255, 42, 157, 0.2);
+            backdrop-filter: blur(12px);
+        }
+
+        .hero-card {
+            margin-top: 0.6rem;
+            padding: 0;
+            border: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        .hero-card::before {
+            content: none;
+        }
+
+        .hero-grid {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .hero-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 1rem 0;
+            width: 100%;
+        }
+
+        .title-media {
+            width: min(850px, 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 12rem;
+            filter: drop-shadow(0 0 35px rgba(0, 0, 0, 0.6));
+        }
+
+        .title-media video,
+        .title-media img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        .intro-trigger {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            min-height: 3rem;
+            padding: 0.8rem 2.5rem;
+            border-radius: 4px;
+            border: 2px solid var(--primary-yellow);
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--primary-yellow);
+            font-family: "VT323", monospace;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: all 150ms ease;
+            text-shadow: 2px 2px 0 #000;
+            box-shadow: 0 0 20px rgba(245, 224, 39, 0.2);
+        }
+
+        .intro-trigger:hover {
+            transform: scale(1.05);
+            background: rgba(255, 221, 102, 0.1);
+            border-color: var(--hover-yellow);
+            color: var(--hover-yellow);
+            box-shadow: 0 0 30px rgba(245, 224, 39, 0.5);
+        }
+
+        .stats-row,
+        .toolbar,
+        .filter-group,
+        .meta-row,
+        .city-actions,
+        .region-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+        }
+
+        .stat-pill,
+        .toolbar button,
+        .chip {
+            border-radius: 8px;
+            border: 1px solid var(--surface-border);
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--ink);
+            font-family: "Special Elite", serif;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+        }
+
+        .stat-pill {
+            padding: 0.55rem 0.85rem;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .stat-pill strong {
+            color: var(--ink);
+        }
+
+        .toolbar {
+            align-items: center;
+            justify-content: space-between;
+            margin: 2rem 0 1.5rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.4);
+            border-radius: 12px;
+            border: 1px solid var(--surface-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .toolbar-left,
+        .toolbar-right {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            align-items: center;
+        }
+
+        .toolbar button,
+        .chip {
+            cursor: pointer;
+            padding: 0.7rem 1rem;
+            font-size: 0.82rem;
+            transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, color 160ms ease, opacity 160ms ease;
+        }
+
+        .toolbar button:hover,
+        .chip:hover {
+            transform: translateY(-1px);
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toolbar button.is-active,
+        .chip.is-active {
+            color: #000;
+            background: #fff;
+            border-color: #fff;
+        }
+
+        .toolbar button.is-warm {
+            color: var(--warm);
+            background: rgba(255, 247, 227, 0.96);
+            border-color: rgba(233, 204, 117, 0.65);
+        }
+
+        .toolbar input {
+            width: min(22rem, 100%);
+            padding: 0.8rem 0.95rem;
+            border-radius: 8px;
+            border: 1px solid var(--surface-border);
+            background: rgba(0, 0, 0, 0.5);
+            font: inherit;
+            color: #fff;
+            outline: none;
+        }
+
+        .toolbar input:focus {
+            border-color: rgba(182, 92, 34, 0.6);
+            box-shadow: 0 0 0 3px rgba(233, 204, 117, 0.24);
+        }
+
+        .section-stack {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .section-card {
+            border-radius: 28px;
+            padding: 1.1rem;
+        }
+
+        .region-header {
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .region-title {
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .region-title h2 {
+            margin: 0;
+            font-family: "VT323", monospace;
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            color: var(--hot-pink);
+            text-shadow: 2px 2px 0 #000;
+            text-transform: uppercase;
+        }
+
+        .region-subtitle {
+            color: var(--muted);
+            font-size: 0.8rem;
+        }
+
+        .city-grid {
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .city-card {
+            border-radius: var(--radius-lg);
+            padding: 1rem;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 250, 244, 0.86)),
+                var(--paper-strong);
+        }
+
+        .city-card.done {
+            opacity: 0.92;
+        }
+
+        .city-card.archived {
+            opacity: 0.66;
+        }
+
+        .city-topline {
+            display: flex;
+            gap: 0.9rem;
+            align-items: flex-start;
+        }
+
+        .checkbox {
+            appearance: none;
+            width: 1.45rem;
+            height: 1.45rem;
+            margin: 0.12rem 0 0;
+            border-radius: 4px;
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.4);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            flex: 0 0 auto;
+            transition: all 160ms ease;
+        }
+
+        .checkbox::after {
+            content: "✓";
+            font-size: 0.78rem;
+            color: white;
+            transform: scale(0);
+            transition: transform 140ms ease;
+        }
+
+        .checkbox:checked {
+            border-color: var(--hot-pink);
+            background: rgba(255, 42, 157, 0.8);
+            box-shadow: 0 0 15px rgba(255, 42, 157, 0.5);
+        }
+
+        .checkbox:checked::after {
+            transform: scale(1);
+        }
+
+        .city-main {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+
+        .city-name {
+            margin: 0;
+            font-family: "VT323", monospace;
+            font-size: 2rem;
+            line-height: 1.05;
+            color: var(--primary-yellow);
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .city-name.done-text {
+            text-decoration: line-through;
+            text-decoration-thickness: 2px;
+            text-decoration-color: rgba(78, 159, 99, 0.65);
+        }
+
+        .country-line {
+            margin-top: 0.25rem;
+            color: var(--muted);
+            font-size: 0.88rem;
+        }
+
+        .meta-row {
+            margin-top: 0.8rem;
+        }
+
+        .meta-pill {
+            padding: 0.45rem 0.7rem;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--muted);
+            font-size: 0.72rem;
+        }
+
+        .meta-pill strong {
+            color: var(--ink);
+        }
+
+        .city-actions {
+            margin-top: 0.95rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .attended-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            align-items: center;
+            margin-top: 0.9rem;
+            color: var(--muted);
+            font-size: 0.76rem;
+        }
+
+        .attended-row label {
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .attended-input {
+            min-width: 9.5rem;
+            padding: 0.52rem 0.72rem;
+            border-radius: 8px;
+            border: 1px solid var(--surface-border);
+            background: rgba(0, 0, 0, 0.4);
+            color: #fff;
+            font: inherit;
+        }
+
+        .attended-clear {
+            border: 0;
+            background: transparent;
+            color: var(--warm);
+            font: inherit;
+            cursor: pointer;
+            padding: 0.15rem 0;
+        }
+
+        .city-links,
+        .city-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.55rem;
+            align-items: center;
+        }
+
+        .link-pill,
+        .action-button {
+            border-radius: 8px;
+            border: 1px solid var(--surface-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.72rem;
+            padding: 0.5rem 0.72rem;
+        }
+
+        .action-button {
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 160ms ease, border-color 160ms ease, color 160ms ease, background-color 160ms ease;
+        }
+
+        .action-button:hover,
+        .link-pill:hover {
+            transform: translateY(-1px);
+            color: var(--ink);
+            border-color: rgba(124, 117, 108, 0.85);
+        }
+
+        .action-button.archive-active {
+            color: #8a2d18;
+            background: rgba(255, 241, 238, 0.96);
+            border-color: rgba(214, 108, 83, 0.34);
+        }
+
+        .intro-modal {
+            width: min(760px, calc(100% - 1.2rem));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 28px;
+            padding: 0;
+            background: rgba(19, 16, 13, 0.92);
+            color: #f3ede4;
+            box-shadow: 0 32px 90px rgba(0, 0, 0, 0.45);
+        }
+
+        .intro-modal::backdrop {
+            background: rgba(0, 0, 0, 0.58);
+            backdrop-filter: blur(10px);
+        }
+
+        .intro-modal-shell {
+            padding: 1.5rem;
+        }
+
+        .intro-modal-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .intro-modal-title {
+            margin: 0;
+            font-family: "VT323", monospace;
+            font-size: clamp(1.7rem, 4vw, 2.4rem);
+            letter-spacing: -0.03em;
+        }
+
+        .intro-close {
+            width: 2.2rem;
+            height: 2.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #f3ede4;
+            font: inherit;
+            cursor: pointer;
+        }
+
+        .intro-note {
+            margin: 0;
+            color: rgba(243, 237, 228, 0.88);
+            line-height: 1.8;
+        }
+
+        .empty-state {
+            padding: 1.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px dashed rgba(124, 117, 108, 0.4);
+            text-align: center;
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.58);
+        }
+
+        .footer-note {
+            margin-top: 1.4rem;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.78rem;
+        }
+
+        @media (min-width: 900px) {
+            .hero-grid {
+                grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.8fr);
+                align-items: start;
+            }
+
+            .city-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 899px) {
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .toolbar-left,
+            .toolbar-right {
+                width: 100%;
+            }
+
+            .toolbar input {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .page-shell {
+                width: min(100% - 0.9rem, 100%);
+            }
+
+            .topbar {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .hero-card,
+            .section-card,
+            .city-card {
+                border-radius: 24px;
+            }
+
+            .city-topline,
+            .city-actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .city-links,
+            .city-buttons,
+            .stats-row,
+            .filter-group {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background" aria-hidden="true">
+        <video id="background-video" autoplay muted loop playsinline>
+            <source src="./assets/video/BACKGROUND_CLEAN.mp4" type="video/mp4">
+        </video>
+    </div>
+    <main class="page-shell">
+        <div class="topbar">
+            <div class="brandline">Yellow Satin Jacket • Breakfast Qwest</div>
+        </div>
+
+        <section class="hero-card">
+            <div class="hero-grid">
+                <div class="hero-top">
+                    <div class="title-media">
+                        <video id="title-video" autoplay muted loop playsinline>
+                            <source src="./assets/title/BK_QUEST_ALPHA.webm" type="video/webm">
+                        </video>
+                    </div>
+                    <button class="intro-trigger" id="open-intro" type="button">START QWEST</button>
+                    <div class="stats-row" id="stats-row" style="margin-top: 1rem;"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="toolbar" aria-label="Checklist controls">
+            <div class="toolbar-left">
+                <input id="search-input" type="search" placeholder="Search city, venue, host, or country">
+                <div class="filter-group" id="status-filters"></div>
+            </div>
+            <div class="toolbar-right">
+                <button class="is-warm" id="toggle-archived">Show archived</button>
+                <button id="reset-storage">Reset local checks</button>
+            </div>
+        </section>
+
+        <section class="section-stack" id="region-stack"></section>
+
+        <p class="footer-note">
+            Checklist states save in this browser with local storage. Source structure pulled from the BC International clubs sheet.
+        </p>
+    </main>
+
+    <dialog class="intro-modal" id="intro-modal">
+        <div class="intro-modal-shell">
+            <div class="intro-modal-top">
+                <h2 class="intro-modal-title">Intro</h2>
+                <button class="intro-close" id="close-intro" type="button" aria-label="Close intro">×</button>
+            </div>
+            <div class="intro-note" id="intro-copy">
+                Add your personal intro statement here. Right now this is a placeholder area for the essay-style opener that frames what Breakfast Qwest is, why it matters, and how you want people to experience the journey.
+            </div>
+        </div>
+    </dialog>
+
+    <script>
+        const clubData = [
+            { city: "Amsterdam", region: "Europe", country: "Netherlands", venue: "Volkshotel (East) - around the Bar area", time: "8:30 AM", frequency: "Second Friday", upcoming: "2026-04-10", host: "Sheila Guo", instagram: "@office.sheilaguo", linkedin: "https://www.linkedin.com/in/sheila-guo/", whatsapp: "" },
+            { city: "Atlanta", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "Stephanie Nelson", instagram: "", linkedin: "", whatsapp: "" },
+            { city: "Austin", region: "North America", country: "USA", venue: "Nate's Baked Goods & Coffee, 401 W 18th St", time: "", frequency: "", upcoming: "2026-03-15", host: "Rob Henzi, Alyssa Gray", instagram: "", linkedin: "https://www.linkedin.com/in/robbhenzi/", whatsapp: "" },
+            { city: "Barcelona", region: "Europe", country: "Spain", venue: "Caravelle, Carrer del Pintor Fortuny 31", time: "", frequency: "First Wednesday", upcoming: "", host: "Nicole Ingra & Kevin Maguire", instagram: "@nicoleingra @newfatherhood", linkedin: "https://www.linkedin.com/in/nicoleingra/", whatsapp: "" },
+            { city: "Bassano del Grappa", region: "Europe", country: "Italy", venue: "", time: "", frequency: "", upcoming: "", host: "Charla Caponi & Amy Rich", instagram: "@cncbassano", linkedin: "https://www.linkedin.com/in/charla-noel-caponi/", whatsapp: "" },
+            { city: "Berlin", region: "Europe", country: "Germany", venue: "", time: "", frequency: "", upcoming: "", host: "", instagram: "", linkedin: "", whatsapp: "" },
+            { city: "Biarritz", region: "Europe", country: "France", venue: "Spok Cafe, 44 Rue Luis Mariano", time: "", frequency: "First Friday", upcoming: "2026-04-03", host: "Maggie Spicer", instagram: "@whisk.sf @maggiefspicer", linkedin: "https://www.linkedin.com/in/maggiespicer/", whatsapp: "" },
+            { city: "Boston", region: "North America", country: "USA", venue: "Tradesman Coffee", time: "8:30 AM", frequency: "", upcoming: "", host: "Hannah Schon, Lizzie Milstein, Kevin Johanessen", instagram: "", linkedin: "https://www.linkedin.com/in/hannahschon/", whatsapp: "" },
+            { city: "Boulder", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "Joy Shure", instagram: "", linkedin: "https://www.linkedin.com/in/joy-shure-041a711a/", whatsapp: "" },
+            { city: "Brighton", region: "UK", country: "UK", venue: "", time: "", frequency: "", upcoming: "", host: "Amy Daroukakis", instagram: "", linkedin: "https://www.linkedin.com/in/amydaroukakis/", whatsapp: "" },
+            { city: "Burlington, VT", region: "North America", country: "USA", venue: "Deep City, 112 Lake St, Burlington, VT 05401", time: "9:00 AM", frequency: "Second Monday", upcoming: "2026-04-13", host: "Zach Pollakoff", instagram: "@zachpollakoff", linkedin: "https://www.linkedin.com/in/zachpollakoff/", whatsapp: "" },
+            { city: "Cambridge, MA", region: "North America", country: "USA", venue: "", time: "8:30 AM", frequency: "", upcoming: "", host: "Greg Stahovec, Anne-Marie Kline", instagram: "", linkedin: "https://www.linkedin.com/in/gstahovec/", whatsapp: "" },
+            { city: "Chicago", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "", instagram: "", linkedin: "", whatsapp: "" },
+            { city: "Copenhagen", region: "Europe", country: "Denmark", venue: "Granola, Varnedamsvej 5", time: "8:30 AM", frequency: "Bi-Weekly Thursday", upcoming: "9 April", host: "Denize Maaloe, Diego Marini & team", instagram: "@yummycolours", linkedin: "https://www.linkedin.com/company/yummycolours", whatsapp: "" },
+            { city: "Denver", region: "North America", country: "USA", venue: "Denver Central Market", time: "8:00 AM", frequency: "Pop-Up", upcoming: "4/9", host: "Kate Gagnon", instagram: "", linkedin: "https://www.linkedin.com/in/katesaxgagnon", whatsapp: "" },
+            { city: "Ibiza", region: "Europe", country: "Spain", venue: "", time: "8:30 AM", frequency: "", upcoming: "", host: "", instagram: "", linkedin: "", whatsapp: "" },
+            { city: "London", region: "UK", country: "UK", venue: "Rotating locations", time: "", frequency: "First Thursday", upcoming: "", host: "Victoria Gates Fleming", instagram: "@thehungrycrumpet", linkedin: "https://www.linkedin.com/in/steph-clarke/", whatsapp: "" },
+            { city: "Los Angeles", region: "North America", country: "USA", venue: "Zinque, Venice", time: "8:30 AM", frequency: "Third Friday", upcoming: "", host: "Scott Donaton, Kirsten Ludwig, Anita Schillhorn van Veen", instagram: "@kirstenludwig", linkedin: "https://www.linkedin.com/in/kirstenludwig/", whatsapp: "" },
+            { city: "Lugano", region: "Europe", country: "Switzerland", venue: "AMALO (rotating)", time: "", frequency: "", upcoming: "", host: "Camilla Finocchiaro Aprile & Elettra Fiumi", instagram: "@fossilfloss @efiumi", linkedin: "https://www.linkedin.com/in/camillafaprile/", whatsapp: "" },
+            { city: "Manila", region: "Asia", country: "Philippines", venue: "", time: "8:30 AM", frequency: "", upcoming: "", host: "Sharon Panelo, Carla Laus", instagram: "", linkedin: "", whatsapp: "" },
+            { city: "Melbourne - Fitzroy", region: "Australia", country: "Australia", venue: "Code Black, CBD", time: "8:30 AM", frequency: "Pop-Up", upcoming: "April 24", host: "Celeste Blewitt & Josh Gardiner", instagram: "", linkedin: "https://www.linkedin.com/in/joshgardiner/", whatsapp: "" },
+            { city: "Melbourne - Richmond", region: "Australia", country: "Australia", venue: "Pillar of Salt, Richmond", time: "", frequency: "Second Friday", upcoming: "", host: "Steph Clarke", instagram: "", linkedin: "", whatsapp: "" },
+            { city: "Mexico City", region: "North America", country: "Mexico", venue: "Varies", time: "", frequency: "Every Wednesday", upcoming: "", host: "Steve Bryant", instagram: "@stevebryant", linkedin: "https://www.linkedin.com/in/stevebryant/", whatsapp: "https://chat.whatsapp.com/CW5dJN7RdcOGikCE8HLsdC?mode=gi_t" },
+            { city: "Miami", region: "North America", country: "USA", venue: "Novela Cafe Social", time: "9:00 AM", frequency: "Every Wednesday", upcoming: "", host: "Jeff Carvalho", instagram: "@jeffcarvalho", linkedin: "https://www.linkedin.com/in/jeffcarvalho/", whatsapp: "" },
+            { city: "Milano", region: "Europe", country: "Italy", venue: "Mega Art Fair, Profumo Via Ambrogio Binda 29", time: "", frequency: "", upcoming: "2026-04-16", host: "Charla Caponi, Moritz Gaudlitz & Giorgio Bartoli", instagram: "@cncbassano @giorgiogolab @whynotstay", linkedin: "https://www.linkedin.com/in/charla-noel-caponi/", whatsapp: "" },
+            { city: "New York - Downtown Brooklyn", region: "North America", country: "USA", venue: "Ace Hotel Downtown Brooklyn", time: "", frequency: "Every Thursday", upcoming: "", host: "Kat Popiel & Lynn Juang", instagram: "@missllamamanyc @lynnjuang", linkedin: "https://www.linkedin.com/in/katpopiel/", whatsapp: "" },
+            { city: "New York - Upper West", region: "North America", country: "USA", venue: "Viand Cafe, 2130 Broadway, New York, NY 10023", time: "8:30 AM", frequency: "Every Wednesday", upcoming: "2026-04-08", host: "Joshua Rosenthal & Andrew Reuben", instagram: "@two_stops_ahead", linkedin: "https://www.LinkedIn.com/in/joshuakrosenthal", whatsapp: "https://chat.whatsapp.com/GQJQ41xFxzG7wA1RxNvU0H?mode=gi_t" },
+            { city: "New York - Hamptons", region: "North America", country: "USA", venue: "Tutto Cafe, The Hamptons", time: "8:30 AM", frequency: "Every Wednesday", upcoming: "", host: "Michael Kilcoyne & Adam H.", instagram: "@themichaelkilcoyne @adamh929", linkedin: "https://www.linkedin.com/in/mikekilcoyne/", whatsapp: "https://chat.whatsapp.com/FzBGLGPTzG778Hwyk4ihcx" },
+            { city: "New York - Hudson", region: "North America", country: "USA", venue: "Kitty's", time: "", frequency: "", upcoming: "", host: "Peter Spear & Mark Depace", instagram: "", linkedin: "", whatsapp: "" },
+            { city: "New York - Kingston", region: "North America", country: "USA", venue: "Camp Kingston", time: "8:30 AM", frequency: "First Monday", upcoming: "2026-04-06", host: "Kate Urcioli", instagram: "", linkedin: "https://www.linkedin.com/in/kateurcioli/", whatsapp: "" },
+            { city: "New York - LES", region: "North America", country: "USA", venue: "Sunday to Sunday, 88 Orchard St", time: "9:00 AM", frequency: "Every Thursday", upcoming: "", host: "Heidi Hartwig", instagram: "@friendsfromnewyork @heidiheartsclub", linkedin: "https://www.linkedin.com/in/heidi-hartwig-96618615/", whatsapp: "" },
+            { city: "New York - Williamsburg", region: "North America", country: "USA", venue: "Le Crocodile", time: "", frequency: "Every Wednesday", upcoming: "2026-04-01", host: "Ben Dietz", instagram: "@dietznutz", linkedin: "https://www.linkedin.com/in/dietznutz", whatsapp: "" },
+            { city: "Norwich", region: "UK", country: "UK", venue: "", time: "8:00 AM", frequency: "Fourth Friday", upcoming: "", host: "Rusty Nash", instagram: "@rustynash", linkedin: "https://www.linkedin.com/in/rustynash/", whatsapp: "" },
+            { city: "Panama City", region: "Other", country: "Panama", venue: "Sassy Cafe (Morning) / Les Mecs (After office)", time: "", frequency: "Fourth Thursday", upcoming: "", host: "Carla Batista, Jacob Larrinaga & Daniela Jovane", instagram: "@carlibee___ @academiadespierta @danivjovane", linkedin: "", whatsapp: "" },
+            { city: "Paris", region: "Europe", country: "France", venue: "Cult Cafe", time: "9:30 AM", frequency: "", upcoming: "", host: "Lisa Ono, Karla Rodriguez, Fanny Leonard", instagram: "@karlarodce @lisaonocreate", linkedin: "https://www.linkedin.com/in/lisaonocreate/", whatsapp: "" },
+            { city: "Perth", region: "Australia", country: "Australia", venue: "Rotating (Perth CBD)", time: "", frequency: "Monthly", upcoming: "", host: "Fran Cormack & Sue Bush", instagram: "", linkedin: "https://www.linkedin.com/in/fran-cormack-icf-acc-a605624/", whatsapp: "" },
+            { city: "Philadelphia", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "Julie Gerstein", instagram: "@havethehabit", linkedin: "https://www.linkedin.com/in/juliegerstein/", whatsapp: "" },
+            { city: "Portland, ME", region: "North America", country: "USA", venue: "The Salt Yard", time: "8:30 AM", frequency: "", upcoming: "", host: "Michele Martin & Lydia Wagner", instagram: "", linkedin: "https://www.linkedin.com/groups/13161347", whatsapp: "" },
+            { city: "Portland, OR", region: "North America", country: "USA", venue: "It's Just a Feeling, 2393 NE Fremont St", time: "", frequency: "Every Tuesday", upcoming: "", host: "Nina Sers & Chelsea Place", instagram: "@ninasers", linkedin: "https://www.linkedin.com/in/ninasers/", whatsapp: "" },
+            { city: "San Francisco", region: "North America", country: "USA", venue: "Terrene at 1 Hotel, 8 Mission St", time: "9:00 AM", frequency: "Every Wednesday", upcoming: "", host: "Chris Gillespie, Eve Lewis, Magali Charmot", instagram: "@evegavinlewis", linkedin: "https://www.linkedin.com/in/chrismattheweden/", whatsapp: "https://chat.whatsapp.com/GWkWebokkQO6bMcynjSb4v?mode=gi_t" },
+            { city: "Seattle", region: "North America", country: "USA", venue: "Mr. West Downtown Seattle", time: "8:30 AM", frequency: "Second Thursday", upcoming: "2026-03-12", host: "Mike Burlin, David Rosenberg", instagram: "", linkedin: "https://www.linkedin.com/in/mikeburlin/", whatsapp: "" },
+            { city: "Singapore", region: "Asia", country: "Singapore", venue: "Grain Traders (rotating)", time: "", frequency: "Pop-Up", upcoming: "", host: "Seraphina Woon", instagram: "@iamawookiee", linkedin: "", whatsapp: "" },
+            { city: "Maplewood, NJ", region: "North America", country: "USA", venue: "Artie's, 15 Newark Way", time: "", frequency: "Every Friday", upcoming: "", host: "James Friedman", instagram: "@jamesfthrone", linkedin: "https://www.linkedin.com/in/jamesfriedman/", whatsapp: "" },
+            { city: "Torquay, AU", region: "Australia", country: "Australia", venue: "Bomboras", time: "", frequency: "Second Friday", upcoming: "2026-03-13", host: "Steph Clarke", instagram: "", linkedin: "", whatsapp: "" },
+            { city: "Sydney", region: "Australia", country: "Australia", venue: "Ace Hotel Sydney", time: "8:00 AM", frequency: "Third Friday", upcoming: "", host: "Elisha Akhtar", instagram: "@ElishaAkhtar", linkedin: "https://www.linkedin.com/in/elisha-akhtar-41b95069/", whatsapp: "" },
+            { city: "Toronto", region: "North America", country: "Canada", venue: "Boxcar Social, 298 Markham St", time: "", frequency: "Every Wednesday", upcoming: "March 25, 2026", host: "Jared Gordon & Sarah Phillips", instagram: "@jgo_unchained @sarphilli", linkedin: "https://www.linkedin.com/in/sarahashleyphillips/", whatsapp: "" },
+            { city: "Las Vegas", region: "North America", country: "USA", venue: "Prosecco Fresh Italian Kitchen", time: "", frequency: "Fourth Thursday", upcoming: "", host: "Steph Balzer", instagram: "", linkedin: "https://www.linkedin.com/in/stephaniebalzer/", whatsapp: "" },
+            { city: "Vienna", region: "Europe", country: "Austria", venue: "Cafe Francais", time: "", frequency: "Second Thursday", upcoming: "2026-04-09", host: "Carla Moss", instagram: "@carlatoria", linkedin: "https://www.linkedin.com/in/carla-moss-55a2a776/", whatsapp: "" },
+            { city: "Washington DC", region: "North America", country: "USA", venue: "The Line Hotel, Adams Morgan", time: "8:30 AM", frequency: "Bi-Weekly Thursday", upcoming: "2026-04-09", host: "Michael Hastings-Black", instagram: "@hungryvintage", linkedin: "https://www.linkedin.com/in/michaelhastingsblack/", whatsapp: "" },
+            { city: "Riyadh", region: "Asia", country: "Saudi Arabia", venue: "Cafe Bateel", time: "", frequency: "Pop-Up", upcoming: "", host: "Brandie Janow", instagram: "", linkedin: "", whatsapp: "" }
+        ].map((club) => ({
+            ...club,
+            id: `${club.region}-${club.city}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "")
+        }));
+
+        const STORAGE_KEY = "ysj-breakfast-qwest-state-v1";
+        const FILTERS = ["all", "done", "archived"];
+        const REGION_ORDER = ["Europe", "North America", "UK", "Asia", "Australia", "Other"];
+
+        const statsRow = document.getElementById("stats-row");
+        const regionStack = document.getElementById("region-stack");
+        const searchInput = document.getElementById("search-input");
+        const statusFilters = document.getElementById("status-filters");
+        const toggleArchivedButton = document.getElementById("toggle-archived");
+        const resetStorageButton = document.getElementById("reset-storage");
+        const backgroundVideo = document.getElementById("background-video");
+        const titleVideo = document.getElementById("title-video");
+        const introModal = document.getElementById("intro-modal");
+        const openIntroButton = document.getElementById("open-intro");
+        const closeIntroButton = document.getElementById("close-intro");
+
+        const state = {
+            statuses: loadStatuses(),
+            filter: "all",
+            search: "",
+            showArchived: false
+        };
+
+        function loadStatuses() {
+            try {
+                return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+            } catch (error) {
+                return {};
+            }
+        }
+
+        function saveStatuses() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state.statuses));
+        }
+
+        function getStatus(id) {
+            return state.statuses[id] || { done: false, archived: false, attendedOn: "" };
+        }
+
+        function setStatus(id, nextStatus) {
+            state.statuses[id] = { ...getStatus(id), ...nextStatus };
+            saveStatuses();
+            render();
+        }
+
+        function createFilterButtons() {
+            statusFilters.innerHTML = "";
+            FILTERS.forEach((filter) => {
+                const button = document.createElement("button");
+                button.className = "chip" + (state.filter === filter ? " is-active" : "");
+                button.textContent = filter.charAt(0).toUpperCase() + filter.slice(1);
+                button.addEventListener("click", () => {
+                    state.filter = filter;
+                    render();
+                });
+                statusFilters.appendChild(button);
+            });
+        }
+
+        function getFilteredClubs() {
+            const query = state.search.trim().toLowerCase();
+
+            return clubData.filter((club) => {
+                const status = getStatus(club.id);
+                if (!state.showArchived && status.archived) {
+                    return false;
+                }
+
+                if (state.filter === "done" && (!status.done || status.archived)) {
+                    return false;
+                }
+
+                if (state.filter === "archived" && !status.archived) {
+                    return false;
+                }
+
+                if (query) {
+                    const haystack = [club.city, club.region, club.country, club.venue, club.host, club.frequency, club.instagram]
+                        .join(" ")
+                        .toLowerCase();
+                    if (!haystack.includes(query)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+        }
+
+        function renderStats(filteredClubs) {
+            const total = clubData.length;
+            const doneCount = clubData.filter((club) => getStatus(club.id).done && !getStatus(club.id).archived).length;
+            const attendedCount = clubData.filter((club) => Boolean(getStatus(club.id).attendedOn)).length;
+            const archivedCount = clubData.filter((club) => getStatus(club.id).archived).length;
+            const visibleCount = filteredClubs.length;
+
+            statsRow.innerHTML = `
+                <span class="stat-pill"><strong>${total}</strong> total cities</span>
+                <span class="stat-pill"><strong>${doneCount}</strong> checked off</span>
+                <span class="stat-pill"><strong>${attendedCount}</strong> attended dates logged</span>
+                <span class="stat-pill"><strong>${archivedCount}</strong> archived</span>
+                <span class="stat-pill"><strong>${visibleCount}</strong> in current view</span>
+            `;
+        }
+
+        function renderRegions(filteredClubs) {
+            const grouped = new Map();
+
+            REGION_ORDER.forEach((region) => grouped.set(region, []));
+            filteredClubs.forEach((club) => {
+                if (!grouped.has(club.region)) {
+                    grouped.set(club.region, []);
+                }
+                grouped.get(club.region).push(club);
+            });
+
+            regionStack.innerHTML = "";
+
+            let sectionCount = 0;
+
+            grouped.forEach((clubs, region) => {
+                if (!clubs.length) {
+                    return;
+                }
+
+                sectionCount += 1;
+                const section = document.createElement("section");
+                section.className = "section-card";
+
+                const cityCards = clubs
+                    .sort((a, b) => a.city.localeCompare(b.city))
+                    .map(renderCityCard)
+                    .join("");
+
+                section.innerHTML = `
+                    <div class="region-header">
+                        <div class="region-title">
+                            <h2>${region}</h2>
+                            <span class="region-subtitle">${clubs.length} ${clubs.length === 1 ? "city" : "cities"}</span>
+                        </div>
+                    </div>
+                    <div class="city-grid">${cityCards}</div>
+                `;
+
+                regionStack.appendChild(section);
+            });
+
+            if (!sectionCount) {
+                regionStack.innerHTML = '<div class="empty-state">No cities match this filter yet. Try another status view or clear your search.</div>';
+            }
+
+            bindCityEvents();
+        }
+
+        function renderCityCard(club) {
+            const status = getStatus(club.id);
+            const classes = ["city-card"];
+            if (status.done) classes.push("done");
+            if (status.archived) classes.push("archived");
+
+            const upcomingLabel = formatUpcoming(club.upcoming);
+            const mapsUrl = club.venue ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${club.venue}, ${club.city}, ${club.country}`)}` : "";
+            const instagramUrl = extractInstagramUrl(club.instagram);
+
+            const meta = [
+                club.venue ? `<span class="meta-pill"><strong>Venue:</strong> ${escapeHtml(club.venue)}</span>` : "",
+                club.time ? `<span class="meta-pill"><strong>Time:</strong> ${escapeHtml(club.time)}</span>` : "",
+                club.frequency ? `<span class="meta-pill"><strong>Rhythm:</strong> ${escapeHtml(club.frequency)}</span>` : "",
+                upcomingLabel ? `<span class="meta-pill"><strong>Upcoming:</strong> ${escapeHtml(upcomingLabel)}</span>` : "",
+                club.host ? `<span class="meta-pill"><strong>Host:</strong> ${escapeHtml(club.host)}</span>` : ""
+            ].filter(Boolean).join("");
+
+            const links = [
+                instagramUrl ? `<a class="link-pill" href="${instagramUrl}" target="_blank" rel="noreferrer">Instagram</a>` : "",
+                club.linkedin ? `<a class="link-pill" href="${club.linkedin}" target="_blank" rel="noreferrer">LinkedIn</a>` : "",
+                club.whatsapp ? `<a class="link-pill" href="${club.whatsapp}" target="_blank" rel="noreferrer">WhatsApp</a>` : "",
+                mapsUrl ? `<a class="link-pill" href="${mapsUrl}" target="_blank" rel="noreferrer">Maps</a>` : ""
+            ].filter(Boolean).join("");
+
+            return `
+                <article class="${classes.join(" ")}" data-city-id="${club.id}">
+                    <div class="city-topline">
+                        <input class="checkbox" type="checkbox" aria-label="Mark ${escapeHtml(club.city)} as done" ${status.done ? "checked" : ""} data-action="toggle-done" data-city-id="${club.id}">
+                        <div class="city-main">
+                            <h3 class="city-name ${status.done ? "done-text" : ""}">${escapeHtml(club.city)}</h3>
+                            <div class="country-line">${escapeHtml(club.country)}</div>
+                            ${meta ? `<div class="meta-row">${meta}</div>` : ""}
+                            <div class="attended-row">
+                                <label for="attended-${club.id}">When attended</label>
+                                <input class="attended-input" id="attended-${club.id}" type="text" inputmode="numeric" placeholder="YYYY-MM-DD" value="${escapeHtml(status.attendedOn || "")}" data-action="set-attended" data-city-id="${club.id}">
+                                ${status.attendedOn ? `<button class="attended-clear" data-action="clear-attended" data-city-id="${club.id}">clear</button>` : ""}
+                            </div>
+                            <div class="city-actions">
+                                <div class="city-links">${links}</div>
+                                <div class="city-buttons">
+                                    <button class="action-button ${status.archived ? "archive-active" : ""}" data-action="toggle-archive" data-city-id="${club.id}">
+                                        ${status.archived ? "Unarchive" : "Archive"}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function bindCityEvents() {
+            document.querySelectorAll('[data-action="toggle-done"]').forEach((input) => {
+                input.addEventListener("change", (event) => {
+                    const id = event.currentTarget.getAttribute("data-city-id");
+                    setStatus(id, { done: event.currentTarget.checked });
+                });
+            });
+
+            document.querySelectorAll('[data-action="toggle-archive"]').forEach((button) => {
+                button.addEventListener("click", (event) => {
+                    const id = event.currentTarget.getAttribute("data-city-id");
+                    const current = getStatus(id);
+                    setStatus(id, { archived: !current.archived });
+                });
+            });
+
+            document.querySelectorAll('[data-action="set-attended"]').forEach((input) => {
+                input.addEventListener("blur", (event) => {
+                    const raw = event.currentTarget.value.trim();
+                    if (!raw) {
+                        event.currentTarget.value = "";
+                        return;
+                    }
+
+                    if (!isValidAttendedDate(raw)) {
+                        event.currentTarget.value = "";
+                        event.currentTarget.placeholder = "Use YYYY-MM-DD";
+                        return;
+                    }
+
+                    event.currentTarget.value = normalizeAttendedDate(raw);
+                });
+
+                input.addEventListener("change", (event) => {
+                    const id = event.currentTarget.getAttribute("data-city-id");
+                    const raw = event.currentTarget.value.trim();
+                    setStatus(id, { attendedOn: raw ? normalizeAttendedDate(raw) : "" });
+                });
+            });
+
+            document.querySelectorAll('[data-action="clear-attended"]').forEach((button) => {
+                button.addEventListener("click", (event) => {
+                    const id = event.currentTarget.getAttribute("data-city-id");
+                    setStatus(id, { attendedOn: "" });
+                });
+            });
+        }
+
+        function extractInstagramUrl(value) {
+            const handle = String(value || "").match(/@([a-z0-9._]+)/i);
+            return handle ? `https://www.instagram.com/${handle[1]}/` : "";
+        }
+
+        function formatUpcoming(value) {
+            const raw = String(value || "").trim();
+            if (!raw) return "";
+            if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+                const [year, month, day] = raw.split("-").map(Number);
+                const date = new Date(year, month - 1, day);
+                return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+            }
+            return raw;
+        }
+
+        function normalizeAttendedDate(value) {
+            const raw = String(value || "").trim();
+            const match = raw.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+            if (!match) return raw;
+            const [, year, month, day] = match;
+            return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+        }
+
+        function isValidAttendedDate(value) {
+            const normalized = normalizeAttendedDate(value);
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(normalized)) {
+                return false;
+            }
+
+            const [year, month, day] = normalized.split("-").map(Number);
+            const date = new Date(year, month - 1, day);
+            return (
+                date.getFullYear() === year &&
+                date.getMonth() === month - 1 &&
+                date.getDate() === day
+            );
+        }
+
+        function escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
+        function render() {
+            const filteredClubs = getFilteredClubs();
+            createFilterButtons();
+            renderStats(filteredClubs);
+            renderRegions(filteredClubs);
+            toggleArchivedButton.textContent = state.showArchived ? "Hide archived" : "Show archived";
+            toggleArchivedButton.classList.toggle("is-active", state.showArchived);
+        }
+
+        searchInput.addEventListener("input", (event) => {
+            state.search = event.target.value;
+            render();
+        });
+
+        toggleArchivedButton.addEventListener("click", () => {
+            state.showArchived = !state.showArchived;
+            render();
+        });
+
+        resetStorageButton.addEventListener("click", () => {
+            localStorage.removeItem(STORAGE_KEY);
+            state.statuses = {};
+            render();
+        });
+
+        if (backgroundVideo) {
+            backgroundVideo.playbackRate = 0.6;
+        }
+
+        if (titleVideo) {
+            titleVideo.playbackRate = 1;
+        }
+
+        if (openIntroButton && introModal) {
+            openIntroButton.addEventListener("click", () => introModal.showModal());
+        }
+
+        if (closeIntroButton && introModal) {
+            closeIntroButton.addEventListener("click", () => introModal.close());
+        }
+
+        if (introModal) {
+            introModal.addEventListener("click", (event) => {
+                const rect = introModal.getBoundingClientRect();
+                const inside =
+                    event.clientX >= rect.left &&
+                    event.clientX <= rect.right &&
+                    event.clientY >= rect.top &&
+                    event.clientY <= rect.bottom;
+
+                if (!inside) {
+                    introModal.close();
+                }
+            });
+        }
+
+        render();
+    </script>
+</body>
+</html>
