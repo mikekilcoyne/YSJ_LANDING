@@ -691,7 +691,10 @@
             </div>
             <div class="toolbar-right">
                 <button class="is-warm" id="toggle-archived">Show archived</button>
-                <button id="reset-storage">Reset local checks</button>
+                <button id="export-save" title="Download Game Save">💾 SAVE Data</button>
+                <button id="import-trigger" title="Upload Game Save">📂 LOAD Data</button>
+                <button id="reset-storage" style="background: rgba(150,0,0,0.8); color: white;">RESET</button>
+                <input type="file" id="import-save" accept=".json" style="display: none;">
             </div>
         </section>
 
@@ -1126,6 +1129,46 @@
                 if (!inside) {
                     introModal.close();
                 }
+            });
+        }
+
+        
+        const exportSaveButton = document.getElementById("export-save");
+        const importTrigger = document.getElementById("import-trigger");
+        const importSaveInput = document.getElementById("import-save");
+
+        if (exportSaveButton) {
+            exportSaveButton.addEventListener("click", () => {
+                const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(state.statuses));
+                const downloadAnchorNode = document.createElement('a');
+                downloadAnchorNode.setAttribute("href",     dataStr);
+                downloadAnchorNode.setAttribute("download", "qwest_save.json");
+                document.body.appendChild(downloadAnchorNode);
+                downloadAnchorNode.click();
+                downloadAnchorNode.remove();
+                alert("Game state saved to qwest_save.json");
+            });
+        }
+
+        if (importTrigger && importSaveInput) {
+            importTrigger.addEventListener("click", () => importSaveInput.click());
+            importSaveInput.addEventListener("change", (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const importedData = JSON.parse(event.target.result);
+                        state.statuses = importedData;
+                        saveStatuses();
+                        render();
+                        alert("Game state loaded successfully!");
+                    } catch (err) {
+                        alert("Save file was corrupted.");
+                    }
+                };
+                reader.readAsText(file);
+                e.target.value = ''; // reset
             });
         }
 
