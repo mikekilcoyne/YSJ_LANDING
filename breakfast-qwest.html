@@ -137,8 +137,15 @@
             width: 100%;
         }
 
+        @keyframes castlevaniaTitleDrop {
+            0% { opacity: 0; transform: translateY(-120px) scale(1.1); filter: blur(4px); }
+            30% { opacity: 0; transform: translateY(-120px) scale(1.1); filter: blur(4px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0px); }
+        }
         @keyframes snesTitleFade {
             0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
             30% { opacity: 0; transform: translateY(15px); }
             100% { opacity: 1; transform: translateY(0); }
         }
@@ -156,7 +163,7 @@
             margin: 0;
             text-shadow: 4px 4px 0 #000, 0 0 25px rgba(245, 224, 39, 0.5);
             line-height: 1.1;
-            animation: snesTitleFade 3.5s ease-out forwards;
+            animation: castlevaniaTitleDrop 5.5s cubic-bezier(0.2, 0.8, 0.4, 1) forwards;
         }
         .page-subtitle {
             font-family: "VT323", monospace;
@@ -168,7 +175,7 @@
             margin: -0.5rem 0 1.5rem 0;
             text-shadow: 2px 2px 0 #000;
             opacity: 0;
-            animation: snesTitleFade 1.5s ease-out 3.2s forwards;
+            animation: snesTitleFade 2s ease-out 5s forwards;
             font-weight: bold;
         }
 
@@ -202,7 +209,7 @@
             transition: all 150ms ease;
             text-shadow: 2px 2px 0 #000;
             box-shadow: 0 0 20px rgba(245, 224, 39, 0.2);
-            animation: snesTitleFade 4.5s ease-out forwards;
+            animation: snesTitleFade 2s ease-out 5s forwards;
         }
 
         .intro-trigger:hover {
@@ -689,7 +696,7 @@
 
         .toolbar, #region-stack, .stats-row, .footer-note {
             opacity: 0;
-            animation: contentFadeIn 1.5s ease-out 4.5s forwards;
+            animation: contentFadeIn 2.5s ease-out 5.5s forwards;
         }
 
     </style>
