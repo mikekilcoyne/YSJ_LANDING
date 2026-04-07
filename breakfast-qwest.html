@@ -46,8 +46,8 @@
             position: fixed;
             inset: 0;
             z-index: 0;
-            overflow: hidden;
-            background: #1a1612;
+            background: url('./assets/video/BACKGROUND_SQUISHY.gif') no-repeat center center;
+            background-size: cover;
         }
 
         .video-background video {
@@ -63,7 +63,7 @@
             position: absolute;
             inset: 0;
             background:
-                linear-gradient(rgba(10, 8, 18, 0.8), rgba(10, 8, 18, 0.92)),
+                linear-gradient(rgba(10, 8, 18, 0.7), rgba(10, 8, 18, 0.85)),
                 url('./assets/silly/ysj-grain.gif'),
                 linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%);
             background-size: auto, 200px 200px, 100% 4px;
@@ -136,22 +136,19 @@
             width: 100%;
         }
 
-        .title-media {
-            width: min(850px, 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 12rem;
-            filter: drop-shadow(0 0 35px rgba(0, 0, 0, 0.6));
+        .page-title {
+            font-family: "VT323", monospace;
+            font-size: clamp(4.5rem, 8vw, 7.5rem);
+            color: var(--primary-yellow);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin: 0;
+            text-shadow: 4px 4px 0 #000, 0 0 25px rgba(245, 224, 39, 0.5);
+            line-height: 1.1;
         }
 
-        .title-media video,
-        .title-media img {
-            display: block;
-            width: 100%;
-            height: auto;
-            object-fit: contain;
-        }
+        
 
         .intro-trigger {
             display: inline-flex;
@@ -345,31 +342,33 @@
 
         .checkbox {
             appearance: none;
-            width: 1.45rem;
-            height: 1.45rem;
+            width: 1.6rem;
+            height: 1.6rem;
             margin: 0.12rem 0 0;
             border-radius: 4px;
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 221, 102, 0.6);
+            background: rgba(12, 11, 24, 0.55);
             display: grid;
             place-items: center;
             cursor: pointer;
             flex: 0 0 auto;
             transition: all 160ms ease;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
         }
 
         .checkbox::after {
             content: "✓";
-            font-size: 0.78rem;
-            color: white;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #000;
             transform: scale(0);
             transition: transform 140ms ease;
         }
 
         .checkbox:checked {
-            border-color: var(--hot-pink);
-            background: rgba(255, 42, 157, 0.8);
-            box-shadow: 0 0 15px rgba(255, 42, 157, 0.5);
+            border-color: var(--primary-yellow);
+            background: rgba(255, 221, 102, 0.85);
+            box-shadow: 0 0 15px rgba(255, 221, 102, 0.3);
         }
 
         .checkbox:checked::after {
@@ -624,11 +623,7 @@
     </style>
 </head>
 <body>
-    <div class="video-background" aria-hidden="true">
-        <video id="background-video" autoplay muted loop playsinline>
-            <source src="./assets/video/BACKGROUND_CLEAN.mp4" type="video/mp4">
-        </video>
-    </div>
+    <div class="video-background" aria-hidden="true"></div>
     <main class="page-shell">
         <div class="topbar">
             <div class="brandline">Yellow Satin Jacket • Breakfast Qwest</div>
@@ -637,11 +632,7 @@
         <section class="hero-card">
             <div class="hero-grid">
                 <div class="hero-top">
-                    <div class="title-media">
-                        <video id="title-video" autoplay muted loop playsinline>
-                            <source src="./assets/title/BK_QUEST_ALPHA.webm" type="video/webm">
-                        </video>
-                    </div>
+                    <h1 class="page-title">Breakfast Qwest</h1>
                     <button class="intro-trigger" id="open-intro" type="button">START QWEST</button>
                     <div class="stats-row" id="stats-row" style="margin-top: 1rem;"></div>
                 </div>
