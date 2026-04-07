@@ -660,6 +660,17 @@
                 width: 100%;
             }
         }
+    
+        @keyframes contentFadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .toolbar, #region-stack, .stats-row, .footer-note {
+            opacity: 0;
+            animation: contentFadeIn 1.5s ease-out 4.5s forwards;
+        }
+
     </style>
 </head>
 <body>
