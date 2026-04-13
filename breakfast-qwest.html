@@ -715,6 +715,12 @@
             border-color: #fff;
         }
 
+        .action-button.qwest-active {
+            color: #1C1C1C;
+            background: #ff2a9d;
+            border-color: #000;
+        }
+
         .intro-modal {
             width: min(760px, calc(100% - 1.2rem));
             border: 1px solid rgba(255, 255, 255, 0.14);
@@ -859,6 +865,190 @@
                 width: 100%;
             }
         }
+        
+        /* ── Jacket Fellow Badge ── */
+        .jacket-fellow {
+            position: fixed;
+            bottom: 1.25rem;
+            right: 1.25rem;
+            z-index: 9999;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.45rem 0.9rem 0.45rem 0.45rem;
+            background: #1C1C1C;
+            border: 2px solid #FFDD66;
+            box-shadow: 3px 3px 0px #000;
+            color: #FFDD66;
+            text-decoration: none;
+            font-family: "VT323", monospace;
+            font-size: 1.05rem;
+            letter-spacing: 0.07em;
+            text-shadow: 1px 1px 0 #000;
+            transition: background 80ms steps(1), color 80ms steps(1), transform 80ms steps(1), box-shadow 80ms steps(1);
+            cursor: pointer;
+        }
+
+        .jacket-fellow:hover {
+            background: #FFDD66;
+            color: #1C1C1C;
+            text-shadow: none;
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0px #000;
+        }
+
+        .jacket-fellow:hover .jacket-fellow-avatar {
+            border-color: #1C1C1C;
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .jacket-fellow:hover .jacket-fellow-avatar::after {
+            opacity: 0;
+        }
+
+        .jacket-fellow-avatar {
+            position: relative;
+            width: 36px;
+            height: 36px;
+            flex: 0 0 36px;
+            border-radius: 50%;
+            border: 2px solid #FFDD66;
+            box-shadow: 2px 2px 0 #000;
+            overflow: hidden;
+            image-rendering: pixelated;
+        }
+
+        /* scanline overlay */
+        .jacket-fellow-avatar::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                transparent 0px,
+                transparent 2px,
+                rgba(0, 0, 0, 0.28) 2px,
+                rgba(0, 0, 0, 0.28) 4px
+            );
+            border-radius: 50%;
+            pointer-events: none;
+            transition: opacity 80ms steps(1);
+        }
+
+        .jacket-fellow-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            image-rendering: pixelated;
+            filter: contrast(1.1) saturate(1.15);
+        }
+
+        .jacket-fellow-label {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            line-height: 1.1;
+        }
+
+        .jacket-fellow-name {
+            font-size: 0.95rem;
+            color: inherit;
+            text-transform: uppercase;
+        }
+
+        .jacket-fellow-sub {
+            font-size: 0.72rem;
+            color: rgba(255, 221, 102, 0.55);
+            letter-spacing: 0.04em;
+        }
+
+        .jacket-fellow:hover .jacket-fellow-sub {
+            color: rgba(28, 28, 28, 0.55);
+        }
+
+        /* ── City Photo ── */
+        .city-photo-frame {
+            position: relative;
+            margin: -0.7rem -0.7rem 0.75rem;
+            border-radius: 9px 9px 0 0;
+            overflow: hidden;
+            border-bottom: 2px solid #000;
+        }
+
+        .city-photo-img {
+            display: block;
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            object-position: center top;
+            image-rendering: auto;
+        }
+
+        .city-photo-remove {
+            position: absolute;
+            top: 0.4rem;
+            right: 0.4rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: #1C1C1C;
+            border: 2px solid #fff;
+            box-shadow: 2px 2px 0 #000;
+            color: #fff;
+            font-family: "VT323", monospace;
+            font-size: 0.85rem;
+            line-height: 1;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            padding: 0;
+            transition: background 80ms steps(1), color 80ms steps(1);
+        }
+
+        .city-photo-remove:hover {
+            background: #ff2a9d;
+            border-color: #fff;
+        }
+
+        .city-photo-stamp {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 0.5rem;
+            padding: 0.2rem 0.5rem;
+            background: rgba(10, 8, 18, 0.82);
+            border: 2px solid #FFDD66;
+            box-shadow: 2px 2px 0 #000;
+            font-family: "VT323", monospace;
+            font-size: 0.85rem;
+            color: #FFDD66;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .city-photo-label {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .city-photo-label input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .flash-row {
+            animation: flashHighlight 1s ease-out;
+        }
+        @keyframes flashHighlight {
+            0% { background-color: rgba(139, 0, 0, 0.6); }
+            100% { background-color: transparent; }
+        }
     
         @keyframes contentFadeIn {
             0% { opacity: 0; transform: translateY(20px); }
@@ -892,7 +1082,851 @@
             animation: contentFadeIn 0.9s ease-out both;
         }
 
+        /* ─────────────────────────────────────────
+           MAP ADVENTURE FRAME  —  YSJ pixel style
+           ───────────────────────────────────────── */
+        .map-adventure-frame {
+            display: flex;
+            width: 100%;
+            margin-bottom: 2rem;
+            border: 3px solid #1C1C1C;
+            box-shadow: 4px 4px 0px #000;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .map-pane {
+            flex: 1 1 65%;
+            min-height: 440px;
+            background: #1C1C1C;
+        }
+
+        /* Pixel-render the map tiles themselves */
+        .leaflet-tile {
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* ─── Sidebar ─── */
+        .map-sidebar {
+            flex: 0 0 clamp(180px, 28%, 300px);
+            background: #1C1C1C;
+            border-left: 3px solid #1C1C1C;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .sidebar-header {
+            font-family: "VT323", monospace;
+            font-size: 1.35rem;
+            color: #1C1C1C;
+            background: #FFDD66;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 0.6rem 0.9rem;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.18);
+            border-bottom: 3px solid #1C1C1C;
+            box-shadow: 0 2px 0px #000;
+            flex: 0 0 auto;
+        }
+
+        .upcoming-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.3rem 0;
+        }
+
+        .upcoming-list::-webkit-scrollbar { width: 4px; }
+        .upcoming-list::-webkit-scrollbar-track { background: #111; }
+        .upcoming-list::-webkit-scrollbar-thumb { background: #FFDD66; }
+
+        .upcoming-item {
+            padding: 0.55rem 0.9rem;
+            border-bottom: 2px solid #2a2a2a;
+            cursor: pointer;
+            transition: background 100ms ease;
+        }
+
+        .upcoming-item:hover {
+            background: rgba(255, 221, 102, 0.12);
+        }
+
+        .upcoming-city {
+            font-family: "VT323", monospace;
+            font-size: 1.2rem;
+            color: #FFDD66;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0 #000;
+            line-height: 1.1;
+        }
+
+        .upcoming-date {
+            font-family: "VT323", monospace;
+            font-size: 0.95rem;
+            color: #E5E5E5;
+            margin-top: 0.1rem;
+        }
+
+        .upcoming-venue {
+            font-family: "Special Elite", serif;
+            font-size: 0.58rem;
+            color: rgba(229, 229, 229, 0.5);
+            margin-top: 0.15rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .upcoming-empty {
+            padding: 1rem 0.9rem;
+            font-family: "VT323", monospace;
+            font-size: 1rem;
+            color: rgba(229, 229, 229, 0.35);
+            text-transform: uppercase;
+        }
+
+        /* ─────────────────────────────────────────
+           PROGRESS SECTION  —  YSJ pixel style
+           ───────────────────────────────────────── */
+        .qwest-progress-section {
+            margin-bottom: 2rem;
+            padding: 1rem 1.4rem;
+            background: #1C1C1C;
+            border: 3px solid #1C1C1C;
+            box-shadow: 4px 4px 0px #000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .progress-label {
+            font-family: "VT323", monospace;
+            font-size: 1.7rem;
+            color: #FFDD66;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            text-shadow: 2px 2px 0 #000;
+            line-height: 1;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 20px;
+            background: #000;
+            border: 2px solid #E5E5E5;
+            box-shadow:
+                inset 2px 2px 0 rgba(0,0,0,0.6),
+                2px 2px 0px #000;
+            overflow: hidden;
+            image-rendering: pixelated;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #FFDD66;
+            box-shadow: inset -2px 0 0 rgba(0,0,0,0.2);
+            transition: width 0.5s steps(20, end);
+            min-width: 4px;
+            image-rendering: pixelated;
+        }
+
+        .progress-remaining {
+            font-family: "VT323", monospace;
+            font-size: 1.05rem;
+            color: #E5E5E5;
+            text-shadow: 1px 1px 0 #000;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* ─────────────────────────────────────────
+           MAP PINS  —  pixel / SMW style
+           ───────────────────────────────────────── */
+        .qwest-pin {
+            width: 14px;
+            height: 14px;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0 #000;
+            cursor: pointer;
+            transition: transform 0.08s steps(1);
+            image-rendering: pixelated;
+        }
+
+        .qwest-pin:hover {
+            transform: scale(1.5);
+            z-index: 1000 !important;
+        }
+
+        .qwest-pin.pin-done {
+            background-color: #3aad5e;
+            border-radius: 0;
+            border-color: #000;
+        }
+
+        .qwest-pin.pin-locked {
+            background-color: #FFDD66;
+            border-radius: 0;
+            border-color: #000;
+        }
+
+        .qwest-pin.pin-archived {
+            background-color: #555;
+            border-radius: 0;
+            border: 2px dashed #888;
+            box-shadow: none;
+        }
+
+        .qwest-pin.pin-qwest {
+            background-color: #ff2a9d;
+            border-radius: 0;
+            border: 2px solid #fff;
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .qwest-pin.pin-you {
+            background-color: #ff2a9d;
+            border-radius: 0;
+            border: 2px solid #fff;
+            box-shadow: 2px 2px 0 #000;
+            animation: pinPulse 1.4s steps(2, end) infinite;
+            image-rendering: pixelated;
+        }
+
+        @keyframes pinPulse {
+            0%, 100% { box-shadow: 2px 2px 0 #000; background-color: #ff2a9d; }
+            50%       { box-shadow: 2px 2px 0 #000, 0 0 0 3px #FFDD66; background-color: #fff; }
+        }
+
+        /* ─────────────────────────────────────────
+           ACHIEVEMENTS  —  YSJ pixel style
+           ───────────────────────────────────────── */
+
+        /* ── Qwest Planner ── */
+        .qwest-planner {
+            margin-bottom: 2rem;
+            background: #1C1C1C;
+            border: 3px solid #FFDD66;
+            box-shadow: 4px 4px 0 #000;
+        }
+
+        .planner-header {
+            background: #FFDD66;
+            padding: 0.6rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid #000;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .planner-title {
+            font-family: "VT323", monospace;
+            font-size: 1.5rem;
+            color: #1C1C1C;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+            margin: 0;
+        }
+
+        .planner-toggle {
+            font-family: "VT323", monospace;
+            font-size: 0.95rem;
+            color: #1C1C1C;
+            background: none;
+            border: 2px solid #1C1C1C;
+            box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+            padding: 0.2rem 0.6rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: background 80ms steps(1), color 80ms steps(1);
+        }
+
+        .planner-toggle:hover { background: #1C1C1C; color: #FFDD66; }
+
+        .planner-body {
+            padding: 1rem;
+            display: none;
+        }
+
+        .planner-body.is-open { display: block; }
+
+        .planner-inputs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.7rem;
+            margin-bottom: 0.9rem;
+        }
+
+        .planner-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .planner-label {
+            font-family: "VT323", monospace;
+            font-size: 0.85rem;
+            color: #FFDD66;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .planner-input,
+        .planner-select {
+            padding: 0.5rem 0.6rem;
+            background: #000;
+            border: 2px solid #555;
+            color: #E5E5E5;
+            font-family: "VT323", monospace;
+            font-size: 1.1rem;
+            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.5);
+            outline: none;
+            transition: border-color 80ms steps(1);
+        }
+
+        .planner-input:focus,
+        .planner-select:focus { border-color: #FFDD66; }
+
+        .planner-select option { background: #1C1C1C; }
+
+        .planner-run-btn {
+            font-family: "VT323", monospace;
+            font-size: 1.3rem;
+            color: #1C1C1C;
+            background: #FFDD66;
+            border: 2px solid #000;
+            box-shadow: 3px 3px 0 #000;
+            padding: 0.5rem 1.4rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: transform 80ms steps(1), box-shadow 80ms steps(1);
+        }
+
+        .planner-run-btn:hover {
+            transform: translate(-1px, -1px);
+            box-shadow: 4px 4px 0 #000;
+        }
+
+        .planner-results {
+            margin-top: 1rem;
+            border-top: 2px solid rgba(255,221,102,0.2);
+            padding-top: 0.9rem;
+        }
+
+        .planner-summary {
+            font-family: "VT323", monospace;
+            font-size: 1.1rem;
+            color: #FFDD66;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-bottom: 0.75rem;
+            text-shadow: 1px 1px 0 #000;
+        }
+
+        .planner-route { display: flex; flex-direction: column; gap: 0; }
+
+        .planner-stop {
+            display: grid;
+            grid-template-columns: 2.5rem 1fr;
+            gap: 0 0.6rem;
+            align-items: start;
+        }
+
+        .planner-stop-dot {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 0.35rem;
+        }
+
+        .stop-dot {
+            width: 12px; height: 12px;
+            background: #FFDD66;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0 #000;
+            flex: 0 0 auto;
+        }
+
+        .stop-dot.is-start { background: #ff2a9d; }
+        .stop-dot.is-done  { background: #3aad5e; }
+
+        .stop-line {
+            width: 2px; flex: 1; min-height: 1.5rem;
+            background: rgba(255,221,102,0.3);
+            margin-top: 2px;
+        }
+
+        .planner-stop-content { padding-bottom: 1rem; }
+
+        .stop-city {
+            font-family: "VT323", monospace;
+            font-size: 1.25rem;
+            color: #FFDD66;
+            text-transform: uppercase;
+            text-shadow: 1px 1px 0 #000;
+            line-height: 1.1;
+        }
+
+        .stop-date { font-family: "VT323", monospace; font-size: 0.95rem; color: #E5E5E5; }
+
+        .stop-venue {
+            font-family: "Special Elite", serif;
+            font-size: 0.62rem;
+            color: rgba(229,229,229,0.6);
+            margin-top: 0.15rem;
+        }
+
+        .stop-unconfirmed {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.2rem;
+            font-family: "VT323", monospace;
+            font-size: 0.75rem;
+            color: #ff2a9d;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-top: 0.2rem;
+        }
+
+        .stop-unconfirmed:hover { text-decoration: underline; }
+
+        .stop-leg {
+            font-family: "VT323", monospace;
+            font-size: 0.82rem;
+            color: rgba(229,229,229,0.5);
+            text-transform: uppercase;
+            margin-top: 0.2rem;
+            letter-spacing: 0.04em;
+        }
+
+        .stop-leg.leg-tight { color: #ff2a9d; }
+        .stop-leg.leg-ok    { color: rgba(58,173,94,0.85); }
+
+        .planner-actions {
+            display: flex; gap: 0.6rem; flex-wrap: wrap;
+            margin-top: 0.75rem; padding-top: 0.75rem;
+            border-top: 2px solid rgba(255,221,102,0.15);
+        }
+
+        .planner-copy-btn, .planner-maps-btn {
+            font-family: "VT323", monospace;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            padding: 0.35rem 0.8rem;
+            border: 2px solid #555;
+            box-shadow: 2px 2px 0 #000;
+            color: #E5E5E5;
+            background: #000;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: background 80ms steps(1), color 80ms steps(1), border-color 80ms steps(1);
+        }
+
+        .planner-copy-btn:hover { background: #FFDD66; color: #1C1C1C; border-color: #000; }
+        .planner-maps-btn:hover { background: #3aad5e; color: #fff; border-color: #000; }
+
+        .achievements-section {
+            margin-bottom: 2rem;
+        }
+
+        .achievements-title {
+            font-family: "VT323", monospace;
+            font-size: 1.6rem;
+            color: #FFDD66;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            text-shadow: 2px 2px 0 #000;
+            margin: 0 0 0.9rem;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .achievement-badge {
+            padding: 0.75rem 0.9rem;
+            background: #1C1C1C;
+            border: 2px solid #333;
+            box-shadow: 3px 3px 0px #000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            image-rendering: pixelated;
+        }
+
+        .achievement-badge.is-unlocked {
+            border-color: #FFDD66;
+            box-shadow: 3px 3px 0px #000;
+        }
+
+        .achievement-badge.is-unlocked .badge-icon {
+            filter: none;
+            opacity: 1;
+        }
+
+        .badge-icon {
+            font-size: 1.5rem;
+            filter: grayscale(1) brightness(0.4);
+            opacity: 0.5;
+            transition: filter 200ms ease, opacity 200ms ease;
+            line-height: 1;
+        }
+
+        .badge-name {
+            font-family: "VT323", monospace;
+            font-size: 1.1rem;
+            color: rgba(229, 229, 229, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            text-shadow: 1px 1px 0 #000;
+            line-height: 1.1;
+        }
+
+        .achievement-badge.is-unlocked .badge-name {
+            color: #FFDD66;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .badge-desc {
+            font-family: "Special Elite", serif;
+            font-size: 0.6rem;
+            color: rgba(229, 229, 229, 0.35);
+            line-height: 1.4;
+        }
+
+        .achievement-badge.is-unlocked .badge-desc {
+            color: #E5E5E5;
+        }
+
+        .badge-lock {
+            font-family: "VT323", monospace;
+            font-size: 0.72rem;
+            color: rgba(229, 229, 229, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 0.15rem;
+        }
+
+        .achievement-badge.is-unlocked .badge-lock {
+            display: none;
+        }
+
+        /* ─────────────────────────────────────────
+           LEAFLET OVERRIDES
+           ───────────────────────────────────────── */
+        .leaflet-container {
+            font-family: "VT323", monospace;
+            /* Punch up colors for SMW feel — no dark invert */
+            filter: saturate(1.4) contrast(1.05) brightness(1.0);
+        }
+
+        .leaflet-popup {
+            filter: none !important;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background: #1C1C1C;
+            color: #FFDD66;
+            border: 2px solid #FFDD66;
+            border-radius: 0;
+            font-family: "VT323", monospace;
+            font-size: 1rem;
+            box-shadow: 3px 3px 0 #000;
+        }
+
+        .leaflet-popup-tip {
+            background: #1C1C1C;
+        }
+
+        .leaflet-popup-content p {
+            margin: 4px 0;
+            color: #FFDD66;
+        }
+
+        .leaflet-popup-content a {
+            color: #E5E5E5;
+        }
+
+        .leaflet-popup-content b {
+            text-shadow: 1px 1px 0 #000;
+            font-family: "VT323", monospace;
+            font-size: 1.1rem;
+        }
+
+        /* ── Map Popup Card ── */
+        .leaflet-popup-content-wrapper {
+            padding: 0 !important;
+        }
+
+        .leaflet-popup-content {
+            margin: 0 !important;
+        }
+
+        .map-popup {
+            width: 260px;
+            font-family: "Special Elite", serif;
+            font-size: 0.82rem;
+            overflow: hidden;
+        }
+
+        .map-popup-head {
+            background: #FFDD66;
+            padding: 0.55rem 0.75rem 0.45rem;
+            border-bottom: 2px solid #000;
+        }
+
+        .map-popup-city {
+            font-family: "VT323", monospace;
+            font-size: 1.5rem;
+            color: #1C1C1C;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            line-height: 1;
+            margin: 0;
+            text-shadow: 1px 1px 0 rgba(0,0,0,0.15);
+        }
+
+        .map-popup-country {
+            font-family: "Special Elite", serif;
+            font-size: 0.65rem;
+            color: rgba(28,28,28,0.65);
+            margin-top: 0.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .map-popup-body {
+            padding: 0.7rem 0.75rem 0.55rem;
+            background: #1C1C1C;
+        }
+
+        .map-popup-upcoming {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            background: #FFDD66;
+            color: #1C1C1C;
+            font-family: "VT323", monospace;
+            font-size: 0.85rem;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0 #000;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .map-popup-unconfirmed {
+            display: inline-block;
+            padding: 0.1rem 0.4rem;
+            background: #ff2a9d;
+            color: #fff;
+            font-family: "VT323", monospace;
+            font-size: 0.78rem;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0 #000;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+        }
+
+        .map-popup-unconfirmed:hover { opacity: 0.85; }
+
+        .map-popup-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+
+        .map-popup-row {
+            display: grid;
+            grid-template-columns: 3.5rem 1fr;
+            gap: 0 0.4rem;
+            align-items: baseline;
+            line-height: 1.35;
+        }
+
+        .popup-label {
+            font-family: "VT323", monospace;
+            font-size: 0.75rem;
+            color: rgba(255,221,102,0.55);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            white-space: nowrap;
+        }
+
+        .popup-value {
+            font-family: "Special Elite", serif;
+            font-size: 0.78rem;
+            color: #E5E5E5;
+            line-height: 1.35;
+        }
+
+        .map-popup-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.65rem;
+            padding-top: 0.6rem;
+            border-top: 2px solid rgba(255,221,102,0.18);
+        }
+
+        .map-popup-check,
+        .map-popup-qwest-btn {
+            cursor: pointer;
+            font-family: "VT323", monospace;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.35rem 0.5rem;
+            box-shadow: 2px 2px 0 #000;
+            border: 2px solid #FFDD66;
+            background: transparent;
+            color: #FFDD66;
+            text-align: center;
+            transition: background 80ms steps(1), color 80ms steps(1);
+            line-height: 1;
+        }
+
+        .map-popup-check:hover,
+        .map-popup-check.is-checked {
+            background: #FFDD66;
+            color: #1C1C1C;
+        }
+
+        .map-popup-qwest-btn {
+            border-color: #555;
+            color: rgba(229,229,229,0.7);
+        }
+
+        .map-popup-qwest-btn.is-on-qwest {
+            border-color: #ff2a9d;
+            color: #ff2a9d;
+        }
+
+        .map-popup-qwest-btn:hover {
+            background: rgba(255,255,255,0.06);
+        }
+
+        /* Check-in form (replaces action buttons) */
+        .popup-checkin-form {
+            margin-top: 0.65rem;
+            padding-top: 0.6rem;
+            border-top: 2px solid rgba(255,221,102,0.18);
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+        }
+
+        .popup-checkin-label {
+            font-family: "VT323", monospace;
+            font-size: 0.9rem;
+            color: #FFDD66;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .popup-checkin-hint {
+            font-family: "Special Elite", serif;
+            font-size: 0.65rem;
+            color: rgba(229,229,229,0.5);
+            margin-top: -0.2rem;
+        }
+
+        .popup-checkin-url {
+            width: 100%;
+            padding: 0.35rem 0.45rem;
+            background: #000;
+            border: 2px solid #555;
+            color: #E5E5E5;
+            font-family: "Special Elite", serif;
+            font-size: 0.75rem;
+            box-shadow: inset 2px 2px 0 rgba(0,0,0,0.5);
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .popup-checkin-url:focus { border-color: #FFDD66; }
+        .popup-checkin-url::placeholder { color: rgba(229,229,229,0.3); }
+
+        .popup-checkin-btns {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 0.4rem;
+        }
+
+        .popup-confirm-btn {
+            cursor: pointer;
+            font-family: "VT323", monospace;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.35rem 0.5rem;
+            background: #FFDD66;
+            color: #1C1C1C;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0 #000;
+            transition: transform 80ms steps(1);
+        }
+
+        .popup-confirm-btn:hover { transform: translate(-1px,-1px); }
+
+        .popup-skip-btn {
+            cursor: pointer;
+            font-family: "VT323", monospace;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            padding: 0.35rem 0.5rem;
+            background: transparent;
+            color: rgba(229,229,229,0.45);
+            border: 2px solid #333;
+            box-shadow: 2px 2px 0 #000;
+        }
+
+        .popup-skip-btn:hover { color: #E5E5E5; border-color: #555; }
+
+        /* Post link badge on city card */
+        .post-link-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.25rem 0.5rem;
+            background: #FFDD66;
+            color: #1C1C1C;
+            font-family: "VT323", monospace;
+            font-size: 0.78rem;
+            border: 2px solid #000;
+            box-shadow: 2px 2px 0 #000;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: background 80ms steps(1), color 80ms steps(1);
+        }
+
+        .post-link-badge:hover { background: #1C1C1C; color: #FFDD66; }
+
+        @media (max-width: 640px) {
+            .map-adventure-frame {
+                flex-direction: column;
+            }
+
+            .map-sidebar {
+                flex: 0 0 220px;
+                border-left: none;
+                border-top: 3px solid #1C1C1C;
+            }
+        }
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
     <div class="video-background" aria-hidden="true"></div>
@@ -923,6 +1957,55 @@
             </div>
         </section>
         <div class="progress-shell" id="progress-shell">
+            <div class="map-adventure-frame reveal-last">
+                <div id="qwest-map-frame" class="map-pane"></div>
+                <div class="map-sidebar" id="map-sidebar">
+                    <div class="sidebar-header">Upcoming Clubs</div>
+                    <div id="upcoming-list" class="upcoming-list"></div>
+                </div>
+            </div>
+            <div class="qwest-progress-section reveal-last" id="qwest-progress-section"></div>
+            <div class="achievements-section reveal-last" id="achievements-section">
+                <h2 class="achievements-title">Achievements</h2>
+                <div class="achievements-grid" id="achievements-grid"></div>
+            </div>
+            <div class="qwest-planner reveal-last" id="qwest-planner">
+                <div class="planner-header">
+                    <h2 class="planner-title">🗺 Qwest Planner</h2>
+                    <button class="planner-toggle" id="planner-toggle">Plan a Trip ▾</button>
+                </div>
+                <div class="planner-body" id="planner-body">
+                    <div class="planner-inputs">
+                        <div class="planner-field">
+                            <label class="planner-label">Starting City</label>
+                            <input class="planner-input" id="planner-start-city" type="text" placeholder="e.g. Paris" list="planner-city-list">
+                            <datalist id="planner-city-list"></datalist>
+                        </div>
+                        <div class="planner-field">
+                            <label class="planner-label">Start Date</label>
+                            <input class="planner-input" id="planner-start-date" type="date">
+                        </div>
+                        <div class="planner-field">
+                            <label class="planner-label">Region</label>
+                            <select class="planner-select" id="planner-region">
+                                <option value="">All Regions</option>
+                            </select>
+                        </div>
+                        <div class="planner-field">
+                            <label class="planner-label">Max Trip Length</label>
+                            <select class="planner-select" id="planner-days">
+                                <option value="7">1 week</option>
+                                <option value="14" selected>2 weeks</option>
+                                <option value="21">3 weeks</option>
+                                <option value="30">1 month</option>
+                                <option value="90">3 months</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="planner-run-btn" id="planner-run">PLAN MY QWEST →</button>
+                    <div id="planner-results"></div>
+                </div>
+            </div>
             <section class="section-stack" id="region-stack"></section>
             <div class="stats-row reveal-last" id="stats-row" style="margin-top: 1rem;"></div>
             <p class="footer-note reveal-last">
@@ -943,57 +2026,67 @@
         </div>
     </dialog>
 
+    <a class="jacket-fellow" href="./index.html" title="Yellow Satin Jacket">
+        <div class="jacket-fellow-avatar">
+            <img src="./assets/jacket-fellow.jpeg" alt="Jacket Fellow">
+        </div>
+        <div class="jacket-fellow-label">
+            <span class="jacket-fellow-name">Jacket Fellow was here...</span>
+            <span class="jacket-fellow-sub">yellowsatinjacket.com</span>
+        </div>
+    </a>
+
     <script>
         const clubData = [
-            { city: "Amsterdam", region: "Europe", country: "Netherlands", venue: "Volkshotel (East) - around the Bar area", time: "8:30 AM", frequency: "Second Friday", upcoming: "2026-04-10", host: "Sheila Guo", instagram: "@office.sheilaguo", linkedin: "https://www.linkedin.com/in/sheila-guo/", whatsapp: "" },
-            { city: "Atlanta", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "Stephanie Nelson", instagram: "", linkedin: "", whatsapp: "" },
-            { city: "Austin", region: "North America", country: "USA", venue: "Nate's Baked Goods & Coffee, 401 W 18th St", time: "", frequency: "", upcoming: "2026-03-15", host: "Rob Henzi, Alyssa Gray", instagram: "", linkedin: "https://www.linkedin.com/in/robbhenzi/", whatsapp: "" },
-            { city: "Barcelona", region: "Europe", country: "Spain", venue: "Caravelle, Carrer del Pintor Fortuny 31", time: "", frequency: "First Wednesday", upcoming: "", host: "Nicole Ingra & Kevin Maguire", instagram: "@nicoleingra @newfatherhood", linkedin: "https://www.linkedin.com/in/nicoleingra/", whatsapp: "" },
-            { city: "Bassano del Grappa", region: "Europe", country: "Italy", venue: "", time: "", frequency: "", upcoming: "", host: "Charla Caponi & Amy Rich", instagram: "@cncbassano", linkedin: "https://www.linkedin.com/in/charla-noel-caponi/", whatsapp: "" },
-            { city: "Berlin", region: "Europe", country: "Germany", venue: "", time: "", frequency: "", upcoming: "", host: "", instagram: "", linkedin: "", whatsapp: "" },
-            { city: "Biarritz", region: "Europe", country: "France", venue: "Spok Cafe, 44 Rue Luis Mariano", time: "", frequency: "First Friday", upcoming: "2026-04-03", host: "Maggie Spicer", instagram: "@whisk.sf @maggiefspicer", linkedin: "https://www.linkedin.com/in/maggiespicer/", whatsapp: "" },
-            { city: "Boston", region: "North America", country: "USA", venue: "Tradesman Coffee", time: "8:30 AM", frequency: "", upcoming: "", host: "Hannah Schon, Lizzie Milstein, Kevin Johanessen", instagram: "", linkedin: "https://www.linkedin.com/in/hannahschon/", whatsapp: "" },
-            { city: "Boulder", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "Joy Shure", instagram: "", linkedin: "https://www.linkedin.com/in/joy-shure-041a711a/", whatsapp: "" },
-            { city: "Brighton", region: "UK", country: "UK", venue: "", time: "", frequency: "", upcoming: "", host: "Amy Daroukakis", instagram: "", linkedin: "https://www.linkedin.com/in/amydaroukakis/", whatsapp: "" },
-            { city: "Burlington, VT", region: "North America", country: "USA", venue: "Deep City, 112 Lake St, Burlington, VT 05401", time: "9:00 AM", frequency: "Second Monday", upcoming: "2026-04-13", host: "Zach Pollakoff", instagram: "@zachpollakoff", linkedin: "https://www.linkedin.com/in/zachpollakoff/", whatsapp: "" },
-            { city: "Cambridge, MA", region: "North America", country: "USA", venue: "", time: "8:30 AM", frequency: "", upcoming: "", host: "Greg Stahovec, Anne-Marie Kline", instagram: "", linkedin: "https://www.linkedin.com/in/gstahovec/", whatsapp: "" },
-            { city: "Chicago", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "", instagram: "", linkedin: "", whatsapp: "" },
-            { city: "Copenhagen", region: "Europe", country: "Denmark", venue: "Granola, Varnedamsvej 5", time: "8:30 AM", frequency: "Bi-Weekly Thursday", upcoming: "9 April", host: "Denize Maaloe, Diego Marini & team", instagram: "@yummycolours", linkedin: "https://www.linkedin.com/company/yummycolours", whatsapp: "" },
-            { city: "Denver", region: "North America", country: "USA", venue: "Denver Central Market", time: "8:00 AM", frequency: "Pop-Up", upcoming: "4/9", host: "Kate Gagnon", instagram: "", linkedin: "https://www.linkedin.com/in/katesaxgagnon", whatsapp: "" },
-            { city: "Ibiza", region: "Europe", country: "Spain", venue: "", time: "8:30 AM", frequency: "", upcoming: "", host: "", instagram: "", linkedin: "", whatsapp: "" },
-            { city: "London", region: "UK", country: "UK", venue: "Rotating locations", time: "", frequency: "First Thursday", upcoming: "", host: "Victoria Gates Fleming", instagram: "@thehungrycrumpet", linkedin: "https://www.linkedin.com/in/steph-clarke/", whatsapp: "" },
-            { city: "Los Angeles", region: "North America", country: "USA", venue: "Zinque, Venice", time: "8:30 AM", frequency: "Third Friday", upcoming: "", host: "Scott Donaton, Kirsten Ludwig, Anita Schillhorn van Veen", instagram: "@kirstenludwig", linkedin: "https://www.linkedin.com/in/kirstenludwig/", whatsapp: "" },
-            { city: "Lugano", region: "Europe", country: "Switzerland", venue: "AMALO (rotating)", time: "", frequency: "", upcoming: "", host: "Camilla Finocchiaro Aprile & Elettra Fiumi", instagram: "@fossilfloss @efiumi", linkedin: "https://www.linkedin.com/in/camillafaprile/", whatsapp: "" },
-            { city: "Manila", region: "Asia", country: "Philippines", venue: "", time: "8:30 AM", frequency: "", upcoming: "", host: "Sharon Panelo, Carla Laus", instagram: "", linkedin: "", whatsapp: "" },
-            { city: "Melbourne - Fitzroy", region: "Australia", country: "Australia", venue: "Code Black, CBD", time: "8:30 AM", frequency: "Pop-Up", upcoming: "April 24", host: "Celeste Blewitt & Josh Gardiner", instagram: "", linkedin: "https://www.linkedin.com/in/joshgardiner/", whatsapp: "" },
-            { city: "Melbourne - Richmond", region: "Australia", country: "Australia", venue: "Pillar of Salt, Richmond", time: "", frequency: "Second Friday", upcoming: "", host: "Steph Clarke", instagram: "", linkedin: "", whatsapp: "" },
-            { city: "Mexico City", region: "North America", country: "Mexico", venue: "Varies", time: "", frequency: "Every Wednesday", upcoming: "", host: "Steve Bryant", instagram: "@stevebryant", linkedin: "https://www.linkedin.com/in/stevebryant/", whatsapp: "https://chat.whatsapp.com/CW5dJN7RdcOGikCE8HLsdC?mode=gi_t" },
-            { city: "Miami", region: "North America", country: "USA", venue: "Novela Cafe Social", time: "9:00 AM", frequency: "Every Wednesday", upcoming: "", host: "Jeff Carvalho", instagram: "@jeffcarvalho", linkedin: "https://www.linkedin.com/in/jeffcarvalho/", whatsapp: "" },
+            { city: "Amsterdam", region: "Europe", country: "Netherlands", venue: "Volkshotel (East) - around the Bar area", time: "8:30 AM", frequency: "Second Friday", upcoming: "2026-04-10", host: "Sheila Guo", instagram: "@office.sheilaguo", linkedin: "https://www.linkedin.com/in/sheila-guo/", whatsapp: "", lat: 52.3676, lng: 4.9041 },
+            { city: "Atlanta", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "Stephanie Nelson", instagram: "", linkedin: "", whatsapp: "", lat: 33.749, lng: -84.388 },
+            { city: "Austin", region: "North America", country: "USA", venue: "Nate's Baked Goods & Coffee, 401 W 18th St", time: "", frequency: "", upcoming: "2026-03-15", host: "Rob Henzi, Alyssa Gray", instagram: "", linkedin: "https://www.linkedin.com/in/robbhenzi/", whatsapp: "", lat: 30.2672, lng: -97.7431 },
+            { city: "Barcelona", region: "Europe", country: "Spain", venue: "Caravelle, Carrer del Pintor Fortuny 31", time: "", frequency: "First Wednesday", upcoming: "", host: "Nicole Ingra & Kevin Maguire", instagram: "@nicoleingra @newfatherhood", linkedin: "https://www.linkedin.com/in/nicoleingra/", whatsapp: "", lat: 41.3851, lng: 2.1734 },
+            { city: "Bassano del Grappa", region: "Europe", country: "Italy", venue: "", time: "", frequency: "", upcoming: "", host: "Charla Caponi & Amy Rich", instagram: "@cncbassano", linkedin: "https://www.linkedin.com/in/charla-noel-caponi/", whatsapp: "", lat: 45.766, lng: 11.7343 },
+            { city: "Berlin", region: "Europe", country: "Germany", venue: "", time: "", frequency: "", upcoming: "", host: "", instagram: "", linkedin: "", whatsapp: "", lat: 52.52, lng: 13.405 },
+            { city: "Biarritz", region: "Europe", country: "France", venue: "Spok Cafe, 44 Rue Luis Mariano", time: "", frequency: "First Friday", upcoming: "2026-04-03", host: "Maggie Spicer", instagram: "@whisk.sf @maggiefspicer", linkedin: "https://www.linkedin.com/in/maggiespicer/", whatsapp: "", lat: 43.4832, lng: -1.5586 },
+            { city: "Boston", region: "North America", country: "USA", venue: "Tradesman Coffee", time: "8:30 AM", frequency: "", upcoming: "", host: "Hannah Schon, Lizzie Milstein, Kevin Johanessen", instagram: "", linkedin: "https://www.linkedin.com/in/hannahschon/", whatsapp: "", lat: 42.3601, lng: -71.0589 },
+            { city: "Boulder", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "Joy Shure", instagram: "", linkedin: "https://www.linkedin.com/in/joy-shure-041a711a/", whatsapp: "", lat: 40.015, lng: -105.2705 },
+            { city: "Brighton", region: "UK", country: "UK", venue: "", time: "", frequency: "", upcoming: "", host: "Amy Daroukakis", instagram: "", linkedin: "https://www.linkedin.com/in/amydaroukakis/", whatsapp: "", lat: 50.8229, lng: -0.1363 },
+            { city: "Burlington, VT", region: "North America", country: "USA", venue: "Deep City, 112 Lake St, Burlington, VT 05401", time: "9:00 AM", frequency: "Second Monday", upcoming: "2026-04-13", host: "Zach Pollakoff", instagram: "@zachpollakoff", linkedin: "https://www.linkedin.com/in/zachpollakoff/", whatsapp: "", lat: 44.4759, lng: -73.2121 },
+            { city: "Cambridge, MA", region: "North America", country: "USA", venue: "", time: "8:30 AM", frequency: "", upcoming: "", host: "Greg Stahovec, Anne-Marie Kline", instagram: "", linkedin: "https://www.linkedin.com/in/gstahovec/", whatsapp: "", lat: 42.3736, lng: -71.1097 },
+            { city: "Chicago", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "", instagram: "", linkedin: "", whatsapp: "", lat: 41.8781, lng: -87.6298 },
+            { city: "Copenhagen", region: "Europe", country: "Denmark", venue: "Granola, Varnedamsvej 5", time: "8:30 AM", frequency: "Bi-Weekly Thursday", upcoming: "9 April", host: "Denize Maaloe, Diego Marini & team", instagram: "@yummycolours", linkedin: "https://www.linkedin.com/company/yummycolours", whatsapp: "", lat: 55.6761, lng: 12.5683 },
+            { city: "Denver", region: "North America", country: "USA", venue: "Denver Central Market", time: "8:00 AM", frequency: "Pop-Up", upcoming: "4/9", host: "Kate Gagnon", instagram: "", linkedin: "https://www.linkedin.com/in/katesaxgagnon", whatsapp: "", lat: 39.7392, lng: -104.9903 },
+            { city: "Ibiza", region: "Europe", country: "Spain", venue: "", time: "8:30 AM", frequency: "", upcoming: "", host: "", instagram: "", linkedin: "", whatsapp: "", lat: 38.9067, lng: 1.4206 },
+            { city: "London", region: "UK", country: "UK", venue: "Rotating locations", time: "", frequency: "First Thursday", upcoming: "", host: "Victoria Gates Fleming", instagram: "@thehungrycrumpet", linkedin: "https://www.linkedin.com/in/steph-clarke/", whatsapp: "", lat: 51.5074, lng: -0.1278 },
+            { city: "Los Angeles", region: "North America", country: "USA", venue: "Zinque, Venice", time: "8:30 AM", frequency: "Third Friday", upcoming: "", host: "Scott Donaton, Kirsten Ludwig, Anita Schillhorn van Veen", instagram: "@kirstenludwig", linkedin: "https://www.linkedin.com/in/kirstenludwig/", whatsapp: "", lat: 34.0522, lng: -118.2437 },
+            { city: "Lugano", region: "Europe", country: "Switzerland", venue: "AMALO (rotating)", time: "", frequency: "", upcoming: "", host: "Camilla Finocchiaro Aprile & Elettra Fiumi", instagram: "@fossilfloss @efiumi", linkedin: "https://www.linkedin.com/in/camillafaprile/", whatsapp: "", lat: 46.0037, lng: 8.9511 },
+            { city: "Manila", region: "Asia", country: "Philippines", venue: "", time: "8:30 AM", frequency: "", upcoming: "", host: "Sharon Panelo, Carla Laus", instagram: "", linkedin: "", whatsapp: "", lat: 14.5995, lng: 120.9842 },
+            { city: "Melbourne - Fitzroy", region: "Australia", country: "Australia", venue: "Code Black, CBD", time: "8:30 AM", frequency: "Pop-Up", upcoming: "April 24", host: "Celeste Blewitt & Josh Gardiner", instagram: "", linkedin: "https://www.linkedin.com/in/joshgardiner/", whatsapp: "", lat: -37.799, lng: 144.9784 },
+            { city: "Melbourne - Richmond", region: "Australia", country: "Australia", venue: "Pillar of Salt, Richmond", time: "", frequency: "Second Friday", upcoming: "", host: "Steph Clarke", instagram: "", linkedin: "", whatsapp: "", lat: -37.8183, lng: 145.0038 },
+            { city: "Mexico City", region: "North America", country: "Mexico", venue: "Varies", time: "", frequency: "Every Wednesday", upcoming: "", host: "Steve Bryant", instagram: "@stevebryant", linkedin: "https://www.linkedin.com/in/stevebryant/", whatsapp: "https://chat.whatsapp.com/CW5dJN7RdcOGikCE8HLsdC?mode=gi_t", lat: 19.4326, lng: -99.1332 },
+            { city: "Miami", region: "North America", country: "USA", venue: "Novela Cafe Social", time: "9:00 AM", frequency: "Every Wednesday", upcoming: "", host: "Jeff Carvalho", instagram: "@jeffcarvalho", linkedin: "https://www.linkedin.com/in/jeffcarvalho/", whatsapp: "", lat: 25.7617, lng: -80.1918 },
             { city: "Milano", region: "Europe", country: "Italy", venue: "Mega Art Fair, Profumo Via Ambrogio Binda 29", time: "", frequency: "", upcoming: "2026-04-16", host: "Charla Caponi, Moritz Gaudlitz & Giorgio Bartoli", instagram: "@cncbassano @giorgiogolab @whynotstay", linkedin: "https://www.linkedin.com/in/charla-noel-caponi/", whatsapp: "" },
-            { city: "New York - Downtown Brooklyn", region: "North America", country: "USA", venue: "Ace Hotel Downtown Brooklyn", time: "", frequency: "Every Thursday", upcoming: "", host: "Kat Popiel & Lynn Juang", instagram: "@missllamamanyc @lynnjuang", linkedin: "https://www.linkedin.com/in/katpopiel/", whatsapp: "" },
-            { city: "New York - Upper West", region: "North America", country: "USA", venue: "Viand Cafe, 2130 Broadway, New York, NY 10023", time: "8:30 AM", frequency: "Every Wednesday", upcoming: "2026-04-08", host: "Joshua Rosenthal & Andrew Reuben", instagram: "@two_stops_ahead", linkedin: "https://www.LinkedIn.com/in/joshuakrosenthal", whatsapp: "https://chat.whatsapp.com/GQJQ41xFxzG7wA1RxNvU0H?mode=gi_t" },
-            { city: "New York - Hamptons", region: "North America", country: "USA", venue: "Tutto Cafe, The Hamptons", time: "8:30 AM", frequency: "Every Wednesday", upcoming: "", host: "Michael Kilcoyne & Adam H.", instagram: "@themichaelkilcoyne @adamh929", linkedin: "https://www.linkedin.com/in/mikekilcoyne/", whatsapp: "https://chat.whatsapp.com/FzBGLGPTzG778Hwyk4ihcx" },
-            { city: "New York - Hudson", region: "North America", country: "USA", venue: "Kitty's", time: "", frequency: "", upcoming: "", host: "Peter Spear & Mark Depace", instagram: "", linkedin: "", whatsapp: "" },
-            { city: "New York - Kingston", region: "North America", country: "USA", venue: "Camp Kingston", time: "8:30 AM", frequency: "First Monday", upcoming: "2026-04-06", host: "Kate Urcioli", instagram: "", linkedin: "https://www.linkedin.com/in/kateurcioli/", whatsapp: "" },
-            { city: "New York - LES", region: "North America", country: "USA", venue: "Sunday to Sunday, 88 Orchard St", time: "9:00 AM", frequency: "Every Thursday", upcoming: "", host: "Heidi Hartwig", instagram: "@friendsfromnewyork @heidiheartsclub", linkedin: "https://www.linkedin.com/in/heidi-hartwig-96618615/", whatsapp: "" },
-            { city: "New York - Williamsburg", region: "North America", country: "USA", venue: "Le Crocodile", time: "", frequency: "Every Wednesday", upcoming: "2026-04-01", host: "Ben Dietz", instagram: "@dietznutz", linkedin: "https://www.linkedin.com/in/dietznutz", whatsapp: "" },
-            { city: "Norwich", region: "UK", country: "UK", venue: "", time: "8:00 AM", frequency: "Fourth Friday", upcoming: "", host: "Rusty Nash", instagram: "@rustynash", linkedin: "https://www.linkedin.com/in/rustynash/", whatsapp: "" },
-            { city: "Panama City", region: "Other", country: "Panama", venue: "Sassy Cafe (Morning) / Les Mecs (After office)", time: "", frequency: "Fourth Thursday", upcoming: "", host: "Carla Batista, Jacob Larrinaga & Daniela Jovane", instagram: "@carlibee___ @academiadespierta @danivjovane", linkedin: "", whatsapp: "" },
-            { city: "Paris", region: "Europe", country: "France", venue: "Cult Cafe", time: "9:30 AM", frequency: "", upcoming: "", host: "Lisa Ono, Karla Rodriguez, Fanny Leonard", instagram: "@karlarodce @lisaonocreate", linkedin: "https://www.linkedin.com/in/lisaonocreate/", whatsapp: "" },
-            { city: "Perth", region: "Australia", country: "Australia", venue: "Rotating (Perth CBD)", time: "", frequency: "Monthly", upcoming: "", host: "Fran Cormack & Sue Bush", instagram: "", linkedin: "https://www.linkedin.com/in/fran-cormack-icf-acc-a605624/", whatsapp: "" },
-            { city: "Philadelphia", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "Julie Gerstein", instagram: "@havethehabit", linkedin: "https://www.linkedin.com/in/juliegerstein/", whatsapp: "" },
-            { city: "Portland, ME", region: "North America", country: "USA", venue: "The Salt Yard", time: "8:30 AM", frequency: "", upcoming: "", host: "Michele Martin & Lydia Wagner", instagram: "", linkedin: "https://www.linkedin.com/groups/13161347", whatsapp: "" },
-            { city: "Portland, OR", region: "North America", country: "USA", venue: "It's Just a Feeling, 2393 NE Fremont St", time: "", frequency: "Every Tuesday", upcoming: "", host: "Nina Sers & Chelsea Place", instagram: "@ninasers", linkedin: "https://www.linkedin.com/in/ninasers/", whatsapp: "" },
-            { city: "San Francisco", region: "North America", country: "USA", venue: "Terrene at 1 Hotel, 8 Mission St", time: "9:00 AM", frequency: "Every Wednesday", upcoming: "", host: "Chris Gillespie, Eve Lewis, Magali Charmot", instagram: "@evegavinlewis", linkedin: "https://www.linkedin.com/in/chrismattheweden/", whatsapp: "https://chat.whatsapp.com/GWkWebokkQO6bMcynjSb4v?mode=gi_t" },
-            { city: "Seattle", region: "North America", country: "USA", venue: "Mr. West Downtown Seattle", time: "8:30 AM", frequency: "Second Thursday", upcoming: "2026-03-12", host: "Mike Burlin, David Rosenberg", instagram: "", linkedin: "https://www.linkedin.com/in/mikeburlin/", whatsapp: "" },
-            { city: "Singapore", region: "Asia", country: "Singapore", venue: "Grain Traders (rotating)", time: "", frequency: "Pop-Up", upcoming: "", host: "Seraphina Woon", instagram: "@iamawookiee", linkedin: "", whatsapp: "" },
+            { city: "New York - Downtown Brooklyn", region: "North America", country: "USA", venue: "Ace Hotel Downtown Brooklyn", time: "", frequency: "Every Thursday", upcoming: "", host: "Kat Popiel & Lynn Juang", instagram: "@missllamamanyc @lynnjuang", linkedin: "https://www.linkedin.com/in/katpopiel/", whatsapp: "", lat: 40.6925, lng: -73.9876 },
+            { city: "New York - Upper West", region: "North America", country: "USA", venue: "Viand Cafe, 2130 Broadway, New York, NY 10023", time: "8:30 AM", frequency: "Every Wednesday", upcoming: "2026-04-08", host: "Joshua Rosenthal & Andrew Reuben", instagram: "@two_stops_ahead", linkedin: "https://www.LinkedIn.com/in/joshuakrosenthal", whatsapp: "https://chat.whatsapp.com/GQJQ41xFxzG7wA1RxNvU0H?mode=gi_t", lat: 40.7856099, lng: -73.9725709 },
+            { city: "New York - Hamptons", region: "North America", country: "USA", venue: "Tutto Cafe, The Hamptons", time: "8:30 AM", frequency: "Every Wednesday", upcoming: "", host: "Michael Kilcoyne & Adam H.", instagram: "@themichaelkilcoyne @adamh929", linkedin: "https://www.linkedin.com/in/mikekilcoyne/", whatsapp: "https://chat.whatsapp.com/FzBGLGPTzG778Hwyk4ihcx", lat: 40.9215, lng: -72.3082 },
+            { city: "New York - Hudson", region: "North America", country: "USA", venue: "Kitty's", time: "", frequency: "", upcoming: "", host: "Peter Spear & Mark Depace", instagram: "", linkedin: "", whatsapp: "", lat: 42.2531, lng: -73.7957 },
+            { city: "New York - Kingston", region: "North America", country: "USA", venue: "Camp Kingston", time: "8:30 AM", frequency: "First Monday", upcoming: "2026-04-06", host: "Kate Urcioli", instagram: "", linkedin: "https://www.linkedin.com/in/kateurcioli/", whatsapp: "", lat: 41.9276, lng: -74.0099 },
+            { city: "New York - LES", region: "North America", country: "USA", venue: "Sunday to Sunday, 88 Orchard St", time: "9:00 AM", frequency: "Every Thursday", upcoming: "", host: "Heidi Hartwig", instagram: "@friendsfromnewyork @heidiheartsclub", linkedin: "https://www.linkedin.com/in/heidi-hartwig-96618615/", whatsapp: "", lat: 40.715, lng: -73.9843 },
+            { city: "New York - Williamsburg", region: "North America", country: "USA", venue: "Le Crocodile", time: "", frequency: "Every Wednesday", upcoming: "2026-04-01", host: "Ben Dietz", instagram: "@dietznutz", linkedin: "https://www.linkedin.com/in/dietznutz", whatsapp: "", lat: 40.7081, lng: -73.9571 },
+            { city: "Norwich", region: "UK", country: "UK", venue: "", time: "8:00 AM", frequency: "Fourth Friday", upcoming: "", host: "Rusty Nash", instagram: "@rustynash", linkedin: "https://www.linkedin.com/in/rustynash/", whatsapp: "", lat: 52.6309, lng: 1.2974 },
+            { city: "Panama City", region: "Other", country: "Panama", venue: "Sassy Cafe (Morning) / Les Mecs (After office)", time: "", frequency: "Fourth Thursday", upcoming: "", host: "Carla Batista, Jacob Larrinaga & Daniela Jovane", instagram: "@carlibee___ @academiadespierta @danivjovane", linkedin: "", whatsapp: "", lat: 8.9936, lng: -79.5197 },
+            { city: "Paris", region: "Europe", country: "France", venue: "Cult Cafe", time: "9:30 AM", frequency: "", upcoming: "", host: "Lisa Ono, Karla Rodriguez, Fanny Leonard", instagram: "@karlarodce @lisaonocreate", linkedin: "https://www.linkedin.com/in/lisaonocreate/", whatsapp: "", lat: 48.8566, lng: 2.3522 },
+            { city: "Perth", region: "Australia", country: "Australia", venue: "Rotating (Perth CBD)", time: "", frequency: "Monthly", upcoming: "", host: "Fran Cormack & Sue Bush", instagram: "", linkedin: "https://www.linkedin.com/in/fran-cormack-icf-acc-a605624/", whatsapp: "", lat: -31.9505, lng: 115.8605 },
+            { city: "Philadelphia", region: "North America", country: "USA", venue: "", time: "", frequency: "", upcoming: "", host: "Julie Gerstein", instagram: "@havethehabit", linkedin: "https://www.linkedin.com/in/juliegerstein/", whatsapp: "", lat: 39.9526, lng: -75.1652 },
+            { city: "Portland, ME", region: "North America", country: "USA", venue: "The Salt Yard", time: "8:30 AM", frequency: "", upcoming: "", host: "Michele Martin & Lydia Wagner", instagram: "", linkedin: "https://www.linkedin.com/groups/13161347", whatsapp: "", lat: 45.5051, lng: -122.675 },
+            { city: "Portland, OR", region: "North America", country: "USA", venue: "It's Just a Feeling, 2393 NE Fremont St", time: "", frequency: "Every Tuesday", upcoming: "", host: "Nina Sers & Chelsea Place", instagram: "@ninasers", linkedin: "https://www.linkedin.com/in/ninasers/", whatsapp: "", lat: 45.5051, lng: -122.675 },
+            { city: "San Francisco", region: "North America", country: "USA", venue: "Terrene at 1 Hotel, 8 Mission St", time: "9:00 AM", frequency: "Every Wednesday", upcoming: "", host: "Chris Gillespie, Eve Lewis, Magali Charmot", instagram: "@evegavinlewis", linkedin: "https://www.linkedin.com/in/chrismattheweden/", whatsapp: "https://chat.whatsapp.com/GWkWebokkQO6bMcynjSb4v?mode=gi_t", lat: 37.7749, lng: -122.4194 },
+            { city: "Seattle", region: "North America", country: "USA", venue: "Mr. West Downtown Seattle", time: "8:30 AM", frequency: "Second Thursday", upcoming: "2026-03-12", host: "Mike Burlin, David Rosenberg", instagram: "", linkedin: "https://www.linkedin.com/in/mikeburlin/", whatsapp: "", lat: 47.6062, lng: -122.3321 },
+            { city: "Singapore", region: "Asia", country: "Singapore", venue: "Grain Traders (rotating)", time: "", frequency: "Pop-Up", upcoming: "", host: "Seraphina Woon", instagram: "@iamawookiee", linkedin: "", whatsapp: "", lat: 1.3521, lng: 103.8198 },
             { city: "Maplewood, NJ", region: "North America", country: "USA", venue: "Artie's, 15 Newark Way", time: "", frequency: "Every Friday", upcoming: "", host: "James Friedman", instagram: "@jamesfthrone", linkedin: "https://www.linkedin.com/in/jamesfriedman/", whatsapp: "" },
-            { city: "Torquay, AU", region: "Australia", country: "Australia", venue: "Bomboras", time: "", frequency: "Second Friday", upcoming: "2026-03-13", host: "Steph Clarke", instagram: "", linkedin: "", whatsapp: "" },
-            { city: "Sydney", region: "Australia", country: "Australia", venue: "Ace Hotel Sydney", time: "8:00 AM", frequency: "Third Friday", upcoming: "", host: "Elisha Akhtar", instagram: "@ElishaAkhtar", linkedin: "https://www.linkedin.com/in/elisha-akhtar-41b95069/", whatsapp: "" },
-            { city: "Toronto", region: "North America", country: "Canada", venue: "Boxcar Social, 298 Markham St", time: "", frequency: "Every Wednesday", upcoming: "March 25, 2026", host: "Jared Gordon & Sarah Phillips", instagram: "@jgo_unchained @sarphilli", linkedin: "https://www.linkedin.com/in/sarahashleyphillips/", whatsapp: "" },
+            { city: "Torquay, AU", region: "Australia", country: "Australia", venue: "Bomboras", time: "", frequency: "Second Friday", upcoming: "2026-03-13", host: "Steph Clarke", instagram: "", linkedin: "", whatsapp: "", lat: -38.3292, lng: 144.3262 },
+            { city: "Sydney", region: "Australia", country: "Australia", venue: "Ace Hotel Sydney", time: "8:00 AM", frequency: "Third Friday", upcoming: "", host: "Elisha Akhtar", instagram: "@ElishaAkhtar", linkedin: "https://www.linkedin.com/in/elisha-akhtar-41b95069/", whatsapp: "", lat: -33.8688, lng: 151.2093 },
+            { city: "Toronto", region: "North America", country: "Canada", venue: "Boxcar Social, 298 Markham St", time: "", frequency: "Every Wednesday", upcoming: "March 25, 2026", host: "Jared Gordon & Sarah Phillips", instagram: "@jgo_unchained @sarphilli", linkedin: "https://www.linkedin.com/in/sarahashleyphillips/", whatsapp: "", lat: 43.6532, lng: -79.3832 },
             { city: "Las Vegas", region: "North America", country: "USA", venue: "Prosecco Fresh Italian Kitchen", time: "", frequency: "Fourth Thursday", upcoming: "", host: "Steph Balzer", instagram: "", linkedin: "https://www.linkedin.com/in/stephaniebalzer/", whatsapp: "" },
-            { city: "Vienna", region: "Europe", country: "Austria", venue: "Cafe Francais", time: "", frequency: "Second Thursday", upcoming: "2026-04-09", host: "Carla Moss", instagram: "@carlatoria", linkedin: "https://www.linkedin.com/in/carla-moss-55a2a776/", whatsapp: "" },
-            { city: "Washington DC", region: "North America", country: "USA", venue: "The Line Hotel, Adams Morgan", time: "8:30 AM", frequency: "Bi-Weekly Thursday", upcoming: "2026-04-09", host: "Michael Hastings-Black", instagram: "@hungryvintage", linkedin: "https://www.linkedin.com/in/michaelhastingsblack/", whatsapp: "" },
+            { city: "Vienna", region: "Europe", country: "Austria", venue: "Cafe Francais", time: "", frequency: "Second Thursday", upcoming: "2026-04-09", host: "Carla Moss", instagram: "@carlatoria", linkedin: "https://www.linkedin.com/in/carla-moss-55a2a776/", whatsapp: "", lat: 48.2082, lng: 16.3738 },
+            { city: "Washington DC", region: "North America", country: "USA", venue: "The Line Hotel, Adams Morgan", time: "8:30 AM", frequency: "Bi-Weekly Thursday", upcoming: "2026-04-09", host: "Michael Hastings-Black", instagram: "@hungryvintage", linkedin: "https://www.linkedin.com/in/michaelhastingsblack/", whatsapp: "", lat: 38.9072, lng: -77.0369 },
             { city: "Riyadh", region: "Asia", country: "Saudi Arabia", venue: "Cafe Bateel", time: "", frequency: "Pop-Up", upcoming: "", host: "Brandie Janow", instagram: "", linkedin: "", whatsapp: "" }
         ].map((club) => ({
             ...club,
@@ -1141,7 +2234,7 @@
                 regionStack.innerHTML = '<div class="empty-state">No cities match this filter yet. Try another status view or clear your search.</div>';
             }
 
-            regionStack.classList.toggle("is-revealed", Boolean(state.selectedRegion));
+            regionStack.classList.add("is-revealed");
 
             bindCityEvents();
         }
@@ -1171,14 +2264,35 @@
                 mapsUrl ? `<a class="link-pill" href="${mapsUrl}" target="_blank" rel="noreferrer"><svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' style='width:16px;height:16px;margin-right:6px;vertical-align:bottom;image-rendering:pixelated;'><path fill='%23EA4335' d='M5 1h6v2h2v4h-2v2h-2v2h-2v2H7v-2H5v-2H3V7h2V3h2V1zm3 4a2 2 0 100 4 2 2 0 000-4z'/></svg>Maps</a>` : ""
             ].filter(Boolean).join("");
 
+            const photoHtml = status.photo
+                ? `<div class="city-photo-frame">
+                       <img class="city-photo-img" src="${status.photo}" alt="Visit photo for ${escapeHtml(club.city)}">
+                       <button class="city-photo-remove" data-action="remove-photo" data-city-id="${club.id}" title="Remove photo">✕</button>
+                       ${status.done ? `<div class="city-photo-stamp">✓ Checked In</div>` : ""}
+                   </div>`
+                : "";
+
+            const postBadge = (!status.photo && status.postUrl)
+                ? `<a class="post-link-badge" href="${escapeHtml(status.postUrl)}" target="_blank" rel="noreferrer">📸 View Visit Post →</a>`
+                : "";
+
+            const photoBtn = !status.photo
+                ? `<label class="action-button city-photo-label" title="Add a photo from this visit">
+                       📸 Tag Yourself
+                       <input type="file" accept="image/*" data-action="add-photo" data-city-id="${club.id}">
+                   </label>`
+                : "";
+
             return `
                 <article class="${classes.join(" ")}" data-city-id="${club.id}">
+                    ${photoHtml}
                     <div class="city-topline">
                         <input class="checkbox" type="checkbox" aria-label="Mark ${escapeHtml(club.city)} as done" ${status.done ? "checked" : ""} data-action="toggle-done" data-city-id="${club.id}">
                         <div class="city-main">
                             <h3 class="city-name ${status.done ? "done-text" : ""}">${escapeHtml(club.city)}</h3>
                             <div class="country-line">${escapeHtml(club.country)}</div>
                             ${meta ? `<div class="meta-row">${meta}</div>` : ""}
+                            ${postBadge ? `<div class="meta-row">${postBadge}</div>` : ""}
                             <div class="attended-row">
                                 <label for="attended-${club.id}">When attended</label>
                                 <input class="attended-input" id="attended-${club.id}" type="text" inputmode="numeric" placeholder="YYYY-MM-DD" value="${escapeHtml(status.attendedOn || "")}" data-action="set-attended" data-city-id="${club.id}">
@@ -1187,6 +2301,10 @@
                             <div class="city-actions">
                                 <div class="city-links">${links}</div>
                                 <div class="city-buttons">
+                                    ${photoBtn}
+                                    <button class="action-button ${status.onQwest ? "qwest-active" : ""}" data-action="toggle-qwest" data-city-id="${club.id}">
+                                        ${status.onQwest ? "★ On Qwest" : "☆ Add to Qwest"}
+                                    </button>
                                     <button class="action-button ${status.archived ? "archive-active" : ""}" data-action="toggle-archive" data-city-id="${club.id}">
                                         ${status.archived ? "Unarchive" : "Archive"}
                                     </button>
@@ -1196,6 +2314,28 @@
                     </div>
                 </article>
             `;
+        }
+
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const MAX = 900;
+                    let w = img.width, h = img.height;
+                    if (w > MAX || h > MAX) {
+                        if (w > h) { h = Math.round(h * MAX / w); w = MAX; }
+                        else { w = Math.round(w * MAX / h); h = MAX; }
+                    }
+                    const canvas = document.createElement("canvas");
+                    canvas.width = w;
+                    canvas.height = h;
+                    canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+                    callback(canvas.toDataURL("image/jpeg", 0.72));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         }
 
         function bindCityEvents() {
@@ -1211,6 +2351,31 @@
                     const id = event.currentTarget.getAttribute("data-city-id");
                     const current = getStatus(id);
                     setStatus(id, { archived: !current.archived });
+                });
+            });
+
+            document.querySelectorAll('[data-action="toggle-qwest"]').forEach((button) => {
+                button.addEventListener("click", (event) => {
+                    const id = event.currentTarget.getAttribute("data-city-id");
+                    setStatus(id, { onQwest: !getStatus(id).onQwest });
+                });
+            });
+
+            document.querySelectorAll('[data-action="add-photo"]').forEach((input) => {
+                input.addEventListener("change", (event) => {
+                    const id = event.currentTarget.getAttribute("data-city-id");
+                    const file = event.currentTarget.files[0];
+                    if (!file) return;
+                    compressImage(file, (dataUrl) => {
+                        setStatus(id, { photo: dataUrl });
+                    });
+                });
+            });
+
+            document.querySelectorAll('[data-action="remove-photo"]').forEach((button) => {
+                button.addEventListener("click", (event) => {
+                    const id = event.currentTarget.getAttribute("data-city-id");
+                    setStatus(id, { photo: "" });
                 });
             });
 
@@ -1294,21 +2459,235 @@
                 .replace(/'/g, "&#39;");
         }
 
+        function parseUpcomingDate(value) {
+            const raw = String(value || "").trim();
+            if (!raw) return null;
+            if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) return new Date(raw + "T00:00:00");
+            const MONTHS = ["january","february","march","april","may","june","july","august","september","october","november","december"];
+            const parts = raw.toLowerCase().split(/[\s\/]+/);
+            if (parts.length === 2) {
+                const mi1 = MONTHS.indexOf(parts[0]);
+                const d1 = parseInt(parts[1]);
+                if (mi1 >= 0 && !isNaN(d1)) return new Date(2026, mi1, d1);
+                const mi2 = MONTHS.indexOf(parts[1]);
+                const d2 = parseInt(parts[0]);
+                if (mi2 >= 0 && !isNaN(d2)) return new Date(2026, mi2, d2);
+                // "4/9" or "M/D"
+                const m = parseInt(parts[0]), d = parseInt(parts[1]);
+                if (!isNaN(m) && !isNaN(d)) return new Date(2026, m - 1, d);
+            }
+            return null;
+        }
+
+        function renderUpcoming() {
+            const listEl = document.getElementById("upcoming-list");
+            if (!listEl) return;
+
+            const now = new Date();
+            now.setHours(0, 0, 0, 0);
+
+            const items = clubData
+                .filter(c => c.upcoming && !getStatus(c.id).archived)
+                .map(c => ({ club: c, date: parseUpcomingDate(c.upcoming) }))
+                .filter(({ date }) => date !== null && date >= now)
+                .sort((a, b) => a.date - b.date);
+
+            if (!items.length) {
+                listEl.innerHTML = '<div class="upcoming-empty">No upcoming dates on file.</div>';
+                return;
+            }
+
+            listEl.innerHTML = items.map(({ club, date }) => {
+                const label = date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                return `
+                    <div class="upcoming-item" data-city-id="${club.id}">
+                        <div class="upcoming-city">${escapeHtml(club.city)}</div>
+                        <div class="upcoming-date">${label}</div>
+                        ${club.venue ? `<div class="upcoming-venue">${escapeHtml(club.venue)}</div>` : ""}
+                    </div>
+                `;
+            }).join("");
+
+            listEl.querySelectorAll(".upcoming-item").forEach(item => {
+                item.addEventListener("click", () => {
+                    const id = item.getAttribute("data-city-id");
+                    const club = clubData.find(c => c.id === id);
+                    if (club && club.lat && club.lng && qwestMap) {
+                        qwestMap.setView([club.lat, club.lng], 9, { animate: true });
+                        if (markers[club.city]) markers[club.city].openPopup();
+                    }
+                });
+            });
+        }
+
+        function renderProgressSection() {
+            const el = document.getElementById("qwest-progress-section");
+            if (!el) return;
+
+            const total = clubData.length;
+            const doneCount = clubData.filter(c => getStatus(c.id).done && !getStatus(c.id).archived).length;
+            const remaining = total - doneCount;
+            const pct = total > 0 ? Math.round((doneCount / total) * 100) : 0;
+
+            el.innerHTML = `
+                <div class="progress-label">${doneCount} / ${total} Clubs Checked</div>
+                <div class="progress-track">
+                    <div class="progress-fill" style="width: ${pct}%"></div>
+                </div>
+                <div class="progress-remaining">${remaining} ${remaining === 1 ? "club" : "clubs"} still left to Qwest</div>
+            `;
+        }
+
+        const ACHIEVEMENTS = [
+            {
+                id: "first-blood",
+                icon: "☕",
+                name: "First Blood",
+                desc: "The Qwest begins. No going back.",
+                locked: "Check your first club.",
+                check: (done) => done.length >= 1
+            },
+            {
+                id: "breakfast-club",
+                icon: "🥞",
+                name: "Breakfast Club",
+                desc: "You've officially joined the club.",
+                locked: "Check 5 clubs.",
+                check: (done) => done.length >= 5
+            },
+            {
+                id: "double-digits",
+                icon: "🔟",
+                name: "Double Digits",
+                desc: "10 clubs. You're not just dabbling.",
+                locked: "Check 10 clubs.",
+                check: (done) => done.length >= 10
+            },
+            {
+                id: "home-stretch",
+                icon: "🧇",
+                name: "Home Stretch",
+                desc: "So close you can smell the syrup.",
+                locked: "Check 40 clubs.",
+                check: (done) => done.length >= 40
+            },
+            {
+                id: "halfway",
+                icon: "🌍",
+                name: "Halfway There",
+                desc: "Half the globe. Still hungry.",
+                locked: "Check 25 clubs.",
+                check: (done) => done.length >= 25
+            },
+            {
+                id: "full-qwest",
+                icon: "👑",
+                name: "Full Qwest",
+                desc: "You absolute unit.",
+                locked: "Check all 50 clubs.",
+                check: (done) => done.length >= clubData.filter(c => !getStatus(c.id).archived).length && done.length > 0
+            },
+            {
+                id: "across-the-pond",
+                icon: "✈️",
+                name: "Across the Pond",
+                desc: "Both sides of the Atlantic.",
+                locked: "Check a club in Europe + North America.",
+                check: (done, doneSet) => {
+                    const regions = new Set(done.map(c => c.region));
+                    return regions.has("Europe") && regions.has("North America");
+                }
+            },
+            {
+                id: "round-the-world",
+                icon: "🗺️",
+                name: "Round the World",
+                desc: "Frequent flyer status unlocked.",
+                locked: "Check clubs in 4+ different regions.",
+                check: (done) => new Set(done.map(c => c.region)).size >= 4
+            },
+            {
+                id: "far-flung",
+                icon: "🌏",
+                name: "Far Flung",
+                desc: "Jet lagged but victorious.",
+                locked: "Check a club in Asia or Australia.",
+                check: (done) => done.some(c => c.region === "Asia" || c.region === "Australia")
+            },
+            {
+                id: "early-bird",
+                icon: "🌅",
+                name: "Early Bird",
+                desc: "8am is for champions.",
+                locked: "Check a club that starts at 8:00 AM or earlier.",
+                check: (done) => done.some(c => {
+                    if (!c.time) return false;
+                    const m = c.time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?/i);
+                    if (!m) return false;
+                    let h = parseInt(m[1]);
+                    const pm = m[3] && m[3].toUpperCase() === "PM";
+                    if (pm && h !== 12) h += 12;
+                    return h <= 8;
+                })
+            },
+            {
+                id: "continent-conquered",
+                icon: "🏆",
+                name: "Region Conqueror",
+                desc: () => {
+                    const dominated = REGION_ORDER.find(r => {
+                        const inRegion = clubData.filter(c => c.region === r && !getStatus(c.id).archived);
+                        return inRegion.length > 0 && inRegion.every(c => getStatus(c.id).done);
+                    });
+                    return dominated ? `${dominated} — dominated.` : "Sweep every club in a single region.";
+                },
+                locked: "Check every club in one region.",
+                check: () => REGION_ORDER.some(r => {
+                    const inRegion = clubData.filter(c => c.region === r && !getStatus(c.id).archived);
+                    return inRegion.length > 0 && inRegion.every(c => getStatus(c.id).done);
+                })
+            },
+            {
+                id: "ny-minute",
+                icon: "🗽",
+                name: "NY Minute",
+                desc: "You own New York. All of it.",
+                locked: "Check every New York club.",
+                check: (done) => {
+                    const nyClubs = clubData.filter(c => c.city.toLowerCase().startsWith("new york") && !getStatus(c.id).archived);
+                    return nyClubs.length > 0 && nyClubs.every(c => getStatus(c.id).done);
+                }
+            }
+        ];
+
+        function renderAchievements() {
+            const gridEl = document.getElementById("achievements-grid");
+            if (!gridEl) return;
+
+            const done = clubData.filter(c => getStatus(c.id).done && !getStatus(c.id).archived);
+
+            gridEl.innerHTML = ACHIEVEMENTS.map(a => {
+                const unlocked = a.check(done);
+                const desc = typeof a.desc === "function" ? a.desc() : a.desc;
+                return `
+                    <div class="achievement-badge ${unlocked ? "is-unlocked" : ""}">
+                        <div class="badge-icon">${a.icon}</div>
+                        <div class="badge-name">${a.name}</div>
+                        <div class="badge-desc">${unlocked ? desc : a.locked}</div>
+                        <div class="badge-lock">🔒 Locked</div>
+                    </div>
+                `;
+            }).join("");
+        }
+
         function render() {
             const filteredClubs = getFilteredClubs();
             renderStats(filteredClubs);
             renderRegions(filteredClubs);
-            if (selectedRegionNote) {
-                if (state.selectedRegion) {
-                    selectedRegionNote.hidden = false;
-                    selectedRegionNote.textContent = `${state.selectedRegion} selected`;
-                    qwestStartPanel.classList.add("is-complete");
-                } else {
-                    selectedRegionNote.hidden = true;
-                    selectedRegionNote.textContent = "";
-                    qwestStartPanel.classList.remove("is-complete");
-                }
-            }
+            renderUpcoming();
+            renderProgressSection();
+            renderAchievements();
+            if (qwestMap) updateMapPins(filteredClubs);
         }
 
         if (backgroundVideo) {
@@ -1319,13 +2698,195 @@
             titleVideo.playbackRate = 1;
         }
 
-        if (startQwestBtn && qwestStartPanel) {
+        if (startQwestBtn) {
             startQwestBtn.addEventListener("click", () => {
-                qwestStartPanel.classList.toggle("is-open");
-                if (qwestStartPanel.classList.contains("is-open") && qwestRegionSelect) {
-                    qwestRegionSelect.focus();
-                }
+                document.body.classList.add("qwest-started");
+                progressShell.classList.remove("is-loaded");
+                render();
+                requestAnimationFrame(() => {
+                    progressShell.classList.add("is-loaded");
+                    if (!qwestMap) {
+                        setTimeout(initMap, 400);
+                    } else {
+                        qwestMap.invalidateSize();
+                        updateMapPins(getFilteredClubs());
+                    }
+                    initQwestPlanner();
+                    if (progressShell) {
+                        progressShell.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                });
             });
+        }
+
+        let qwestMap;
+        let markers = {};
+
+        let youMarker = null;
+
+        function initMap() {
+            if (qwestMap) return;
+            const mapFrame = document.getElementById("qwest-map-frame");
+            if (!mapFrame) return;
+
+            qwestMap = L.map('qwest-map-frame', {
+                center: [20, 0],
+                zoom: 2,
+                zoomControl: false,
+                attributionControl: false
+            });
+
+            L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+                maxZoom: 19
+            }).addTo(qwestMap);
+
+            requestAnimationFrame(() => {
+                qwestMap.invalidateSize();
+                updateMapPins(getFilteredClubs());
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const { latitude, longitude } = pos.coords;
+                    const youIcon = L.divIcon({
+                        className: 'qwest-pin pin-you',
+                        iconSize: [18, 18],
+                        iconAnchor: [9, 9]
+                    });
+                    if (youMarker) qwestMap.removeLayer(youMarker);
+                    youMarker = L.marker([latitude, longitude], { icon: youIcon, zIndexOffset: 9999 })
+                        .bindPopup('<b>YOU ARE HERE</b>')
+                        .addTo(qwestMap);
+                    qwestMap.setView([latitude, longitude], 5, { animate: true });
+                }, () => {
+                    // Geolocation denied or unavailable — stay at world view
+                });
+            }
+        }
+
+        function buildPopupHtml(club) {
+            const status = getStatus(club.id);
+            const upcomingLabel = formatUpcoming(club.upcoming);
+
+            const photoThumb = (status.photo || status.postUrl)
+                ? (() => {
+                    if (status.photo) return `<img src="${status.photo}" style="width:100%;height:80px;object-fit:cover;object-position:center top;border-bottom:2px solid #000;display:block;">`;
+                    if (status.postUrl) return `<div style="height:36px;background:#ff2a9d;display:flex;align-items:center;padding:0 0.75rem;border-bottom:2px solid #000;font-family:VT323,monospace;font-size:0.85rem;color:#fff;text-transform:uppercase;letter-spacing:0.05em;">📸 Visit tagged</div>`;
+                    return "";
+                })()
+                : "";
+
+            const rows = [
+                club.venue     ? { label: "Venue",  val: club.venue }   : null,
+                club.host      ? { label: "Host",   val: club.host }    : null,
+                club.time      ? { label: "Time",   val: club.time }    : null,
+                club.frequency ? { label: "Rhythm", val: club.frequency }: null,
+            ].filter(Boolean).map(r =>
+                `<div class="map-popup-row">
+                    <span class="popup-label">${r.label}</span>
+                    <span class="popup-value">${escapeHtml(r.val)}</span>
+                 </div>`
+            ).join("");
+
+            return `
+                <div class="map-popup" data-popup-city-id="${club.id}">
+                    ${photoThumb}
+                    <div class="map-popup-head">
+                        <div class="map-popup-city">${escapeHtml(club.city)}</div>
+                        <div class="map-popup-country">${escapeHtml(club.country)}</div>
+                    </div>
+                    <div class="map-popup-body">
+                        ${upcomingLabel ? `<div class="map-popup-upcoming">Next: ${escapeHtml(upcomingLabel)}</div>` : ""}
+                        ${!club.venue ? `<a class="map-popup-unconfirmed" href="https://breakfastclubbing.com" target="_blank" rel="noreferrer">⚠ Confirm venue →</a>` : ""}
+                        ${rows ? `<div class="map-popup-rows">${rows}</div>` : ""}
+                        <div class="map-popup-actions">
+                            <button class="map-popup-check ${status.done ? "is-checked" : ""}" data-popup-action="toggle-done" data-popup-city-id="${club.id}">
+                                ${status.done ? "✓ Checked" : "Check In"}
+                            </button>
+                            <button class="map-popup-qwest-btn ${status.onQwest ? "is-on-qwest" : ""}" data-popup-action="toggle-qwest" data-popup-city-id="${club.id}">
+                                ${status.onQwest ? "★ On Qwest" : "☆ Add to Qwest"}
+                            </button>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function bindPopupEvents() {
+            document.querySelectorAll("[data-popup-action='toggle-done']").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const id = btn.getAttribute("data-popup-city-id");
+
+                    // Already checked — just uncheck
+                    if (getStatus(id).done) {
+                        setStatus(id, { done: false });
+                        return;
+                    }
+
+                    // Show the photo-tag check-in form
+                    const actionsEl = btn.closest(".map-popup-actions");
+                    if (!actionsEl) return;
+                    actionsEl.outerHTML = `
+                        <div class="popup-checkin-form" id="popup-checkin-${id}">
+                            <div class="popup-checkin-label">Tag Your Visit</div>
+                            <div class="popup-checkin-hint">Paste your Instagram or LinkedIn post URL (optional)</div>
+                            <input class="popup-checkin-url" id="popup-url-${id}" type="url"
+                                placeholder="https://instagram.com/p/…">
+                            <div class="popup-checkin-btns">
+                                <button class="popup-confirm-btn" id="popup-confirm-${id}">✓ Check In</button>
+                                <button class="popup-skip-btn" id="popup-skip-${id}">Skip</button>
+                            </div>
+                        </div>`;
+
+                    document.getElementById(`popup-confirm-${id}`)?.addEventListener("click", () => {
+                        const url = (document.getElementById(`popup-url-${id}`)?.value || "").trim();
+                        setStatus(id, { done: true, postUrl: url });
+                    });
+
+                    document.getElementById(`popup-skip-${id}`)?.addEventListener("click", () => {
+                        setStatus(id, { done: true });
+                    });
+                });
+            });
+
+            document.querySelectorAll("[data-popup-action='toggle-qwest']").forEach(btn => {
+                btn.addEventListener("click", () => {
+                    const id = btn.getAttribute("data-popup-city-id");
+                    setStatus(id, { onQwest: !getStatus(id).onQwest });
+                });
+            });
+        }
+
+        function updateMapPins(filteredClubs) {
+            if (!qwestMap) return;
+
+            Object.values(markers).forEach(m => qwestMap.removeLayer(m));
+            markers = {};
+
+            const bounds = [];
+
+            filteredClubs.forEach(club => {
+                if (!club.lat || !club.lng) return;
+                const status = getStatus(club.id);
+                let cls = status.onQwest ? "pin-qwest" : "pin-locked";
+                if (status.done) cls = "pin-done";
+                if (status.archived) cls = "pin-archived";
+
+                const icon = L.divIcon({ className: `qwest-pin ${cls}`, iconSize: [14, 14] });
+                const marker = L.marker([club.lat, club.lng], { icon }).addTo(qwestMap);
+                marker.bindPopup(buildPopupHtml(club), { maxWidth: 260, className: "qwest-map-popup" });
+                markers[club.city] = marker;
+                bounds.push([club.lat, club.lng]);
+            });
+
+            qwestMap.on("popupopen", () => {
+                setTimeout(bindPopupEvents, 50);
+            });
+
+            if (bounds.length > 0) {
+                qwestMap.fitBounds(bounds, { padding: [20, 20], maxZoom: 5 });
+            } else {
+                qwestMap.setView([20, 0], 2);
+            }
         }
 
         if (goRegionBtn && qwestRegionSelect) {
@@ -1337,11 +2898,19 @@
                 document.body.classList.add("qwest-started");
                 progressShell.classList.remove("is-loaded");
                 render();
+                
                 requestAnimationFrame(() => {
                     if (progressShell) {
                         progressShell.classList.add("is-loaded");
                     }
+                    if (!qwestMap) {
+                        setTimeout(initMap, 400); // Give CSS transition time to reveal DOM
+                    } else {
+                        qwestMap.invalidateSize();
+                        updateMapPins(getFilteredClubs());
+                    }
                 });
+                
                 if (progressShell) {
                     progressShell.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
@@ -1366,6 +2935,178 @@
                 }
             });
         }
+
+        // ── Qwest Planner ────────────────────────────────────
+
+        function haversineKm(lat1, lng1, lat2, lng2) {
+            const R = 6371, toRad = d => d * Math.PI / 180;
+            const dLat = toRad(lat2 - lat1), dLng = toRad(lng2 - lng1);
+            const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
+            return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        }
+
+        function travelEstimate(km) {
+            if (km < 30)   return { label: `${Math.round(km)}km · walk/taxi`, cls: "leg-ok" };
+            if (km < 300)  return { label: `${Math.round(km)}km · train ~${Math.round(km/120)}h`, cls: "leg-ok" };
+            if (km < 1500) return { label: `${Math.round(km)}km · flight ~${Math.round(km/480 + 2.5)}h`, cls: km < 600 ? "leg-ok" : "leg-tight" };
+            return { label: `${Math.round(km)}km · long-haul flight`, cls: "leg-tight" };
+        }
+
+        let plannerRouteLine = null;
+
+        function runQwestPlanner() {
+            const startCity  = (document.getElementById("planner-start-city")?.value || "").trim();
+            const startDateV = document.getElementById("planner-start-date")?.value;
+            const region     = document.getElementById("planner-region")?.value || "";
+            const maxDays    = parseInt(document.getElementById("planner-days")?.value || "14");
+            const resultsEl  = document.getElementById("planner-results");
+            if (!resultsEl) return;
+
+            if (!startDateV) {
+                resultsEl.innerHTML = `<div class="planner-summary">Pick a start date first.</div>`;
+                return;
+            }
+
+            const startDate = new Date(startDateV + "T00:00:00");
+            const endDate   = new Date(startDate);
+            endDate.setDate(endDate.getDate() + maxDays);
+
+            // Find start coords — check club list first, then default to region centre
+            let startLat = null, startLng = null;
+            const startMatch = clubData.find(c => c.city.toLowerCase() === startCity.toLowerCase());
+            if (startMatch) { startLat = startMatch.lat; startLng = startMatch.lng; }
+
+            // Filter clubs: have upcoming date within window, optionally in region
+            const candidates = clubData
+                .filter(c => !getStatus(c.id).archived)
+                .filter(c => !region || c.region === region)
+                .filter(c => c.upcoming && c.lat && c.lng)
+                .map(c => ({ club: c, date: parseUpcomingDate(c.upcoming) }))
+                .filter(({ date }) => date && date >= startDate && date <= endDate)
+                .sort((a, b) => a.date - b.date);
+
+            if (!candidates.length) {
+                resultsEl.innerHTML = `<div class="planner-summary">No clubs with upcoming dates in that window. Try a wider range or different region.</div>`;
+                if (plannerRouteLine) { qwestMap?.removeLayer(plannerRouteLine); plannerRouteLine = null; }
+                return;
+            }
+
+            // Build route: start point → clubs in date order
+            const routePoints = [];
+            if (startLat && startLng) routePoints.push([startLat, startLng]);
+            candidates.forEach(({ club }) => routePoints.push([club.lat, club.lng]));
+
+            // Draw polyline on map
+            if (qwestMap) {
+                if (plannerRouteLine) qwestMap.removeLayer(plannerRouteLine);
+                plannerRouteLine = L.polyline(routePoints, {
+                    color: "#ff2a9d", weight: 3, dashArray: "6 4", opacity: 0.85
+                }).addTo(qwestMap);
+                qwestMap.fitBounds(plannerRouteLine.getBounds(), { padding: [30, 30] });
+            }
+
+            // Render itinerary
+            let totalKm = 0;
+            let prevLat = startLat, prevLng = startLng;
+            const stopHtml = candidates.map(({ club, date }, i) => {
+                const dateStr = date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+                const dayNum  = Math.round((date - startDate) / 86400000);
+                const travel  = (prevLat && prevLng) ? travelEstimate(haversineKm(prevLat, prevLng, club.lat, club.lng)) : null;
+                if (prevLat && prevLng) totalKm += haversineKm(prevLat, prevLng, club.lat, club.lng);
+                prevLat = club.lat; prevLng = club.lng;
+
+                const isLast = i === candidates.length - 1;
+                const isDone = getStatus(club.id).done;
+                return `
+                    <div class="planner-stop">
+                        <div class="planner-stop-dot">
+                            <div class="stop-dot ${isDone ? "is-done" : ""}"></div>
+                            ${!isLast ? `<div class="stop-line"></div>` : ""}
+                        </div>
+                        <div class="planner-stop-content">
+                            <div class="stop-city">${escapeHtml(club.city)}</div>
+                            <div class="stop-date">Day ${dayNum} · ${dateStr} · ${escapeHtml(club.frequency || "one-off")}</div>
+                            ${club.venue
+                                ? `<div class="stop-venue">${escapeHtml(club.venue)}</div>`
+                                : `<a class="stop-unconfirmed" href="https://breakfastclubbing.com" target="_blank" rel="noreferrer">⚠ confirm venue at breakfastclubbing.com →</a>`}
+                            ${travel ? `<div class="stop-leg ${travel.cls}">${travel.label}</div>` : ""}
+                        </div>
+                    </div>`;
+            }).join("");
+
+            // Google Maps multi-stop URL
+            const gmWaypoints = candidates.map(({ club }) => encodeURIComponent(`${club.city}, ${club.country}`)).join("/");
+            const gmStart = startCity ? encodeURIComponent(startCity) : "";
+            const gmUrl   = `https://www.google.com/maps/dir/${gmStart ? gmStart + "/" : ""}${gmWaypoints}`;
+
+            // Copyable text itinerary
+            const copyText = [
+                `BREAKFAST QWEST — ${startCity || "Starting Point"} from ${startDate.toLocaleDateString("en-US",{month:"short",day:"numeric"})}`,
+                "",
+                ...candidates.map(({ club, date }, i) => {
+                    const dayNum = Math.round((date - startDate) / 86400000);
+                    return `Day ${dayNum}: ${club.city} (${date.toLocaleDateString("en-US",{month:"short",day:"numeric"})}) — ${club.venue || "venue TBC → breakfastclubbing.com"}`;
+                }),
+                "",
+                `${candidates.length} clubs · ${Math.round(totalKm)}km total · ${maxDays}-day window`
+            ].join("\n");
+
+            resultsEl.innerHTML = `
+                <div class="planner-summary">${candidates.length} clubs reachable in ${maxDays} days · ~${Math.round(totalKm)}km</div>
+                <div class="planner-route">${stopHtml}</div>
+                <div class="planner-actions">
+                    <button class="planner-copy-btn" id="planner-copy-btn">📋 Copy Itinerary</button>
+                    <a class="planner-maps-btn" href="${gmUrl}" target="_blank" rel="noreferrer">🗺 Open in Google Maps</a>
+                </div>
+            `;
+
+            document.getElementById("planner-copy-btn")?.addEventListener("click", () => {
+                navigator.clipboard.writeText(copyText).then(() => {
+                    const btn = document.getElementById("planner-copy-btn");
+                    if (btn) { btn.textContent = "✓ Copied!"; setTimeout(() => { btn.textContent = "📋 Copy Itinerary"; }, 2000); }
+                });
+            });
+        }
+
+        function initQwestPlanner() {
+            // Populate region select
+            const regionSel = document.getElementById("planner-region");
+            if (regionSel) {
+                REGION_ORDER.forEach(r => {
+                    if (!clubData.some(c => c.region === r)) return;
+                    const opt = document.createElement("option");
+                    opt.value = r; opt.textContent = r;
+                    regionSel.appendChild(opt);
+                });
+            }
+
+            // Populate city datalist
+            const dl = document.getElementById("planner-city-list");
+            if (dl) {
+                clubData.forEach(c => {
+                    const opt = document.createElement("option");
+                    opt.value = c.city;
+                    dl.appendChild(opt);
+                });
+            }
+
+            // Default start date to today
+            const dateInput = document.getElementById("planner-start-date");
+            if (dateInput) dateInput.value = new Date().toISOString().slice(0, 10);
+
+            // Toggle open/close
+            document.getElementById("planner-toggle")?.addEventListener("click", () => {
+                const body = document.getElementById("planner-body");
+                const btn  = document.getElementById("planner-toggle");
+                if (!body) return;
+                const open = body.classList.toggle("is-open");
+                if (btn) btn.textContent = open ? "Close ▴" : "Plan a Trip ▾";
+            });
+
+            document.getElementById("planner-run")?.addEventListener("click", runQwestPlanner);
+        }
+
+        // ─────────────────────────────────────────────────────
 
         populateRegionSelect();
 
