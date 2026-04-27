@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is Breakfast Club?</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background: #0a0812;
+            min-height: 100vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 4rem 2rem 4rem;
+            font-family: "VT323", monospace;
+        }
+
+        .terminal {
+            width: min(700px, 100%);
+        }
+
+        .terminal-header {
+            font-size: 1rem;
+            color: rgba(255, 221, 102, 0.35);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            margin-bottom: 1.6rem;
+        }
+
+        .terminal-body {
+            font-size: clamp(1.1rem, 2.4vw, 1.45rem);
+            color: #FFDD66;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 0.55em;
+            height: 1em;
+            background: #FFDD66;
+            vertical-align: text-bottom;
+            margin-left: 2px;
+            animation: blink 0.7s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal">
+        <div class="terminal-header">// breakfast-club.notes</div>
+        <div class="terminal-body" id="output"><span class="cursor"></span></div>
+    </div>
+
+    <script>
+        const lines = [
+            { text: "What is breakfast club...?", speed: 55 },
+            { text: "", speed: 0 },
+            { text: "–  a cool club with chill people where we talk about...", speed: 18 },
+            { text: "–  Everything from the food in Bologna to the existential reasoning for being back in the office - or not.", speed: 18 },
+            { text: "–  Religious conversion as a matter of pre-marital negotiation versus self-motivated reasons", speed: 18 },
+            { text: "–  A reason to get out of bed earlier and connect with community", speed: 18 },
+            { text: "–  No clue", speed: 18 },
+            { text: "–  A thing I inspired.", speed: 18 },
+            { text: "–  What happens in Breakfast Club stays in Breakfast Club", speed: 18 },
+            { text: "", speed: 0 },
+            { text: "Names:", speed: 40 },
+            { text: "–  Julia Beynenson", speed: 22 },
+            { text: "–  Margaret Barcohana", speed: 22 },
+            { text: "–  Haim Mizrahi", speed: 22 },
+            { text: "–  Kevin Kollenda", speed: 22 },
+            { text: "–  Ryan Babenzien", speed: 22 },
+            { text: "–  Jonathan Shoemaker", speed: 22 },
+            { text: "–  Zach Bliss", speed: 22 },
+            { text: "–  Ross Lipson", speed: 22 },
+            { text: "–  Jim Porcarelli", speed: 22 },
+        ];
+
+        const output = document.getElementById("output");
+        const LINE_GAP = 180;
+
+        function makeCursor() {
+            const c = document.createElement("span");
+            c.className = "cursor";
+            return c;
+        }
+
+        function typeLine(text, speed, onDone) {
+            const node = document.createTextNode("");
+            const cursor = makeCursor();
+            output.appendChild(node);
+            output.appendChild(cursor);
+
+            let i = 0;
+            function tick() {
+                if (i < text.length) {
+                    node.textContent += text[i++];
+                    setTimeout(tick, speed);
+                } else {
+                    onDone(cursor);
+                }
+            }
+            tick();
+        }
+
+        function run(index) {
+            if (index >= lines.length) return;
+            const { text, speed } = lines[index];
+
+            if (text === "") {
+                output.appendChild(document.createTextNode("\n"));
+                setTimeout(() => run(index + 1), LINE_GAP * 0.5);
+                return;
+            }
+
+            typeLine(text, speed, (cursor) => {
+                output.appendChild(document.createTextNode("\n"));
+                cursor.remove();
+                setTimeout(() => run(index + 1), LINE_GAP);
+            });
+        }
+
+        setTimeout(() => {
+            output.innerHTML = "";
+            run(0);
+        }, 600);
+    </script>
+</body>
+</html>

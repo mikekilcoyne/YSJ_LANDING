@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>As The Crow Flies | Breakfast Qwest</title>
+    <link rel="icon" type="image/png" href="./boo-favicon.png">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        :root {
+            --gold:  #FFDD66;
+            --pink:  #ff2a9d;
+            --dark:  #08060f;
+            --bar-h: 64px;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; background: var(--dark); overflow: hidden; font-family: "VT323", monospace; color: var(--gold); }
+
+        /* ── Top bar ── */
+        #topbar {
+            position: fixed; top: 0; left: 0; right: 0; height: var(--bar-h);
+            z-index: 1000;
+            display: flex; align-items: stretch;
+            background: #08060f;
+            border-bottom: 3px solid var(--gold);
+        }
+        .tb-brand {
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 0 1.3rem; border-right: 2px solid rgba(255,221,102,.2);
+            min-width: 0;
+        }
+        .tb-brand-title { font-size: 1.5rem; letter-spacing: .08em; text-transform: uppercase; text-shadow: 2px 2px 0 #000; line-height: 1; }
+        .tb-brand-sub   { font-size: .72rem; color: rgba(255,221,102,.4); letter-spacing: .06em; }
+        .tb-stat {
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 0 1.1rem; border-right: 1px solid rgba(255,221,102,.12);
+        }
+        .tb-stat-label { font-size: .65rem; color: rgba(255,221,102,.4); letter-spacing: .1em; text-transform: uppercase; line-height: 1; }
+        .tb-stat-value { font-size: 1.55rem; line-height: 1; text-shadow: 2px 2px 0 #000; }
+        .pink { color: var(--pink); }
+
+        #fly-btn {
+            margin: auto 1rem auto auto;
+            padding: .45rem 1.5rem;
+            background: var(--gold); color: #000;
+            border: 2px solid #000; box-shadow: 3px 3px 0 #000;
+            font-family: "VT323", monospace; font-size: 1.25rem;
+            letter-spacing: .1em; text-transform: uppercase;
+            cursor: pointer; white-space: nowrap; flex-shrink: 0;
+            transition: transform 60ms steps(1), box-shadow 60ms steps(1);
+        }
+        #fly-btn:hover:not(:disabled) { background: #fff; transform: translate(-1px,-1px); box-shadow: 4px 4px 0 #000; }
+        #fly-btn:active:not(:disabled) { transform: translate(2px,2px); box-shadow: 1px 1px 0 #000; }
+        #fly-btn:disabled { opacity: .45; cursor: default; }
+
+        /* ── Map + sidebar layout ── */
+        #map {
+            position: fixed;
+            top: var(--bar-h); left: 0; right: 260px; bottom: 0;
+        }
+        #sidebar {
+            position: fixed;
+            top: var(--bar-h); right: 0; width: 260px; bottom: 0;
+            background: rgba(8,6,15,.97);
+            border-left: 3px solid var(--gold);
+            display: flex; flex-direction: column; overflow: hidden;
+        }
+        #sidebar-head {
+            padding: .55rem .85rem;
+            background: var(--gold); color: #000;
+            font-size: .95rem; letter-spacing: .1em; text-transform: uppercase;
+            border-bottom: 2px solid #000; flex: 0 0 auto;
+        }
+        #club-list { flex: 1; overflow-y: auto; }
+        #club-list::-webkit-scrollbar { width: 4px; }
+        #club-list::-webkit-scrollbar-thumb { background: var(--gold); }
+        #club-list::-webkit-scrollbar-track { background: #111; }
+
+        .cr { /* club row */
+            display: flex; align-items: baseline; gap: .4rem;
+            padding: .38rem .8rem; border-bottom: 1px solid rgba(255,221,102,.07);
+            cursor: pointer; transition: background 80ms;
+        }
+        .cr:hover { background: rgba(255,221,102,.07); }
+        .cr.active { background: rgba(255,42,157,.15); border-left: 3px solid var(--pink); }
+        .cr-num  { font-size: .68rem; color: rgba(255,221,102,.3); min-width: 1.3rem; flex-shrink: 0; }
+        .cr-name { flex: 1; font-size: .92rem; text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .cr-mi   { font-size: .8rem; color: rgba(255,221,102,.5); white-space: nowrap; flex-shrink: 0; }
+
+        /* ── Leaflet overrides ── */
+        .leaflet-container { background: #0a0815; }
+        .leaflet-popup-content-wrapper {
+            background: #08060f !important; border: 2px solid var(--gold) !important;
+            border-radius: 0 !important; box-shadow: 3px 3px 0 #000 !important; padding: 0 !important;
+        }
+        .leaflet-popup-content { margin: 0 !important; padding: .4rem .8rem !important; font-family: "VT323", monospace !important; font-size: 1rem !important; color: var(--gold) !important; line-height: 1.4 !important; }
+        .leaflet-popup-tip-container { display: none !important; }
+        .leaflet-popup-close-button { color: var(--gold) !important; font-family: "VT323", monospace !important; right: 4px !important; top: 2px !important; }
+
+        /* ── Pixel plane ── */
+        .plane-wrap { pointer-events: none; }
+        .plane-inner {
+            width: 28px; height: 28px;
+            transform-origin: center center;
+            transition: none;
+            filter: drop-shadow(0 0 4px #FFDD66);
+        }
+
+        @media (max-width: 700px) {
+            #map    { right: 0; bottom: 200px; }
+            #sidebar { top: auto; bottom: 0; left: 0; right: 0; width: 100%; height: 200px; border-left: none; border-top: 3px solid var(--gold); }
+            #club-list { flex-direction: row; display: flex; overflow-x: auto; overflow-y: hidden; }
+            .cr { flex-direction: column; min-width: 90px; border-bottom: none; border-right: 1px solid rgba(255,221,102,.08); }
+        }
+    </style>
+</head>
+<body>
+
+<div id="topbar">
+    <div class="tb-brand">
+        <div class="tb-brand-title">As The Crow Flies</div>
+        <div class="tb-brand-sub">Hamptons → Every Breakfast Club on the Planet</div>
+    </div>
+    <div class="tb-stat">
+        <div class="tb-stat-label">Tour Miles</div>
+        <div class="tb-stat-value" id="stat-miles">—</div>
+    </div>
+    <div class="tb-stat">
+        <div class="tb-stat-label">Clubs</div>
+        <div class="tb-stat-value" id="stat-clubs">0</div>
+    </div>
+    <div class="tb-stat">
+        <div class="tb-stat-label">Current Stop</div>
+        <div class="tb-stat-value pink" id="stat-stop" style="font-size:1.1rem">Hamptons</div>
+    </div>
+    <button id="fly-btn">&#9654; FLY QWEST</button>
+</div>
+
+<div id="map"></div>
+<div id="big-counter" style="
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: calc(50% - 130px);
+    transform: translate(-50%, -50%);
+    z-index: 900;
+    font-family: 'VT323', monospace;
+    font-size: clamp(5rem, 12vw, 9rem);
+    color: #FFDD66;
+    text-shadow: 4px 4px 0 #000, 0 0 60px rgba(255,221,102,0.25);
+    letter-spacing: 0.04em;
+    pointer-events: none;
+    white-space: nowrap;
+">0</div>
+
+<div id="sidebar">
+    <div id="sidebar-head">All Clubs — Distance from Hamptons</div>
+    <div id="club-list"></div>
+</div>
+
+<script>
+// ─── Club data ────────────────────────────────────────────────────────────────
+const ORIGIN = { city: "Hamptons, NY", lat: 40.9215, lng: -72.3082 };
+
+const CLUBS = [
+    { city: "Amsterdam",              lat: 52.3676,   lng: 4.9041    },
+    { city: "Atlanta",                lat: 33.749,    lng: -84.388   },
+    { city: "Austin",                 lat: 30.2672,   lng: -97.7431  },
+    { city: "Barcelona",              lat: 41.3851,   lng: 2.1734    },
+    { city: "Bassano del Grappa",     lat: 45.766,    lng: 11.7343   },
+    { city: "Berlin",                 lat: 52.52,     lng: 13.405    },
+    { city: "Biarritz",              lat: 43.4832,   lng: -1.5586   },
+    { city: "Boston",                 lat: 42.3601,   lng: -71.0589  },
+    { city: "Boulder",                lat: 40.015,    lng: -105.2705 },
+    { city: "Brighton",              lat: 50.8229,   lng: -0.1363   },
+    { city: "Burlington, VT",         lat: 44.4759,   lng: -73.2121  },
+    { city: "Cambridge, MA",          lat: 42.3736,   lng: -71.1097  },
+    { city: "Chicago",                lat: 41.8781,   lng: -87.6298  },
+    { city: "Copenhagen",             lat: 55.6761,   lng: 12.5683   },
+    { city: "Denver",                 lat: 39.7392,   lng: -104.9903 },
+    { city: "Ibiza",                  lat: 38.9067,   lng: 1.4206    },
+    { city: "Las Vegas",              lat: 36.1699,   lng: -115.1398 },
+    { city: "London",                 lat: 51.5074,   lng: -0.1278   },
+    { city: "Los Angeles",            lat: 34.0522,   lng: -118.2437 },
+    { city: "Lugano",                 lat: 46.0037,   lng: 8.9511    },
+    { city: "Manila",                 lat: 14.5995,   lng: 120.9842  },
+    { city: "Maplewood, NJ",          lat: 40.7323,   lng: -74.2723  },
+    { city: "Melbourne",              lat: -37.8136,  lng: 144.9631  },
+    { city: "Mexico City",            lat: 19.4326,   lng: -99.1332  },
+    { city: "Miami",                  lat: 25.7617,   lng: -80.1918  },
+    { city: "Milano",                 lat: 45.4654,   lng: 9.1859    },
+    { city: "NY – Downtown Brooklyn", lat: 40.6925,   lng: -73.9876  },
+    { city: "NY – Hudson",            lat: 42.2531,   lng: -73.7957  },
+    { city: "NY – Kingston",          lat: 41.9276,   lng: -74.0099  },
+    { city: "NY – LES",              lat: 40.715,    lng: -73.9843  },
+    { city: "NY – Upper West",        lat: 40.7856,   lng: -73.9726  },
+    { city: "NY – Williamsburg",      lat: 40.7081,   lng: -73.9571  },
+    { city: "Norwich",                lat: 52.6309,   lng: 1.2974    },
+    { city: "Panama City",            lat: 8.9936,    lng: -79.5197  },
+    { city: "Paris",                  lat: 48.8566,   lng: 2.3522    },
+    { city: "Perth",                  lat: -31.9505,  lng: 115.8605  },
+    { city: "Philadelphia",           lat: 39.9526,   lng: -75.1652  },
+    { city: "Portland, ME",           lat: 43.6591,   lng: -70.2568  },
+    { city: "Portland, OR",           lat: 45.5051,   lng: -122.675  },
+    { city: "Riyadh",                 lat: 24.6877,   lng: 46.7219   },
+    { city: "San Francisco",          lat: 37.7749,   lng: -122.4194 },
+    { city: "Seattle",                lat: 47.6062,   lng: -122.3321 },
+    { city: "Singapore",              lat: 1.3521,    lng: 103.8198  },
+    { city: "Sydney",                 lat: -33.8688,  lng: 151.2093  },
+    { city: "Toronto",                lat: 43.6532,   lng: -79.3832  },
+    { city: "Torquay, AU",            lat: -38.3292,  lng: 144.3262  },
+    { city: "Vienna",                 lat: 48.2082,   lng: 16.3738   },
+    { city: "Washington DC",          lat: 38.9072,   lng: -77.0369  },
+];
+
+// ─── Geo helpers ──────────────────────────────────────────────────────────────
+function haversine(lat1, lng1, lat2, lng2) {
+    const R = 3958.8, r = Math.PI / 180;
+    const dLat = (lat2 - lat1) * r, dLng = (lng2 - lng1) * r;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*r)*Math.cos(lat2*r)*Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+function bearing(from, to) {
+    const r = Math.PI / 180;
+    const dLng = (to.lng - from.lng) * r;
+    const y = Math.sin(dLng) * Math.cos(to.lat * r);
+    const x = Math.cos(from.lat*r)*Math.sin(to.lat*r) - Math.sin(from.lat*r)*Math.cos(to.lat*r)*Math.cos(dLng);
+    return (Math.atan2(y, x) * 180 / Math.PI + 360) % 360;
+}
+
+// Nearest-neighbour tour starting from ORIGIN
+function buildTour() {
+    const unvisited = CLUBS.map((c,i) => ({...c, idx: i}));
+    const tour = [];
+    let cur = ORIGIN;
+    while (unvisited.length) {
+        let best = null, bestDist = Infinity, bestI = -1;
+        unvisited.forEach((c, i) => {
+            const d = haversine(cur.lat, cur.lng, c.lat, c.lng);
+            if (d < bestDist) { bestDist = d; best = c; bestI = i; }
+        });
+        tour.push({ ...best, legMiles: Math.round(bestDist) });
+        unvisited.splice(bestI, 1);
+        cur = best;
+    }
+    return tour;
+}
+
+// By distance from Hamptons for sidebar
+const byDist = [...CLUBS].map(c => ({
+    ...c, miles: Math.round(haversine(ORIGIN.lat, ORIGIN.lng, c.lat, c.lng))
+})).sort((a,b) => a.miles - b.miles);
+
+const tour = buildTour();
+
+// ─── Map init ─────────────────────────────────────────────────────────────────
+const map = L.map("map", { center: [30, 0], zoom: 2, zoomControl: true, attributionControl: false });
+L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png", {
+    maxZoom: 19, subdomains: "abcd"
+}).addTo(map);
+
+// ─── Pixel plane SVG (pointing north = 0°) ───────────────────────────────────
+const PLANE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10" width="28" height="28" style="image-rendering:pixelated;display:block;">
+  <rect x="4" y="0" width="2" height="2" fill="#FFDD66"/>
+  <rect x="3" y="2" width="4" height="2" fill="#FFDD66"/>
+  <rect x="0" y="3" width="10" height="2" fill="#FFDD66"/>
+  <rect x="3" y="5" width="4" height="2" fill="#FFDD66"/>
+  <rect x="2" y="7" width="2" height="2" fill="#FFDD66"/>
+  <rect x="6" y="7" width="2" height="2" fill="#FFDD66"/>
+  <rect x="4" y="7" width="2" height="1" fill="#FFDD66"/>
+  <rect x="4" y="3" width="2" height="1" fill="#0a0812"/>
+</svg>`;
+
+// ─── Origin marker ────────────────────────────────────────────────────────────
+const originIcon = L.divIcon({
+    className: "",
+    html: `<div style="width:16px;height:16px;background:#ff2a9d;border:3px solid #fff;box-shadow:0 0 10px #ff2a9d,3px 3px 0 #000;"></div>`,
+    iconSize: [16,16], iconAnchor: [8,8]
+});
+L.marker([ORIGIN.lat, ORIGIN.lng], { icon: originIcon })
+    .bindPopup(`<b>START</b><br>The Hamptons, NY`)
+    .addTo(map);
+
+// ─── Club markers (all visible immediately) ───────────────────────────────────
+const dotIcon = L.divIcon({
+    className: "",
+    html: `<div style="width:9px;height:9px;background:#FFDD66;border:2px solid #000;box-shadow:2px 2px 0 #000;"></div>`,
+    iconSize: [9,9], iconAnchor: [4,4]
+});
+
+const markerMap = {};
+byDist.forEach(c => {
+    const m = L.marker([c.lat, c.lng], { icon: dotIcon })
+        .bindPopup(`<b>${c.city}</b><br>${c.miles.toLocaleString()} mi from Hamptons`)
+        .addTo(map);
+    markerMap[c.city] = m;
+});
+
+// ─── Plane marker ─────────────────────────────────────────────────────────────
+const planeIcon = L.divIcon({
+    className: "plane-wrap",
+    html: `<div class="plane-inner" id="plane-inner">${PLANE_SVG}</div>`,
+    iconSize: [28,28], iconAnchor: [14,14]
+});
+const planeMark = L.marker([ORIGIN.lat, ORIGIN.lng], { icon: planeIcon, zIndexOffset: 9000 }).addTo(map);
+
+// ─── Sidebar ──────────────────────────────────────────────────────────────────
+const listEl = document.getElementById("club-list");
+const rowMap = {};
+byDist.forEach((c, i) => {
+    const div = document.createElement("div");
+    div.className = "cr";
+    div.innerHTML = `<span class="cr-num">${i+1}</span><span class="cr-name">${c.city}</span><span class="cr-mi">${c.miles.toLocaleString()} mi</span>`;
+    div.addEventListener("click", () => { map.flyTo([c.lat, c.lng], 9, {duration:1}); markerMap[c.city]?.openPopup(); });
+    listEl.appendChild(div);
+    rowMap[c.city] = div;
+});
+
+document.getElementById("stat-clubs").textContent = CLUBS.length;
+
+// ─── Counters ─────────────────────────────────────────────────────────────────
+const statMiles  = document.getElementById("stat-miles");
+const statStop   = document.getElementById("stat-stop");
+const bigCounter = document.getElementById("big-counter");
+let totalMilesAccum = 0;
+
+function tickMiles(from, to, duration, startVal) {
+    const diff = to - startVal;
+    const t0 = performance.now();
+    function step(now) {
+        const t = Math.min((now - t0) / duration, 1);
+        const val = Math.round(startVal + diff * t).toLocaleString();
+        statMiles.textContent = val;
+        bigCounter.textContent = val;
+        if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+// ─── Plane animation ──────────────────────────────────────────────────────────
+function setPlaneRotation(deg) {
+    const el = document.getElementById("plane-inner");
+    if (el) el.style.transform = `rotate(${deg}deg)`;
+}
+
+function flyLeg(from, to, durationMs, onDone) {
+    const b = bearing(from, to);
+    setPlaneRotation(b);
+
+    // Grow line incrementally as plane moves
+    const linePoints = [[from.lat, from.lng]];
+    const line = L.polyline(linePoints, { color: "#FFDD66", weight: 1.5, opacity: 0.55, dashArray: "5 4" }).addTo(map);
+
+    const t0 = performance.now();
+    function step(now) {
+        const t = Math.min((now - t0) / durationMs, 1);
+        const lat = from.lat + (to.lat - from.lat) * t;
+        const lng = from.lng + (to.lng - from.lng) * t;
+        planeMark.setLatLng([lat, lng]);
+        // update line tip
+        const pts = line.getLatLngs();
+        pts[pts.length - 1] = L.latLng(lat, lng);
+        if (t > 0.05 && pts.length < 80) pts.push(L.latLng(lat, lng));
+        line.setLatLngs(pts);
+
+        if (t < 1) {
+            requestAnimationFrame(step);
+        } else {
+            planeMark.setLatLng([to.lat, to.lng]);
+            line.setLatLngs([[from.lat, from.lng], [to.lat, to.lng]]);
+            onDone();
+        }
+    }
+    requestAnimationFrame(step);
+}
+
+// ─── Run the tour ─────────────────────────────────────────────────────────────
+const flyBtn = document.getElementById("fly-btn");
+let flightStarted = false;
+
+flyBtn.addEventListener("click", () => {
+    if (flightStarted) return;
+    flightStarted = true;
+    flyBtn.disabled = true;
+    flyBtn.textContent = "FLYING...";
+    bigCounter.textContent = "0";
+    bigCounter.style.display = "block";
+
+    planeMark.setLatLng([ORIGIN.lat, ORIGIN.lng]);
+
+    let legIndex = 0;
+    let prevPos = ORIGIN;
+
+    function nextLeg() {
+        if (legIndex >= tour.length) {
+            flyBtn.textContent = "✓ QWEST COMPLETE";
+            setPlaneRotation(0);
+            setTimeout(() => { bigCounter.style.display = "none"; }, 2200);
+            return;
+        }
+
+        const dest = tour[legIndex];
+        const legMs = Math.max(350, Math.min(1400, dest.legMiles * 0.35));
+
+        // Highlight sidebar row
+        document.querySelectorAll(".cr.active").forEach(r => r.classList.remove("active"));
+        const row = rowMap[dest.city];
+        if (row) { row.classList.add("active"); row.scrollIntoView({ block: "nearest" }); }
+
+        statStop.textContent = dest.city;
+
+        const prevAccum = totalMilesAccum;
+        totalMilesAccum += dest.legMiles;
+        tickMiles(prevAccum, totalMilesAccum, legMs, prevAccum);
+
+        // Highlight destination marker briefly
+        markerMap[dest.city]?.openPopup();
+
+        flyLeg(prevPos, dest, legMs, () => {
+            prevPos = dest;
+            legIndex++;
+            setTimeout(nextLeg, 120);
+        });
+    }
+
+    nextLeg();
+});
+</script>
+</body>
+</html>

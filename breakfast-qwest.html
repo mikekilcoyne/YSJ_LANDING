@@ -443,18 +443,24 @@
             width: min(22rem, 100%);
             padding: 0.8rem 0.95rem;
             border-radius: 0px;
-            border: 2px solid #000;
-            background: rgba(255, 255, 255, 0.9);
-            font: inherit;
-            color: #000;
+            border: 2px solid var(--primary-yellow);
+            background: rgba(10, 8, 20, 0.9);
+            font-family: "VT323", monospace;
+            font-size: 1.2rem;
+            letter-spacing: 0.05em;
+            color: var(--primary-yellow);
             outline: none;
-            box-shadow: inset 3px 3px 0px rgba(0,0,0,0.2), 4px 4px 0px #000;
-            font-weight: bold;
+            box-shadow: 4px 4px 0px #000;
+            text-transform: uppercase;
+        }
+
+        .toolbar input::placeholder {
+            color: rgba(255, 221, 102, 0.35);
         }
 
         .toolbar input:focus {
-            border-color: rgba(182, 92, 34, 0.6);
-            box-shadow: 0 0 0 3px rgba(233, 204, 117, 0.24);
+            border-color: var(--hover-yellow);
+            box-shadow: 4px 4px 0px #000, 0 0 18px rgba(255, 221, 102, 0.2);
         }
 
         .section-stack {
@@ -772,6 +778,51 @@
             line-height: 1.8;
         }
 
+        /* ── Hero Typewriter Terminal ── */
+        .hero-terminal {
+            width: min(640px, 92vw);
+            background: rgba(8, 6, 18, 0.88);
+            border: 2px solid var(--primary-yellow);
+            box-shadow: 6px 6px 0px #000, 0 0 30px rgba(255,221,102,0.08);
+            padding: 1.1rem 1.4rem 1.2rem;
+            text-align: left;
+            opacity: 0;
+            animation: snesTitleFade 0.6s ease-out 2.2s forwards;
+        }
+
+        .hero-terminal-label {
+            font-family: "VT323", monospace;
+            font-size: 1rem;
+            color: rgba(255,221,102,0.45);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-terminal-text {
+            font-family: "VT323", monospace;
+            font-size: clamp(1rem, 2.2vw, 1.3rem);
+            color: var(--primary-yellow);
+            line-height: 1.55;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .hero-terminal-cursor {
+            display: inline-block;
+            width: 0.55em;
+            height: 1.1em;
+            background: var(--primary-yellow);
+            vertical-align: text-bottom;
+            margin-left: 2px;
+            animation: cursorBlink 0.7s steps(1) infinite;
+        }
+
+        @keyframes cursorBlink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+
         .empty-state {
             padding: 1.5rem;
             border-radius: var(--radius-lg);
@@ -789,13 +840,15 @@
         }
 
         .stats-row.reveal-last,
-        .footer-note.reveal-last {
+        .footer-note.reveal-last,
+        .toolbar.reveal-last {
             opacity: 0;
             transform: translateY(18px);
         }
 
         .progress-shell.is-loaded .stats-row.reveal-last,
-        .progress-shell.is-loaded .footer-note.reveal-last {
+        .progress-shell.is-loaded .footer-note.reveal-last,
+        .progress-shell.is-loaded .toolbar.reveal-last {
             animation: contentFadeIn 0.7s ease-out 0.75s forwards;
         }
 
@@ -838,7 +891,9 @@
 
         @media (max-width: 640px) {
             .page-shell {
-                width: min(100% - 0.9rem, 100%);
+                width: 100%;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
             }
 
             .topbar {
@@ -849,7 +904,19 @@
             .hero-card,
             .section-card,
             .city-card {
-                border-radius: 24px;
+                border-radius: 0px;
+            }
+
+            .hero-card,
+            .section-card {
+                box-shadow: none;
+            }
+
+            .city-card {
+                box-shadow:
+                    3px 3px 0px rgba(0, 0, 0, 0.9),
+                    inset 2px 2px 0px rgba(255, 255, 255, 0.4),
+                    inset -2px -2px 0px rgba(0, 0, 0, 0.35);
             }
 
             .city-topline,
@@ -863,6 +930,43 @@
             .stats-row,
             .filter-group {
                 width: 100%;
+            }
+
+            .page-title {
+                font-size: clamp(3rem, 13vw, 5rem);
+            }
+
+            .map-adventure-frame {
+                flex-direction: column;
+            }
+
+            .map-pane {
+                min-height: 260px;
+            }
+
+            .map-sidebar {
+                flex: 0 0 auto;
+                border-left: none;
+                border-top: 3px solid #1C1C1C;
+                max-height: 200px;
+            }
+
+            .city-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                gap: 0.5rem;
+            }
+
+            .toolbar-right {
+                justify-content: flex-start;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+                align-items: center;
             }
         }
         
@@ -1924,11 +2028,119 @@
                 border-top: 3px solid #1C1C1C;
             }
         }
+
+        /* --- Video Game Elements --- */
+        .letterbox-overlay {
+            position: fixed;
+            left: 0;
+            width: 100%;
+            height: 50vh;
+            background: #000;
+            z-index: 9999;
+            pointer-events: none;
+            transition: height 2.5s cubic-bezier(0.65, 0, 0.35, 1) 0.5s;
+        }
+        #letterbox-top { top: 0; }
+        #letterbox-bottom { bottom: 0; }
+        body.is-ready .letterbox-overlay { height: 0; }
+
+        @keyframes pressStartGlow {
+            0% { box-shadow: 0 0 5px var(--gold), inset 0 0 5px var(--gold); transform: scale(1); }
+            50% { box-shadow: 0 0 20px var(--gold), inset 0 0 10px var(--gold); transform: scale(1.05); color: #fff; border-color: #fff; }
+            100% { box-shadow: 0 0 5px var(--gold), inset 0 0 5px var(--gold); transform: scale(1); }
+        }
+
+        @keyframes btnSelect {
+            0%   { background: rgba(0,0,0,0.7); color: var(--primary-yellow); transform: scale(1); }
+            15%  { background: var(--primary-yellow); color: #000; transform: scale(0.96); box-shadow: 0 0 0px transparent; }
+            30%  { background: #fff; color: #000; transform: scale(0.96); }
+            50%  { background: var(--primary-yellow); color: #000; transform: scale(0.98); }
+            70%  { background: #fff; color: #000; transform: scale(0.96); }
+            85%  { background: var(--primary-yellow); color: #000; transform: scale(0.97); }
+            100% { background: var(--primary-yellow); color: #000; transform: scale(1); }
+        }
+
+        #start-qwest-btn.is-selected {
+            animation: btnSelect 0.45s steps(1) forwards;
+            pointer-events: none;
+            border-color: var(--primary-yellow);
+        }
+
+        #start-qwest-btn {
+            animation: pressStartGlow 1.5s infinite;
+            text-shadow: 1px 1px 0px #000;
+            border: 2px solid var(--gold);
+        }
+        body.qwest-started #start-qwest-btn {
+            animation: none;
+        }
+
+        body.qwest-started #hero-terminal {
+            display: none;
+        }
+
+        .achievement-toast {
+            position: fixed;
+            top: -150px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 8, 18, 0.95);
+            border: 2px solid var(--gold);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            z-index: 10000;
+            color: #fff;
+            font-family: var(--castlevania-font);
+            box-shadow: 0 0 30px rgba(255, 221, 102, 0.4);
+            transition: top 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none;
+        }
+
+        .achievement-toast.show {
+            top: 40px;
+        }
+
+        .achievement-icon {
+            font-size: 2.5rem;
+            animation: spinTrophy 2s infinite linear;
+            display: inline-block;
+        }
+        @keyframes spinTrophy {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .achievement-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .achievement-title {
+            color: var(--gold);
+            font-size: 1.3rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px #8B0000;
+        }
+        .achievement-desc {
+            font-size: 1rem;
+            color: #ccc;
+        }
     </style>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
+    <div id="letterbox-top" class="letterbox-overlay"></div>
+    <div id="letterbox-bottom" class="letterbox-overlay"></div>
+    <div id="achievement-toast" class="achievement-toast">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-text">
+            <div class="achievement-title">ACHIEVEMENT UNLOCKED</div>
+            <div class="achievement-desc" id="achievement-desc"></div>
+        </div>
+    </div>
     <div class="video-background" aria-hidden="true"></div>
     <main class="page-shell">
         <div class="topbar">
@@ -1940,8 +2152,12 @@
                 <div class="hero-top">
                     <h1 class="page-title">Breakfast Qwest</h1>
                     <div class="page-subtitle">The Qwest to Hit 50 Breakfast Clubs Around the Globe.</div>
+                    <div class="hero-terminal" id="hero-terminal" aria-live="polite">
+                        <div class="hero-terminal-label">// What is Breakfast Club?</div>
+                        <div class="hero-terminal-text" id="hero-terminal-text"><span class="hero-terminal-cursor"></span></div>
+                    </div>
                     <div class="hero-buttons" id="hero-buttons">
-                        <button class="intro-trigger" id="start-qwest-btn" type="button">START QWEST</button>
+                        <button class="intro-trigger" id="start-qwest-btn" type="button">START ADVENTURE</button>
                     </div>
                     <div class="qwest-start-panel" id="qwest-start-panel">
                         <div class="qwest-start-label">Where are you going first?</div>
@@ -1960,7 +2176,10 @@
             <div class="map-adventure-frame reveal-last">
                 <div id="qwest-map-frame" class="map-pane"></div>
                 <div class="map-sidebar" id="map-sidebar">
-                    <div class="sidebar-header">Upcoming Clubs</div>
+                    <div class="sidebar-header">
+                        Upcoming Clubs
+                        <button id="find-heidi-btn" style="display:block; margin-top:10px; font-size:12px; padding:6px 12px; background:var(--gold); color:#000; border:none; cursor:pointer; font-family:var(--castlevania-font); border-radius:4px;">VISIT HEIDI (HAMPTONS)</button>
+                    </div>
                     <div id="upcoming-list" class="upcoming-list"></div>
                 </div>
             </div>
@@ -2006,6 +2225,16 @@
                     <div id="planner-results"></div>
                 </div>
             </div>
+            <div class="toolbar reveal-last" id="qwest-toolbar">
+                <div class="toolbar-left">
+                    <input id="city-search" type="search" placeholder="SEARCH CITIES..." autocomplete="off" spellcheck="false">
+                </div>
+                <div class="toolbar-right">
+                    <button class="chip is-active" data-filter="all">ALL</button>
+                    <button class="chip" data-filter="done">CHECKED</button>
+                    <button class="chip" data-filter="undone">UNCHECKED</button>
+                </div>
+            </div>
             <section class="section-stack" id="region-stack"></section>
             <div class="stats-row reveal-last" id="stats-row" style="margin-top: 1rem;"></div>
             <p class="footer-note reveal-last">
@@ -2017,11 +2246,17 @@
     <dialog class="intro-modal" id="intro-modal">
         <div class="intro-modal-shell">
             <div class="intro-modal-top">
-                <h2 class="intro-modal-title">Intro</h2>
+                <h2 class="intro-modal-title">Why Qwest?</h2>
                 <button class="intro-close" id="close-intro" type="button" aria-label="Close intro">×</button>
             </div>
             <div class="intro-note" id="intro-copy">
-                Add your personal intro statement here. Right now this is a placeholder area for the essay-style opener that frames what Breakfast Qwest is, why it matters, and how you want people to experience the journey.
+                <p>There's something about 8am that strips everything back.</p>
+                <p>No one shows up to a breakfast meeting to be seen. They show up because they actually want to be there. Before the calendar fills, before the city gets loud, before anyone is performing.</p>
+                <p>Breakfast Clubs started appearing on my radar a few years ago — small, informal, self-organized mornings in cities I kept finding myself in. A café in Amsterdam. A back room in Williamsburg. A terrace in Biarritz. Different tables, same energy: people who build things, gathered before the noise of the day arrives.</p>
+                <p>BK International is the network that stitches these mornings together across the globe. It's not a conference. There's no keynote. No badge, no sponsor booth. Just coffee, whoever shows up, and an hour before the world asks anything of you.</p>
+                <p>I started going. Then I started tracking them. Now I want to hit 50 before the year is out.</p>
+                <p>This is the Breakfast Qwest. Pull up a chair.</p>
+                <p style="margin-top: 1.5rem; opacity: 0.6; font-size: 0.85em;">— Michael Kilcoyne, Yellow Satin Jacket</p>
             </div>
         </div>
     </dialog>
@@ -2111,7 +2346,9 @@
 
         const state = {
             statuses: loadStatuses(),
-            selectedRegion: ""
+            selectedRegion: "",
+            searchQuery: "",
+            filterMode: "all"
         };
 
         function loadStatuses() {
@@ -2131,9 +2368,35 @@
         }
 
         function setStatus(id, nextStatus) {
-            state.statuses[id] = { ...getStatus(id), ...nextStatus };
+            const oldStatus = getStatus(id);
+            state.statuses[id] = { ...oldStatus, ...nextStatus };
             saveStatuses();
             render();
+
+            if (nextStatus.done === true && !oldStatus.done) {
+                const club = clubData.find(c => c.id === id);
+                if (club) showAchievement(club.city);
+            }
+        }
+
+        let achievementTimeout;
+        function showAchievement(cityName) {
+            const toast = document.getElementById("achievement-toast");
+            const desc = document.getElementById("achievement-desc");
+            if (!toast || !desc) return;
+            
+            desc.textContent = `Visited ${cityName}!`;
+            toast.classList.remove("show");
+            
+            // force reflow
+            void toast.offsetWidth;
+            
+            toast.classList.add("show");
+            
+            clearTimeout(achievementTimeout);
+            achievementTimeout = setTimeout(() => {
+                toast.classList.remove("show");
+            }, 4000);
         }
 
         function populateRegionSelect() {
@@ -2152,7 +2415,14 @@
         }
 
         function getFilteredClubs() {
-            return clubData.filter((club) => !getStatus(club.id).archived);
+            const q = state.searchQuery.toLowerCase();
+            return clubData.filter((club) => {
+                if (getStatus(club.id).archived) return false;
+                if (q && !club.city.toLowerCase().includes(q) && !club.country.toLowerCase().includes(q) && !(club.region || "").toLowerCase().includes(q)) return false;
+                if (state.filterMode === "done" && !getStatus(club.id).done) return false;
+                if (state.filterMode === "undone" && getStatus(club.id).done) return false;
+                return true;
+            });
         }
 
         function renderStats(filteredClubs) {
@@ -2700,22 +2970,46 @@
 
         if (startQwestBtn) {
             startQwestBtn.addEventListener("click", () => {
-                document.body.classList.add("qwest-started");
-                progressShell.classList.remove("is-loaded");
-                render();
-                requestAnimationFrame(() => {
-                    progressShell.classList.add("is-loaded");
-                    if (!qwestMap) {
-                        setTimeout(initMap, 400);
-                    } else {
-                        qwestMap.invalidateSize();
-                        updateMapPins(getFilteredClubs());
-                    }
-                    initQwestPlanner();
-                    if (progressShell) {
-                        progressShell.scrollIntoView({ behavior: "smooth", block: "start" });
-                    }
-                });
+                startQwestBtn.classList.add("is-selected");
+                setTimeout(() => {
+                    document.body.classList.add("qwest-started");
+                    progressShell.classList.remove("is-loaded");
+                    render();
+                    requestAnimationFrame(() => {
+                        progressShell.classList.add("is-loaded");
+                        if (!qwestMap) {
+                            setTimeout(initMap, 400);
+                        } else {
+                            qwestMap.invalidateSize();
+                            updateMapPins(getFilteredClubs());
+                        }
+                        initQwestPlanner();
+                        if (progressShell) {
+                            progressShell.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }
+                    });
+                }, 480);
+            });
+        }
+
+        const findHeidiBtn = document.getElementById("find-heidi-btn");
+        if (findHeidiBtn) {
+            findHeidiBtn.addEventListener("click", () => {
+                if (qwestMap) {
+                    const hamptonsLat = 40.9215;
+                    const hamptonsLng = -72.3082;
+                    qwestMap.flyTo([hamptonsLat, hamptonsLng], 14, {
+                        animate: true,
+                        duration: 3.5,
+                        easeLinearity: 0.15
+                    });
+                    
+                    setTimeout(() => {
+                        if (markers["New York - Hamptons"]) {
+                            markers["New York - Hamptons"].openPopup();
+                        }
+                    }, 3600);
+                }
             });
         }
 
@@ -2788,6 +3082,14 @@
                  </div>`
             ).join("");
 
+            const heidiStory = club.city === "New York - Hamptons" 
+                ? `<div style="margin-top: 12px; padding: 12px; background: rgba(255, 42, 157, 0.1); border: 1px solid var(--warm); border-radius: 6px; font-size: 0.9rem; font-style: italic; color: var(--gold); text-align: center; line-height: 1.4;">
+                    <div style="font-weight:bold; margin-bottom: 6px; text-transform:uppercase; font-size: 0.8rem; color:#fff;">Featured Story</div>
+                    "Take Heidi, for example... here's her story."<br>
+                    <span style="font-size:0.75rem; color:#aaa; margin-top:4px; display:block;">(Dialogue kicks in...)</span>
+                   </div>`
+                : "";
+
             return `
                 <div class="map-popup" data-popup-city-id="${club.id}">
                     ${photoThumb}
@@ -2799,6 +3101,7 @@
                         ${upcomingLabel ? `<div class="map-popup-upcoming">Next: ${escapeHtml(upcomingLabel)}</div>` : ""}
                         ${!club.venue ? `<a class="map-popup-unconfirmed" href="https://breakfastclubbing.com" target="_blank" rel="noreferrer">⚠ Confirm venue →</a>` : ""}
                         ${rows ? `<div class="map-popup-rows">${rows}</div>` : ""}
+                        ${heidiStory}
                         <div class="map-popup-actions">
                             <button class="map-popup-check ${status.done ? "is-checked" : ""}" data-popup-action="toggle-done" data-popup-city-id="${club.id}">
                                 ${status.done ? "✓ Checked" : "Check In"}
@@ -2917,9 +3220,97 @@
             });
         }
 
+        const citySearch = document.getElementById("city-search");
+        if (citySearch) {
+            citySearch.addEventListener("input", (e) => {
+                state.searchQuery = e.target.value.trim();
+                render();
+            });
+        }
+
+        document.addEventListener("click", (e) => {
+            const chip = e.target.closest(".chip[data-filter]");
+            if (!chip) return;
+            state.filterMode = chip.dataset.filter;
+            document.querySelectorAll(".chip[data-filter]").forEach(c => c.classList.toggle("is-active", c === chip));
+            render();
+        });
+
         if (closeIntroButton && introModal) {
             closeIntroButton.addEventListener("click", () => introModal.close());
         }
+
+        // ── Hero Typewriter ──────────────────────────────────
+        (function () {
+            const el = document.getElementById("hero-terminal-text");
+            if (!el) return;
+
+            const lines = [
+                "a cool club with chill people where we talk about...",
+                "Everything from the food in Bologna to the existential reasoning for being back in the office — or not.",
+                "Religious conversion as a matter of pre-marital negotiation versus self-motivated reasons",
+                "A reason to get out of bed earlier and connect with community",
+                "No clue",
+                "A thing I inspired.",
+                "What happens in Breakfast Club stays in Breakfast Club",
+                "",
+                "SEEN AT THE TABLE:",
+                "Julia Beynenson · Margaret Barcohana · Haim Mizrahi · Kevin Kollenda · Ryan Babenzien · Jonathan Shoemaker · Zach Bliss · Ross Lipson · Jim Porcarelli"
+            ];
+
+            const CHAR_DELAY = 18;
+            const LINE_PAUSE = 260;
+            const START_DELAY = 2800;
+
+            function buildCursor() {
+                const c = document.createElement("span");
+                c.className = "hero-terminal-cursor";
+                return c;
+            }
+
+            function typeLine(text, container, done) {
+                let i = 0;
+                const cursor = buildCursor();
+                const textNode = document.createTextNode("");
+                container.appendChild(textNode);
+                container.appendChild(cursor);
+
+                function tick() {
+                    if (i < text.length) {
+                        textNode.textContent += text[i++];
+                        setTimeout(tick, CHAR_DELAY);
+                    } else {
+                        done(cursor);
+                    }
+                }
+                tick();
+            }
+
+            function runLines(lines, container, lineIndex) {
+                if (lineIndex >= lines.length) return;
+                const text = lines[lineIndex];
+
+                if (text === "") {
+                    container.appendChild(document.createTextNode("\n"));
+                    setTimeout(() => runLines(lines, container, lineIndex + 1), LINE_PAUSE * 0.4);
+                    return;
+                }
+
+                const prefix = lineIndex < 7 ? "› " : "";
+                container.appendChild(document.createTextNode(prefix));
+
+                typeLine(text, container, (cursor) => {
+                    container.appendChild(document.createTextNode("\n"));
+                    cursor.remove();
+                    setTimeout(() => runLines(lines, container, lineIndex + 1), LINE_PAUSE);
+                });
+            }
+
+            setTimeout(() => {
+                el.innerHTML = "";
+                runLines(lines, el, 0);
+            }, START_DELAY);
+        })();
 
         if (introModal) {
             introModal.addEventListener("click", (event) => {
@@ -3111,6 +3502,10 @@
         populateRegionSelect();
 
         render();
+
+        setTimeout(() => {
+            document.body.classList.add("is-ready");
+        }, 300);
     </script>
 </body>
 </html>
